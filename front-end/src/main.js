@@ -3,13 +3,7 @@
 import Vue from 'vue'
 import App from './App'
 import router from './router'
-import MuseUI from 'muse-ui'
-import 'muse-ui/dist/muse-ui.css'
-import axios from 'axios'
-import Vuex from 'vuex'
-Vue.use(MuseUI)
-Vue.use(Vuex)
-Vue.prototype.$http = axios
+
 Vue.config.productionTip = false
 
 /* eslint-disable no-new */

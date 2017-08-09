@@ -4,6 +4,7 @@ const path = require('path');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const isDev = process.env.NODE_ENV !== 'production';
 
 const app = express();
 
@@ -31,8 +32,18 @@ app.use(function (req, res, next) {
 // error handler
 app.use(function (err, req, res, next) {
   // render the error page
-  res.status(err.status || 500);
-  res.send(err.message);
+  res.status(err.status);
+  if (err.status) {
+    // 自己扔的异常
+    res.status(err.status);
+    res.send(err.message);
+  } else {
+    res.status(500);
+    if (isDev) {
+      console.error(err);
+    }
+    res.send('Internal Server Error');
+  }
 });
 
 module.exports = app;

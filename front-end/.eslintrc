@@ -1,0 +1,18 @@
+{
+  "root": true,
+  "parser": "babel-eslint",
+  "parserOptions": {
+    "ecmaVersion": 8,
+    "sourceType": "module"
+  },
+  "env": {
+    "browser": true,
+  },
+  "extends": "standard",
+  "plugins": [
+    "html"
+  ],
+  "rules": {
+    "semi": [2, "always"]
+  }
+}

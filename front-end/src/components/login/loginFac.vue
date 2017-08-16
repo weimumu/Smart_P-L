@@ -8,7 +8,7 @@
          <span>邮箱地址</span>
          <input class="textfield" type="email" placeholder="请输入邮箱地址"> 
        </div>
-       <div class="same" :style="{marginTop: '15px'}">
+       <div class="same" :style="{marginTop: '10.605px'}">
          <span>密码</span>
          <input class="textfield" type="password" placeholder="密码"> 
        </div>
@@ -44,14 +44,15 @@
     background-size: 100% 100%;
   }
   .logo{
-    margin-top: 50px;
+    height: 90px;
+    margin-top: 35.35px;
   }
   .loginContent{
     text-align: left;
     position: relative;
-    top: 58px;
-    width: 720px;
-    height: 340px;
+    top: 42.5px;
+    width: 520px;
+    height: 250px;
     background: url("/static/whitebox.png") no-repeat;
     background-size: 100% 100%;
     margin-left: auto;
@@ -59,41 +60,41 @@
     box-sizing: border-box;
   }
   .loginMes{
-    font-size: 28px;
+    font-size: 19.8px;
     color: #4b4b44;
     position: relative;
-    left: 70px;
-    top: 20px;
+    left: 49.5px;
+    top: 14.5px;
   }
   .line{
-    width: 560px;
-    height: 2px;
+    width: 396px;
+    height: 1.5px;
     background-color: #dcdcdc;
     position: relative;
-    left: 70px;
-    top: 30px;
+    left: 49.5px;
+    top: 21.21px;
   }
   .same{
-    left: 70px;
-    width: 560px;
-    height: 49px;
+    left: 49.5px;
+    width: 396px;
+    height: 34.64px;
     position: relative;
-    top: 62px;
+    top: 49px;
     display:table;
   }
   .same>span{
     vertical-align:middle;  
     display:table-cell;
-    font-size: 23px;
+    font-size: 16.26px;
     color: #4b4b4b;
   }
   .textfield{
-    font-size: 20px;
-    padding-left: 20px;
+    font-size: 14.14px;
+    padding-left: 14.14px;
     border: 0px;
     outline: none;
-    width: 364px;
-    height: 49px;
+    width: 257.3px;
+    height: 34.64px;
     background: url("/static/typebox.png");
     background-size: 100% 100%;
     position: absolute;
@@ -102,32 +103,32 @@
   }
   .forgetMes, .registMes{
     position: absolute;
-    bottom: 55px;
-    left: 70px;
-    font-size: 16px;
+    bottom: 46px;
+    left: 49.49px;
+    font-size: 11.31px;
     color: #898989;
     cursor: pointer;
   }
   .registMes{
-    left: 350px;
+    left: 247.45px;
   }
   .loginButton{
     cursor: pointer;
     position: absolute;
-    right: 85px;
-    bottom: 45px;
+    right: 69px;
+    bottom: 38px;
     border: 0;
-    width: 108px;
-    height: 42px;
+    width: 76.356px;
+    height: 29.694px;
     background: url("/static/loginButton.png");
     background-size: 100% 100%;
   }
   .underLine{
-    width: 66px;
+    width: 46.66px;
     position: absolute;
-    right: 224px;
-    bottom: 52px;
-    height: 2px;
+    right: 170px;
+    bottom: 43px;
+    height: 1.5px;
     background: #dcdcdc;
   }
 </style>

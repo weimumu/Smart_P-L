@@ -1,10 +1,14 @@
 const express = require('express');
+require('express-async-errors');
 const path = require('path');
 // const favicon = require('serve-favicon');
 const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const isDev = process.env.NODE_ENV !== 'production';
+
+// 初始化并连接数据库
+require('./lib/mongo');
 
 const app = express();
 

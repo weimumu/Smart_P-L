@@ -72,3 +72,9 @@ exports.edit = async (req, res) => {
   );
   res.end('ok');
 };
+
+exports.getSelf = async (req, res) => {
+  const user = res.locals.user;
+  const filtered = _.omit(user, 'userPass');
+  res.json(filtered);
+};

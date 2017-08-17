@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const {assert, asyncAssertThrow, mongo: {User}} = require('../lib');
 
 /**
@@ -41,5 +42,33 @@ exports.logout = async (req, res) => {
 };
 
 exports.edit = async (req, res) => {
-  assert(false, 'not implemented');
+  const option = _.pick(req.body, [
+    'userPass',
+    'comName',
+    'comCode',
+    'comCapital',
+    'comTime',
+    'comPerson',
+    'comEmail',
+    'comPhone',
+    'comManager',
+    'comRegistAddresss',
+    'comWorkAddresss',
+    'comField',
+    'comProduct',
+    'comIntro',
+    'contactName',
+    'contactJob',
+    'contactMobile',
+    'contactEmail',
+    'contactQQ',
+    'contactPhone'
+  ]);
+  await User.update(
+    {_id: res.locals.user._id},
+    {
+      $set: option
+    }
+  );
+  res.end('ok');
 };

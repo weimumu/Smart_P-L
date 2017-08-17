@@ -8,7 +8,7 @@ router
   .post('/login', user.login);
 
 /**
- * access control - all the apis below require a logged-in state
+ * access control - all the APIs below require a logged-in state
  */
 router.use((req, res, next) => {
   assert(res.locals.user, 'not logged in');

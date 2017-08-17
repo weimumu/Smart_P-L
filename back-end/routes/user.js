@@ -17,6 +17,7 @@ router.use((req, res, next) => {
 
 router
   .get('/logout', user.logout)
-  .put('/self', user.edit);
+  .put('/self', user.edit)
+  .get('/self', user.getSelf);
 
 module.exports = router;

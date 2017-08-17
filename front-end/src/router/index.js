@@ -1,6 +1,6 @@
 import Vue from 'vue';
 import Router from 'vue-router';
-import Hello from '@/components/Hello';
+import home from '../components/homepage/home.vue';
 import registSuccess from '../components/regist/registSuccess.vue';
 import loginFin from '../components/login/loginFin.vue';
 import loginFac from '../components/login/loginFac.vue';
@@ -12,8 +12,8 @@ export default new Router({
   routes: [
     {
       path: '/',
-      name: 'Hello',
-      component: Hello
+      name: 'home',
+      component: home
     },
     {
       path: '/regist',

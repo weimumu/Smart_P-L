@@ -1,4 +1,4 @@
-const {verify, assert, asyncAssertThrow, mongo: {User}} = require('../lib');
+const {assert, asyncAssertThrow, mongo: {User}} = require('../lib');
 
 /**
  * regist
@@ -35,4 +35,8 @@ exports.logout = async (req, res) => {
   assert(res.locals.user, `you're not logged in`);
   req.session.destroy();
   res.end('ok');
+};
+
+exports.edit = async (req, res) => {
+  assert(false, 'not implemented');
 };

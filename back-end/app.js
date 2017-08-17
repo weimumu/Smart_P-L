@@ -3,9 +3,10 @@ require('express-async-errors');
 const path = require('path');
 // const favicon = require('serve-favicon');
 const logger = require('morgan');
-const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const isDev = process.env.NODE_ENV !== 'production';
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session);
 
 // 初始化并连接数据库
 require('./lib/mongo');
@@ -21,7 +22,16 @@ const app = express();
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(session({
+  secret: 'sparklefish',
+  store: new MongoStore({
+    mongooseConnection: require('mongoose').connection
+  }),
+  maxAge: 24 * 3600 * 1000, // one day
+  secure: true,
+  resave: false,
+  saveUninitialized: false
+}));
 app.use(express.static(path.join(__dirname, '/public')));
 
 app.use('/api', require('./routes'));

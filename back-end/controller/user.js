@@ -15,24 +15,27 @@ exports.regist = async (req, res) => {
  * login
  */
 exports.login = async (req, res) => {
-  req.session.destroy(); // logout before login
-  const {email, password} = req.body;
-  assert(email, 'email required');
-  assert(password, 'password required');
-  const user = await User.findOne({
-    userEmail: email,
-    userPass: password
-  });
-  assert(user, 'login failed');
-  req.session._id = user._id;
-  res.end('ok');
+  try {
+    const {email, password} = req.body;
+    assert(email, 'email required');
+    assert(password, 'password required');
+    const user = await User.findOne({
+      userEmail: email,
+      userPass: password
+    });
+    assert(user, 'login failed');
+    req.session._id = user._id;
+    res.end('ok');
+  } catch (err) {
+    req.session.destroy(); // clear session for whatever error
+    throw err;
+  }
 };
 
 /**
  * logout
  */
 exports.logout = async (req, res) => {
-  assert(res.locals.user, `you're not logged in`);
   req.session.destroy();
   res.end('ok');
 };

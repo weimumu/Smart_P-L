@@ -12,10 +12,11 @@ router
  */
 router.use((req, res, next) => {
   assert(res.locals.user, 'not logged in');
+  next();
 });
 
 router
   .get('/logout', user.logout)
-  .put('/user/self', user.edit);
+  .put('/self', user.edit);
 
 module.exports = router;

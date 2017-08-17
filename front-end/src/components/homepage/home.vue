@@ -1,45 +1,162 @@
 <template>
-<div>
-  <mu-tabs :value="activeTab" @change="handleTabChange">
-    <mu-tab value="tab1" title="TAB ONE"/>
-    <mu-tab value="tab2" title="TAB TWO"/>
-    <mu-tab value="tab3" @active="handleActive" title="TAB ACTIVE"/>
-  </mu-tabs>
-  <div v-if="activeTab === 'tab1'">
-    <h2>Tab One</h2>
-    <p>
-      这是第一个 tab
-    </p>
+  <div class="homepage">
+    <div class="header">
+      <div class="tab">
+        <img src="/static/logo.png" class="logo">
+        <span class="name">智产智融</span>
+      </div>
+      <div class="tab tabs" :class="{tabsChange: state}">
+        <mu-tabs :value="activeTab" @change="handleTabChange">
+          <mu-tab value="我的业务" title="我的业务" v-if="state === true" />
+          <i class="point" v-if="state === true"></i>
+          <mu-tab value="平台简介" title="平台简介" />
+          <i class="point"></i>
+          <mu-tab value="信息披露" title="信息披露" />
+          <i class="point"></i>
+          <mu-tab value="关于我们" title="关于我们" />
+          <i class="point"></i>
+          <mu-tab value="与我合作" title="与我合作" />
+        </mu-tabs>
+      </div>
+      <div class="tab">
+        <button class="registButton" v-if="state === false"></button>
+      </div>
+      <div class="bottomLine"></div>
+    </div>
+    <div v-if="activeTab === '平台简介'">
+      <intro></intro>
+    </div>
+    <div v-if="activeTab === '信息披露'">
+      <h2>Tab Two</h2>
+      <p>
+        这是第二个 tab
+      </p>
+    </div>
+    <div v-if="activeTab === '关于我们'">
+      <h2>Tab Three</h2>
+      <p>
+        这是第三个 tab
+      </p>
+    </div>
+    <div v-if="activeTab === '与我合作'">
+      <cooperate></cooperate>
+    </div>
   </div>
-  <div v-if="activeTab === 'tab2'">
-    <h2>Tab Two</h2>
-    <p>
-      这是第二个 tab
-    </p>
-  </div>
-  <div v-if="activeTab === 'tab3'">
-    <h2>Tab Three</h2>
-    <p>
-      这是第三个 tab
-    </p>
-  </div>
-</div>
 </template>
 
 <script>
+import intro from './intro';
+import cooperate from './cooperate';
 export default {
   data () {
     return {
-      activeTab: 'tab1'
+      activeTab: '首页',
+      isActive: false,
+      state: true
     };
+  },
+  components: {
+    intro,
+    cooperate
   },
   methods: {
     handleTabChange (val) {
       this.activeTab = val;
-    },
-    handleActive () {
-      window.alert('tab active');
     }
   }
 };
 </script>
+
+
+<style lang="scss" scoped>
+.homepage {
+  .header {
+    position: relative;
+    width: 100%;
+    height: 80px;
+  }
+
+  .tab {
+    display: inline-block;
+  }
+
+  .tabs {
+    width: 440px;
+    position: relative;
+    left: 75px;
+    top: 3.5px;
+  }
+
+  .tabsChange {
+    width: 550px;
+    position: relative;
+    left: 75px;
+    top: 3.5px;
+  }
+
+  .logo {
+    left: 40px;
+    top: 17px;
+    position: relative;
+    width: 25px;
+  }
+
+  .name {
+    top: 5.5px;
+    position: relative;
+    left: 55px;
+    font-size: 21px;
+  }
+
+  .point {
+    background: #4b4b4b;
+    width: 5px;
+    height: 5px;
+    border-radius: 100%;
+  }
+
+  .bottomLine {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    background: #d6a12c;
+    height: 1.5px;
+  }
+
+  .registButton {
+    width: 68px;
+    height: 29.7px;
+    border: 0;
+    outline: none;
+    background: url("/static/homepageImage/tabs/buttonRegist.png");
+    background-size: 100% 100%;
+    position: absolute;
+    right: 50px;
+    bottom: 26px;
+    cursor: pointer;
+  }
+}
+</style>
+
+<style lang="scss">
+.homepage {
+  .mu-tab-link {
+    color: #434343;
+    font-size: 16px;
+    -webkit-appearance: none;
+  }
+
+  .mu-tab-link:hover {
+    color: #d6a12c !important;
+    -webkit-appearance: none;
+  }
+
+  .mu-tabs {
+    background: white;
+  }
+
+  .mu-tab-link-highlight {
+    background-color: white;
+  }
+}
+</style>

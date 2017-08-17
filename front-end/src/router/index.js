@@ -6,6 +6,7 @@ import loginFin from '../components/login/loginFin.vue';
 import loginFac from '../components/login/loginFac.vue';
 import registMain from '../components/regist/registMain.vue';
 import intro from '../components/homepage/intro.vue';
+import cooperate from '../components/homepage/cooperate.vue';
 Vue.use(Router);
 
 export default new Router({
@@ -39,6 +40,11 @@ export default new Router({
       path: '/intro',
       name: 'intro',
       component: intro
+    },
+    {
+      path: '/cooperate',
+      name: 'cooperate',
+      component: cooperate
     }
   ]
 });

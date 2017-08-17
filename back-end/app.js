@@ -34,6 +34,18 @@ app.use(session({
 }));
 app.use(express.static(path.join(__dirname, '/public')));
 
+// auto login
+const {mongo: {User}} = require('./lib');
+app.use(async (req, res, next) => {
+  if (req.session._id) {
+    const user = await User.findOne({_id: req.session._id});
+    if (user) {
+      console.log('logged in');
+      res.locals.user = user;
+    }
+  }
+  next();
+});
 app.use('/api', require('./routes'));
 
 // catch 404 and forward to error handler

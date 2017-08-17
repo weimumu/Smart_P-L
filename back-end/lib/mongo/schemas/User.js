@@ -6,12 +6,13 @@ const Schema = mongoose.Schema;
  * 用户
  * @type {Schema}
  */
-module.exports = new Schema({userEmail: '',
-  userPass: {
+module.exports = new Schema({
+  userEmail: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
-  userPassComfim: {
+  userPass: {
     type: String,
     required: true
   },

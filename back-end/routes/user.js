@@ -1,13 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const {assert} = require('../lib');
+const {user} = require('../controller');
 
-router.get('/', (req, res, next) => {
-  res.send('user');
-});
-
-router.get('/error', (req, res, next) => {
-  assert(false, 'error from user');
-});
+router.post('/', user.regist);
+router.post('/login', user.login);
+router.get('/logout', user.logout);
 
 module.exports = router;

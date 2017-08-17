@@ -17,6 +17,7 @@
     "express-session": "^1.15.5",
     "fs-extra": "^4.0.1",
     "jade": "~1.11.0",
+    "lodash": "^4.17.4",
     "mongoose": "^4.11.7",
     "morgan": "~1.8.1",
     "require-indexify": "^1.0.0",

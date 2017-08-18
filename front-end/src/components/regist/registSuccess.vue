@@ -4,9 +4,20 @@
     <img src="/static/logo.png" class="logo"/>
     <div class="successMes">提交成功！</div>
     <div class="faceback">审核结果将在24h发到您的邮箱，请查收</div>
-    <button class="return">回到首页</button>
+    <button class="return" @click="returnHome">回到首页</button>
   </div>
 </template>
+
+<script>
+export default {
+  methods: {
+    returnHome () {
+      this.$router.push('/');
+    }
+  }
+};
+</script>
+
 
 <style scoped>
   .registSuccess{

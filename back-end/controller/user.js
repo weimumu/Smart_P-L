@@ -6,6 +6,7 @@ const {assert, asyncAssertThrow, mongo: {User}} = require('../lib');
  */
 exports.regist = async (req, res) => {
   const user = new User(req.body);
+  console.log(user);
   await asyncAssertThrow(user.validate(), 'validate error');
   assert(!await User.findOne({userEmail: user.userEmail}), 'registed email');
   await user.save();

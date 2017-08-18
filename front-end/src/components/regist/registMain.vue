@@ -20,9 +20,9 @@
         </mu-stepper>
       </div>
       <div class="firstRegist" v-show="activeStep === 0">
-        <myinput v-bind:change.value="message.userEmail" itype='text' itname="邮箱地址" v-on:tranvalue="fatherValue"></myinput>
-        <myinput v-bind:change.value="message.userPass" itype='password' itname="密码" v-on:tranvalue="fatherValue"></myinput>
-        <myinput v-bind:change.value="message.userPassComfim" itype='password' itname="确认密码" v-on:tranvalue="fatherValue"></myinput>
+        <myinput v-bind:change.value="message.userEmail" hint='请输入企业邮箱' itype='text' itname="邮箱地址" v-on:tranvalue="fatherValue"></myinput>
+        <myinput v-bind:change.value="message.userPass" hint='6-12位数字字母结合' itype='password' itname="密码" v-on:tranvalue="fatherValue"></myinput>
+        <myinput v-bind:change.value="message.userPassComfim" hint='确认密码' itype='password' itname="确认密码" v-on:tranvalue="fatherValue"></myinput>
         <span class="loginMes" @click="goToLogin">已有账户？点击登录</span>
         <button class="nextRegist" @click="next"></button>
       </div>
@@ -32,17 +32,17 @@
           <div class="leftPart">
             <myinput v-bind:change.value="message.comName" isActive=true itype='text' itname="企业全称" v-on:tranvalue="fatherValue"></myinput>
             <myinput v-bind:change.value="message.comCode" isActive=true itype='text' itname="组织机构代码" v-on:tranvalue="fatherValue"></myinput>
-            <myinput v-bind:change.value="message.comCapital" isActive=true itype='text' itname="注册资本" v-on:tranvalue="fatherValue"></myinput>
-            <myinput v-bind:change.value="message.comTime" isActive=true itype='text' itname="成立时间" v-on:tranvalue="fatherValue"></myinput>
+            <myinput v-bind:change.value="message.comCapital" hint='例:50万元'isActive=true itype='text' itname="注册资本" v-on:tranvalue="fatherValue"></myinput>
+            <myinput v-bind:change.value="message.comTime" hint='例:1997.06.19' isActive=true itype='text' itname="成立时间" v-on:tranvalue="fatherValue"></myinput>
             <myinput v-bind:change.value="message.comPerson" isActive=true itype='text' itname="法定代表人" v-on:tranvalue="fatherValue"></myinput>
-            <myinput v-bind:change.value="message.comEmail" isActive=true itype='text' itname="公司邮箱" v-on:tranvalue="fatherValue"></myinput>
+            <myinput v-bind:change.value="message.comEmail" hint='邮箱地址' isActive=true itype='text' itname="公司邮箱" v-on:tranvalue="fatherValue"></myinput>
             <myinput v-bind:change.value="message.comPhone" isActive=true itype='text' itname="公司电话" v-on:tranvalue="fatherValue"></myinput>
           </div>
           <div class="rightPart">
             <myinput v-bind:change.value="message.comManager" isActive=true itype='text' itname="总经理" v-on:tranvalue="fatherValue"></myinput>
-            <myinput v-bind:change.value="message.comRegistAddresss" isActive=true itype='text' itname="注册地址" v-on:tranvalue="fatherValue"></myinput>
-            <myinput v-bind:change.value="message.comWorkAddresss" isActive=true itype='text' itname="办公地址" v-on:tranvalue="fatherValue"></myinput>
-            <myinput v-bind:change.value="message.comField" isActive=true itype='text' itname="所属行业" v-on:tranvalue="fatherValue"></myinput>
+            <myinput v-bind:change.value="message.comRegistAddresss" hint='例:广东省广州市' isActive=true itype='text' itname="注册地址" v-on:tranvalue="fatherValue"></myinput>
+            <myinput v-bind:change.value="message.comWorkAddresss" hint='例:广东省广州市' isActive=true itype='text' itname="办公地址" v-on:tranvalue="fatherValue"></myinput>
+            <myinput v-bind:change.value="message.comField" hint='例:采矿业' isActive=true itype='text' itname="所属行业" v-on:tranvalue="fatherValue"></myinput>
             <myinput v-bind:change.value="message.comProduct" isActive=true itype='text' itname="主营产品" v-on:tranvalue="fatherValue"></myinput>
             <myinput v-bind:change.value="message.comIntro" isActive=true itype='text' itname="企业简介" v-on:tranvalue="fatherValue"></myinput>
           </div>
@@ -115,16 +115,25 @@
         </div>
       </div>    
     </div>
+    <div>
+      <mu-dialog :open="dialog" title="错误提示">
+        {{wrongMes}}
+        <mu-flat-button label="确定" slot="actions" primary @click="close"/>
+      </mu-dialog>
+    </div>
   </div>
 </template>
 
 <script>
   import myinput from './myInput.vue';
+  import func from './functions';
   export default {
     data () {
       return {
         activeStep: 0,
         active: false,
+        dialog: false,
+        wrongMes: '',
         message: {
           userEmail: '',
           userPass: '',
@@ -178,8 +187,53 @@
       goToLogin () {
         this.$router.push('/loginfac');
       },
-      post () {
-        this.$router.push('/success');
+      async post () {
+        let res = func.validateThird(this.message);
+        if (res !== 'true') {
+          this.wrongMes = res;
+          this.dialog = true;
+          return;
+        }
+        delete this.message.userPassComfim;
+        let result;
+        try {
+          result = await this.$http.post('/api/user', this.message);
+        } catch (e) {
+          if (e.response.status === 400) {
+            return this.$store.commit('info', '该邮箱地址已被注册');
+          }
+          return this.$store.commit('info', '网络异常');
+        }
+        console.log(result);
+        if (result.data === 'ok') {
+          await this.$http.post('/api/user/login', {
+            email: this.message.userEmail,
+            password: this.message.userPass
+          });
+          this.$router.push('/success');
+        }
+      },
+      close () {
+        this.dialog = false;
+      },
+      next () {
+        if (this.activeStep === 0) {
+          let res = func.validateFirst(this.message);
+          if (res !== 'true') {
+            this.wrongMes = res;
+            this.dialog = true;
+            return;
+          }
+        } else if (this.activeStep === 1) {
+          let res = func.validateSecond(this.message);
+          if (res !== 'true') {
+            this.wrongMes = res;
+            this.dialog = true;
+            return;
+          }
+        }
+        this.activeStep++;
+        this.active = true;
       },
       deleteFile (id) {
         var that = this;
@@ -214,6 +268,7 @@
             this.change.addAvtive = true;
             this.change.visiableActive = true;
             this.goldenActive0 = true;
+            this.$store.commit('info', '上传成功');
           }
         }, 800);
       },
@@ -247,6 +302,7 @@
             this.change.addAvtive1 = true;
             this.change.visiableActive1 = true;
             this.goldenActive1 = true;
+            this.$store.commit('info', '上传成功');
           }
         }, 800);
       },
@@ -280,10 +336,24 @@
             this.change.addAvtive2 = true;
             this.change.visiableActive2 = true;
             this.goldenActive2 = true;
+            this.$store.commit('info', '上传成功');
           }
         }, 800);
       },
       goToFirst (item) {
+        let res;
+        if (this.activeStep === 0) {
+          res = func.validateFirst(this.message);
+        } else if (this.activeStep === 1) {
+          res = func.validateSecond(this.message);
+        } else {
+          res = func.validateThird(this.message);
+        }
+        if (res !== 'true') {
+          this.wrongMes = res;
+          this.dialog = true;
+          return;
+        }
         this.activeStep = item;
         if (this.activeStep !== 0) {
           this.active = true;
@@ -293,54 +363,50 @@
       },
       fatherValue (myValue, itname) {
         if (itname === '邮箱地址') {
-          this.message.userEmail = myValue;
+          this.message.userEmail = myValue.trim();
         } else if (itname === '密码') {
           this.message.userPass = myValue;
         } else if (itname === '确认密码') {
           this.message.userPassComfim = myValue;
         } else if (itname === '企业全称') {
-          this.message.comName = myValue;
+          this.message.comName = myValue.trim();
         } else if (itname === '组织机构代码') {
-          this.message.comCode = myValue;
+          this.message.comCode = myValue.trim();
         } else if (itname === '注册资本') {
-          this.message.comCapital = myValue;
+          this.message.comCapital = myValue.trim();
         } else if (itname === '成立时间') {
-          this.message.comTime = myValue;
+          this.message.comTime = myValue.trim();
         } else if (itname === '法定代表人') {
-          this.message.comPerson = myValue;
+          this.message.comPerson = myValue.trim();
         } else if (itname === '公司邮箱') {
-          this.message.comEmail = myValue;
+          this.message.comEmail = myValue.trim();
         } else if (itname === '公司电话') {
-          this.message.comPhone = myValue;
+          this.message.comPhone = myValue.trim();
         } else if (itname === '总经理') {
-          this.message.comManager = myValue;
+          this.message.comManager = myValue.trim();
         } else if (itname === '注册地址') {
-          this.message.comRegistAddresss = myValue;
+          this.message.comRegistAddresss = myValue.trim();
         } else if (itname === '办公地址') {
-          this.message.comWorkAddresss = myValue;
+          this.message.comWorkAddresss = myValue.trim();
         } else if (itname === '所属行业') {
-          this.message.comField = myValue;
+          this.message.comField = myValue.trim();
         } else if (itname === '主营产品') {
-          this.message.comProduct = myValue;
+          this.message.comProduct = myValue.trim();
         } else if (itname === '企业简介') {
-          this.message.comIntro = myValue;
+          this.message.comIntro = myValue.trim();
         } else if (itname === '姓名') {
-          this.message.contactName = myValue;
+          this.message.contactName = myValue.trim();
         } else if (itname === '职务') {
-          this.message.contactJob = myValue;
+          this.message.contactJob = myValue.trim();
         } else if (itname === '手机号') {
-          this.message.contactMobile = myValue;
+          this.message.contactMobile = myValue.trim();
         } else if (itname === '电子邮箱') {
-          this.message.contactEmail = myValue;
+          this.message.contactEmail = myValue.trim();
         } else if (itname === 'QQ号码') {
-          this.message.contactQQ = myValue;
+          this.message.contactQQ = myValue.trim();
         } else if (itname === '公司个人电话') {
-          this.message.contactPhone = myValue;
+          this.message.contactPhone = myValue.trim();
         }
-      },
-      next () {
-        this.activeStep++;
-        this.active = true;
       }
     },
     computed: {
@@ -564,6 +630,18 @@
   }
   .mu-linear-progress-determinate{
     border-radius: 0 !important;
+  }
+  .mu-dialog-title, .mu-flat-button-label{
+    color: #d6a12c;
+  }
+  .mu-dialog-title{
+    font-size: 20px;
+  }
+  .mu-dialog-body {
+    font-size: 16px;
+  }
+  .mu-dialog{
+    width: 50%;
   }
   .registStepper {
     span.mu-step-label.active, span.mu-step-label{

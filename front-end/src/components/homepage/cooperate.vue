@@ -21,7 +21,7 @@
           <span>提高知名度</span>
         </div>
       </div>
-      <p class="introMes">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;本平台主要与金融机构达成合作伙伴关系。合作的金融机构可以通过平台对于向本机构贷款的企业进行企业信用审核，简化放贷流程；同时，平台还可以与金融机构合作，建立较为规范的企业担保放贷体系；最后，金融机构还可以参与企业债权的收购业务。</p>
+      <p class="introMes">&nbsp;&nbsp;&nbsp;&nbsp;本平台主要与金融机构达成合作伙伴关系。合作的金融机构可以通过平台对于向本机构贷款的企业进行企业信用审核，简化放贷流程；同时，平台还可以与金融机构合作，建立较为规范的企业担保放贷体系；最后，金融机构还可以参与企业债权的收购业务。</p>
       <div class="ad">
         <div class="adPart">
           <p class="left">覆盖整个珠三角地区</p>
@@ -103,7 +103,7 @@
         }
         p.left {
           text-align: left;
-          padding-left: 20px;
+          padding-left: 40px;
         }
         p.left1 {
           padding-left: 50px;

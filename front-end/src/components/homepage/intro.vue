@@ -29,9 +29,7 @@
                     <span>面向客户</span>
                 </div>
                 <div class="detail" id="detail1">
-                    <p>
-                        “智产智融”平台面向两类客户，分别是中小企业和与企业借贷业务相关的金融机构。
-                    </p>
+                    <p>“智产智融”平台面向两类客户，分别是中小企业和与企业借贷业务相关的金融机构。</p>
                 </div>
             </div>
         </div>
@@ -50,9 +48,7 @@
                     <span>企业合作伙伴关系网</span>
                 </div>
                 <div class="detail" id="detail2">
-                    <p>
-                        平台在注册企业的用户基础上建立企业合作伙伴关系网，并基于合作伙伴关系网开展中小企业的债权融资业务和股权交易业务，为企业融资提供便捷的信息对接匹配和信用审核、风险评估服务。 
-                    </p>
+                    <p>平台在注册企业的用户基础上建立企业合作伙伴关系网，并基于合作伙伴关系网开展中小企业的债权融资业务和股权交易业务，为企业融资提供便捷的信息对接匹配和信用审核、风险评估服务。 </p>
                 </div>
             </div>
         </div>
@@ -65,9 +61,7 @@
                     <span>交易双方智能匹配推荐</span>
                 </div>
                 <div class="detail" id="detail3">
-                    <p>
-                        我们通过金融机构借贷的智能推荐功能，实现金融机构和中小企业业务的信息对接和匹配。
-                    </p>
+                    <p>我们通过金融机构借贷的智能推荐功能，实现金融机构和中小企业业务的信息对接和匹配。</p>
                 </div>
             </div>
         </div>
@@ -86,23 +80,137 @@
                     <span>业务高效，规范</span>
                 </div>
                 <div class="detail" id="detail4">
-                    <p>
-                        通过平台，中小企业基于他们各自的合作伙伴关系网络完成企业融资的相关业务，包括企业间借贷，企业间担保、企业贷款等，让中小企业更加规范，方便和高效率。
-                    </p>
+                    <p>通过平台，中小企业基于他们各自的合作伙伴关系网络完成企业融资的相关业务，包括企业间借贷，企业间担保、企业贷款等，让中小企业更加规范，方便和高效率。</p>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="footer">
+        <div class="content">
+            <div id="symbol">
+                <div id="mLogo"></div>
+                <div id="mName">智产智融</div>
+            </div>
+            <div id="contactMes">@Smart P&L&nbsp;&nbsp;mail: 17748392@qq.com&nbsp;&nbsp;address: 广州科技园105号</div>
+            <div class="accounts">
+                <div id="account1"></div>
+                <div id="account2"></div>
+                <div id="account3"></div>
+            </div>
+        </div>
+    </div>
+
+
+
 
 </div>
 </template>
 
 
 <style scoped>
+
+
+.footer{
+    text-align: center;
+    height: 196px;
+    width: 100%;
+    background-color: #f0f0f0;
+    padding-top: 74.5px;
+}
+
+.content{
+    height: 47px;
+    width: 1080px;
+    margin-left: auto;
+    margin-right: auto;
+}
+#symbol{
+    display: inline;
+    height: 47px;
+    width: 146px;
+    float: left;
+}
+#mLogo{
+    display: inline;
+    height: 100%;
+    width: 28px;
+    float: left;
+    background: url("/static/logo.png") no-repeat;
+    background-size: 28px 47px;
+}
+#mName{
+    display: inline;
+    width: 96px;
+    height: auto;
+    float: left;
+    position: relative;
+    left: 14px;
+    top: 5.5px;
+    font-size: 20px;
+    color: #4b4b4b;
+}
+#contactMes{
+    text-align: left;
+    display: inline;
+    float: left;
+    position: relative;
+    width: auto;
+    height: auto;
+    top: 5.5px;
+    margin-left: 40px;
+    font-size: 20px;
+    color: #7c7c7c;
+    font-family: PC Sans Regular,Hiragino Sans GB;
+}
+.accounts{
+    display: inline;
+    float: left;
+    position: relative;
+    width: auto;
+    height: 100%;
+    left: 100px;
+}
+#account1{
+    display: inline;
+    float: left;
+    position: relative;
+    width: 32px;
+    height: 27px;
+    background: url("/static/homepageImage/wechat.png") no-repeat;
+    background-size: 32px 27px;
+    top: 50%;
+    margin-top: -13.5px;
+}
+#account2{
+    display: inline;
+    float: left;
+    position: relative;
+    width: 26px;
+    height: 28px;
+    background: url("/static/homepageImage/qq.png") no-repeat;
+    background-size: 26px 28px;
+    top: 50%;
+    margin-left: 23px;
+    margin-top: -14px;
+}
+#account3{
+    display: inline;
+    float: left;
+    position: relative;
+    width: 29px;
+    height: 24px;
+    background: url("/static/homepageImage/weibo.png") no-repeat;
+    background-size: 29px 24px;
+    top: 50%;
+    margin-left: 23px;
+    margin-top: -12px;
+}
+
 .main{
     width: 100%;
     min-width: 1280px;
-    height: 278px;
+    height: auto;
 }
 .header{
     height: 677px;
@@ -149,6 +257,7 @@
     padding-right: 0px;
     padding-top: 0px;
     padding-bottom: 0px;
+    cursor: pointer;
     }
 #button1{
     background: url("/static/homepageImage/signin_financial.png");
@@ -200,7 +309,7 @@
     height: 50px;
     font-size: 28px;
     color: #4b4b4b;
-    font-family: "Hiragino Sans GB";
+    font-family: Hiragino Sans GB;
 }
 .detail{
     width: 100%;
@@ -219,8 +328,6 @@
     display: block;
     position: relative;
     top: 50%;
-    margin-left: auto;
-    margin-right: auto;
     margin-bottom: auto;
 }
 
@@ -228,9 +335,9 @@
     width: 500px;
     height: 172px;
     margin-top: -86px;
-    float: left;
-    margin-left: 120px;
-    margin-right: auto;
+    float: right;
+    margin-left: auto;
+    margin-right: 100px;
 }
 #detail1{
     height: 72px;
@@ -242,15 +349,17 @@
     background: url("/static/homepageImage/icon_custom.png");
     background-size: 141px 134px;
     margin-top: -67px;
+    margin-left: 230px;
+    float: left;
 }
 
 #description2{
     width: 557px;
     height: 210px;
     margin-top: -110px;
-    float: right;
-    margin-right: 120px;
-    margin-left: auto;
+    float: left;
+    margin-left: 43px;
+    margin-right: auto;
 }
 #detail2{
     height: 130px;
@@ -262,15 +371,17 @@
     background: url("/static/homepageImage/icon_network.png");
     background-size: 156px 156px;
     margin-top: -78px;
+    margin-right: 260px;
+    float: right;
 }
 
 #description3{
     width: 510px;
     height: 144px;
     margin-top: -72px;
-    float: left;
-    margin-left: 120px;
-    margin-right: auto;
+    float: right;
+    margin-right: 90px;
+    margin-left: auto;
 }
 #detail3{
     height: 72px;
@@ -282,15 +393,17 @@
     background: url("/static/homepageImage/icon_fit.png");
     background-size: 166px 170px;
     margin-top: -85px;
+    margin-left: 250px;
+    float: left;
 }
 
 #description4{
     width: 585px;
     height: 188px;
     margin-top: -94px;
-    float: right;
-    margin-right: 120px;
-    margin-left: auto;
+    float: left;
+    margin-left: 15px;
+    margin-right: auto;
 }
 #detail4{
     height: 99px;
@@ -302,5 +415,7 @@
     background: url("/static/homepageImage/icon_efficiency.png");
     background-size:  155px 153px;
     margin-top:-76px;
+    margin-right: 260px;
+    float: right;
 }
 </style>

@@ -13,6 +13,7 @@ import aboutus from '../components/homepage/aboutus.vue';
 Vue.use(Router);
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',

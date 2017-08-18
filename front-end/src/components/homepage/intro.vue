@@ -100,10 +100,6 @@
             </div>
         </div>
     </div>
-
-
-
-
 </div>
 </template>
 
@@ -215,7 +211,7 @@
   min-width: 640px;
 }
 .description {
-  width: 500px;
+  width: 200px;
   position: relative;
   top: 50%;
 }
@@ -247,16 +243,16 @@
 }
 
 #description1{
-    width: 500px;
+    width: 450px;
     height: 172px;
     margin-top: -86px;
     float: right;
     margin-left: auto;
-    margin-right: 100px;
+    margin-right: 30px;
 }
 #detail1 {
   height: 72px;
-  margin-top: 50px;
+  margin-top: 40px;
 }
 #logo1{
     width: 141px;
@@ -264,7 +260,7 @@
     background: url("/static/homepageImage/icon_custom.png");
     background-size: 141px 134px;
     margin-top: -67px;
-    margin-left: 230px;
+    margin-left: 250px;
     float: left;
 }
 
@@ -336,10 +332,10 @@
 
 .footer{
     text-align: center;
-    height: 196px;
+    height: 80px;
     width: 100%;
     background-color: #f0f0f0;
-    padding-top: 74.5px;
+    padding-top: 25px;
 }
 .content{
     height: 47px;
@@ -381,7 +377,7 @@
     height: auto;
     top: 5.5px;
     margin-left: 40px;
-    font-size: 20px;
+    font-size: 17px;
     color: #7c7c7c;
     font-family: PC Sans Regular,Hiragino Sans GB;
 }

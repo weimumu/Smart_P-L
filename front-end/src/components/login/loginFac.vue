@@ -6,16 +6,16 @@
        <div class="line"></div>
        <div class="same">
          <span>邮箱地址</span>
-         <input class="textfield" type="email" placeholder="请输入邮箱地址"> 
+         <input class="textfield" type="email" placeholder="请输入邮箱地址" v-model="email"> 
        </div>
        <div class="same" :style="{marginTop: '10.605px'}">
          <span>密码</span>
-         <input class="textfield" type="password" placeholder="密码"> 
+         <input class="textfield" type="password" placeholder="密码" v-model="password"> 
        </div>
        <span class="forgetMes">忘记密码？</span>
        <span class="registMes" @click="goToRegist">没有账户？点击注册</span>
        <div class="underLine"></div>
-       <button class="loginButton"></button>
+       <button class="loginButton" @click="loginPost"></button>
      </div>
   </div>
 </template>
@@ -23,11 +23,36 @@
   export default{
     data () {
       return {
+        email: '',
+        password: ''
       };
     },
     methods: {
       goToRegist () {
         this.$router.push('/regist');
+      },
+      async loginPost () {
+        this.email = this.email.trim();
+        this.password = this.password;
+        console.log(this.email);
+        console.log(this.password);
+        let res;
+        try {
+          res = await this.$http.post('/api/user/login', {
+            email: this.email,
+            password: this.password
+          });
+        } catch (e) {
+          if (e.response.status === 400) {
+            return this.$store.commit('info', '用户名或密码错误');
+          }
+          return this.$store.commit('info', '网络异常');
+        }
+        console.log(res);
+        if (res.data === 'ok') {
+          this.$store.commit('info', '登录成功');
+          this.$router.push('/');
+        }
       }
     }
   };
@@ -50,7 +75,7 @@
   .loginContent{
     text-align: left;
     position: relative;
-    top: 42.5px;
+    top: 42px;
     width: 520px;
     height: 250px;
     background: url("/static/whitebox.png") no-repeat;

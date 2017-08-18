@@ -19,7 +19,12 @@
         </mu-tabs>
       </div>
       <div class="tab">
-        <button class="registButton" v-if="state === false"></button>
+        <button class="registButton" v-if="state === false" @click="goToRegist"></button>
+        <span class="conName" v-if="state === true">{{comName}}</span>
+        <div class="notification" v-if="state === true">
+          <img src="/static/homepageImage/tabs/notification.png">
+          <span>消息中心</span>
+        </div>
       </div>
       <div class="bottomLine"></div>
     </div>
@@ -50,10 +55,14 @@ import cooperate from './cooperate';
 export default {
   data () {
     return {
-      activeTab: '首页',
+      activeTab: '平台简介',
       isActive: false,
-      state: true
+      state: false,
+      comName: ''
     };
+  },
+  async created () {
+    this.initData();
   },
   components: {
     intro,
@@ -62,6 +71,20 @@ export default {
   methods: {
     handleTabChange (val) {
       this.activeTab = val;
+    },
+    goToRegist () {
+      this.$router.push('/regist');
+    },
+    async initData () {
+      let res;
+      try {
+        res = await this.$http.get('/api/user/self');
+        this.state = true;
+        console.log(res.data);
+        this.comName = res.data.comName;
+      } catch (e) {
+        this.state = false;
+      }
     }
   }
 };
@@ -93,7 +116,7 @@ export default {
     left: 75px;
     top: 3.5px;
   }
-
+  
   .logo {
     left: 40px;
     top: 17px;
@@ -134,6 +157,30 @@ export default {
     right: 50px;
     bottom: 26px;
     cursor: pointer;
+  }
+  .conName{
+    position: absolute;
+    right: 130px;
+    bottom: 29px;
+    font-size: 15px;
+    color:#d6a12c;
+    cursor: pointer;
+  }
+  .notification{
+    position: absolute;
+    right: 20px;
+    bottom: 30px;
+    cursor: pointer;
+  }
+  .notification>span{
+    font-size: 15px;
+    color:#434343;
+  }
+  .notification>img{
+    height: 19px;
+    position: relative;
+    margin-right: 5px;
+    top: 5px;
   }
 }
 </style>

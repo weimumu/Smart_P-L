@@ -1,15 +1,15 @@
 <template>
   <div :class="{active: isActive}">
     <span :class="{active1: isActive}">{{itname}}</span>
-    <input :class="{active2: isActive}" type="text" v-model="myValue" v-on:input="updateValue($event.target.value)" v-if="itype === 'text'">
-    <input :class="{active2: isActive}" type="password" v-model="myValue" v-on:input="updateValue($event.target.value)" v-if="itype === 'password'">
-    <input :class="{active2: isActive}" type="email" v-model="myValue" v-on:input="updateValue($event.target.value)" v-if="itype === 'email'">
+    <input :class="{active2: isActive}" type="text" :placeholder="hint" v-model="myValue" v-on:input="updateValue($event.target.value)" v-if="itype === 'text'">
+    <input :class="{active2: isActive}" type="password" :placeholder="hint" v-model="myValue" v-on:input="updateValue($event.target.value)" v-if="itype === 'password'">
+    <input :class="{active2: isActive}" type="email" :placeholder="hint" v-model="myValue" v-on:input="updateValue($event.target.value)" v-if="itype === 'email'">
   </div>
 </template>
 
 <script>
   export default{
-    props: ['value', 'itype', 'itname', 'isActive'],
+    props: ['value', 'itype', 'itname', 'isActive', 'hint'],
     data () {
       return {
         myValue: this.value
@@ -60,7 +60,7 @@
   }
   input{
     color: #6f6f6f;
-    font-size: 13.5px;
+    font-size: 14px;
     padding-left: 15px;
     position: absolute;
     right: 0;

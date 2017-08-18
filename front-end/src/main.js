@@ -4,6 +4,7 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import MuseUI from 'muse-ui';
+import store from './store';
 import 'muse-ui/dist/muse-ui.css';
 Vue.use(MuseUI);
 import axios from 'axios';
@@ -16,6 +17,7 @@ Vue.config.productionTip = false;
 new Vue({
   el: '#app',
   router,
+  store,
   template: '<App/>',
   components: { App }
 });

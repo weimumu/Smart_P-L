@@ -25,7 +25,7 @@
             <span class="Subtitle" id="subtitle1">面向客户</span>
             <p class="Detail" id="detail1">“智产智融”平台面向两类客户，分别是中小企业和与企业借贷业务相关的金融机构。</p>
         </div>
-        <img class="Logo" id="logo1" src="/static/homepageImage/icon_custom.png">
+        <img class="Logo" id="logo1" src="/static/homepageImage/introduction/icon_custom.png">
     </div>
   
     <div class="Item">    
@@ -33,7 +33,7 @@
             <span class="Subtitle">企业合作伙伴关系网</span>
             <p class="Detail" id="detail2">平台在注册企业的用户基础上建立企业合作伙伴关系网，并基于合作伙伴关系网开展中小企业的债权融资业务和股权交易业务，为企业融资提供便捷的信息对接匹配和信用审核、风险评估服务。 </p>
         </div>
-        <img class="Logo" id="logo2" src="/static/homepageImage/icon_network.png"></img>
+        <img class="Logo" id="logo2" src="/static/homepageImage/introduction/icon_network.png"></img>
     </div>
   
     <div class="Item">
@@ -41,7 +41,7 @@
             <span class="Subtitle">交易双方智能匹配推荐</span>
             <p class="Detail" id="detail3">我们通过金融机构借贷的智能推荐功能，实现金融机构和中小企业业务的信息对接和匹配。</p>
         </div>
-        <img class="Logo" id="logo3" src="/static/homepageImage/icon_fit.png"></img>
+        <img class="Logo" id="logo3" src="/static/homepageImage/introduction/icon_fit.png"></img>
     </div>
   
     <div class="Item">
@@ -49,7 +49,7 @@
             <span class="Subtitle">业务高效，规范</span>
             <p class="Detail" id="detail4">通过平台，中小企业基于他们各自的合作伙伴关系网络完成企业融资的相关业务，包括企业间借贷，企业间担保、企业贷款等，让中小企业更加规范，方便和高效率。</p>
         </div>
-        <img class="Logo" id="logo4" src="/static/homepageImage/icon_efficiency.png"></img>
+        <img class="Logo" id="logo4" src="/static/homepageImage/introduction/icon_efficiency.png"></img>
     </div> 
 </div>
 </template>
@@ -129,14 +129,14 @@ export default{
     cursor: pointer;
     }
 #button1{
-    background: url("/static/homepageImage/signin_financial.png");
+    background: url("/static/homepageImage/introduction/signin_financial.png");
     background-size: 190px 52px;
     background-repeat: no-repeat;
     margin-right: 54px;
 }
 
 #button2 {
-  background: url("/static/homepageImage/signin_company.png");
+  background: url("/static/homepageImage/introduction/signin_company.png");
   background-size: 190px 52px;
   background-repeat: no-repeat;
 }
@@ -144,7 +144,7 @@ export default{
 .bg {
   height: 404px;
   width: 1063px;
-  background: url("/static/homepageImage/pic_main.png");
+  background: url("/static/homepageImage/introduction/pic_main.png");
   background-size: 1063px 404px;
   margin-left: auto;
   margin-right: auto;

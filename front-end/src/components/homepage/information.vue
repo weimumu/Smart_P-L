@@ -104,6 +104,9 @@
             height: 100%;
             margin-left: auto;
             margin-right: auto;
+            a:hover{
+                cursor: url("/static/homepageImage/information/cursor.png");
+            }
             #text1{
                 font-size: 16px;
             }

@@ -10,19 +10,25 @@
     </div>
     <h1 id="success_case">成功案例</h1>
     <div class="part2" >
-        <div class="case" id="case1">
-            <img class="pic_case1" src="/static/homepageImage/aboutus/pic_case1.png"></img>
-            <p class="text_case1">智产智融平台辅助浙江省智能家居项目成功融资</p>
-            <p class="money1">3000万元</p>
+        <div class="bg_border" id="border1">
+            <div class="case" id="case1">
+                <img class="pic_case1" src="/static/homepageImage/aboutus/pic_case1.png"></img>
+                <p class="text_case1">智产智融平台辅助浙江省智能家居项目成功融资</p>
+                <p class="money1">3000万元</p>
+            </div>
         </div>
-        <div class="case" id="case2">
-            <img class="pic_case2" src="/static/homepageImage/aboutus/pic_case2.png"></img>
-            <p class="text_case2">智产智融平台辅助浙江省智能家居项目成功融资</p>
-            <p class="money2">4500万元</p>
+        <div class="bg_border" id="border2">
+            <div class="case" id="case2">
+                <img class="pic_case2" src="/static/homepageImage/aboutus/pic_case2.png"></img>
+                <p class="text_case2">智产智融平台辅助浙江省智能家居项目成功融资</p>
+                <p class="money2">4500万元</p>
+            </div>
         </div>
-        <div class="case" id="case3">
-            <img class="pic_case3" src="/static/homepageImage/aboutus/pic_case3.png"></img>
-            <p class="text_case3">智产智融平台辅助浙江省智能家居项目成功融资</p>
+        <div class="bg_border" id="border3">
+            <div class="case" id="case3">
+                <img class="pic_case3" src="/static/homepageImage/aboutus/pic_case3.png"></img>
+                <p class="text_case3">智产智融平台辅助浙江省智能家居项目成功融资</p>
+            </div>
         </div>
     </div>
 </div>
@@ -42,53 +48,68 @@
     h1{
         font-size: 30px;
         margin-top: 0px;
+        font-weight: normal;
     }
     .part1{
-        width: 642px;
-        height: 780px;
+        width: 691px;
+        height: 816px;
         position: relative;
         margin-left: auto;
         margin-right: auto;
         margin-top: -55.3%;
-        padding-top: 25px;
+        padding-top: 60px;
         background-color: #ffffff;
-        border: 20px solid transparent;
+        background: url('/static/homepageImage/aboutus/bg_main.png');
+        background-size: 100% 100%;
+        border: 0px;
         -moz-border-top-colors:  #ffffff #fefefe #fcfcfc #f8f8f8 #f7f7f7 #f6f6f6 #f5f5f5 #f3f3f3 #f0f0f0 #eeeeee #ebebeb #ececec #ededed #eeeeee #f0f0f0 #f3f3f3 #f4f4f4 #f5f5f5 #f6f6f6 #f7f7f7;
         -moz-border-bottom-colors:#ffffff #fefefe #fcfcfc #f9f9f9 #f8f8f8 #f5f5f5 #f3f3f3 #f0f0f0 #eeeeee #f0f0f0 #f3f3f3 #f5f5f5 #f6f6f6 #f7f7f7 #f8f8f8 #f9f9f9 #fafafa #fbfbfb #fcfcfc #fdfdfd #fefefe;
         -moz-border-left-colors: #ffffff #fefefe #fcfcfc #f9f9f9 #f8f8f8 #f5f5f5 #f3f3f3 #f0f0f0 #eeeeee #f0f0f0 #f3f3f3 #f5f5f5 #f6f6f6 #f7f7f7 #f8f8f8 #f9f9f9 #fafafa #fbfbfb #fcfcfc #fdfdfd #fefefe;
         -moz-border-right-colors: #ffffff #fefefe #fcfcfc #f8f8f8 #f7f7f7 #f6f6f6 #f5f5f5 #f3f3f3 #f0f0f0 #eeeeee #ebebeb #ececec #ededed #eeeeee #f0f0f0 #f3f3f3 #f4f4f4 #f5f5f5 #f6f6f6 #f7f7f7;
+        h1{
+            margin-bottom: 40px;
+        }
         p{
             font-size: 18px;
             width: 475px;
             margin-left: auto;
-            margin-right: auto;    
+            margin-right: auto;
+            margin-top: 0px;   
+            margin-bottom: 50px; 
             text-align: left;        
-        }
-        .text1{
-            font-size: 18px;
-            width: 475px;
         }
         .pic1{
             width: 396px;
             height: 212px;
             margin: 0 auto;
-        }
-        .text2{
-            font-size: 18px;
-            width: 475px;
+            margin-bottom: 45px;
         }
     }
     #success_case{
         margin-top: 30px;
     }
     .part2{
-        height: auto;
-        width: 648px;
+        height: 636px;
+        width: 694px;
         margin-left: auto;
         margin-right: auto;
         margin-top: 40px;
         margin-bottom: 50px;
         background-color: #ffffff;
+        .bg_border{
+            width: 694px;
+            height: 212px;
+            position: relative;
+            padding-top: 18px;
+            padding-bottom: 32px;
+            padding-left: 21px;
+            padding-right: 27px;
+            background: url('/static/homepageImage/aboutus/rectangle_bg_case.png');
+            background-size: 100% 100%;
+        }
+        .img{
+            height: 100%;
+        }
         h1{
             margin-bottom: 50px;
         }
@@ -96,11 +117,19 @@
             position: relative;
             top: 70px;
             font-size: 16px;
+            margin-top: 0px;
+            margin-bottom: 0px;
         }
         .case{
-            height: 166px;
-            width: 648px;
+            height: 162px;
+            width: 646px;
             margin: 0 auto;
+        }
+        #border2{
+            top: -48px;
+        }
+        #border3{
+            top: -96px;
         }
         #case1{
             .pic_case1{
@@ -109,8 +138,8 @@
             .money1{
                 font-size: 30px;
                 color: #d5a03a;
-                top: 50px;
-                left: 110px;
+                top: 70px;
+                left: 100px;
             }
         }
         #case2{
@@ -120,8 +149,8 @@
             .money2{
                 font-size: 30px;
                 color: #d5a03a;
-                top: 50px;
-                left: -110px;
+                top: 70px;
+                left: -100px;
             }
         }
         #case3{

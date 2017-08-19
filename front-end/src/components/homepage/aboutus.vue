@@ -35,7 +35,7 @@
     height: auto;
     text-align: center;
     color: #4b4b4b;
-    background-color: #f1f1f1;
+    background-color: #ffffff;
     .bg{
         width: 100%;
     }
@@ -51,8 +51,12 @@
         margin-right: auto;
         margin-top: -55.3%;
         padding-top: 25px;
-        border: 2px;
         background-color: #ffffff;
+        border: 20px solid transparent;
+        -moz-border-top-colors:  #ffffff #fefefe #fcfcfc #f8f8f8 #f7f7f7 #f6f6f6 #f5f5f5 #f3f3f3 #f0f0f0 #eeeeee #ebebeb #ececec #ededed #eeeeee #f0f0f0 #f3f3f3 #f4f4f4 #f5f5f5 #f6f6f6 #f7f7f7;
+        -moz-border-bottom-colors:#ffffff #fefefe #fcfcfc #f9f9f9 #f8f8f8 #f5f5f5 #f3f3f3 #f0f0f0 #eeeeee #f0f0f0 #f3f3f3 #f5f5f5 #f6f6f6 #f7f7f7 #f8f8f8 #f9f9f9 #fafafa #fbfbfb #fcfcfc #fdfdfd #fefefe;
+        -moz-border-left-colors: #ffffff #fefefe #fcfcfc #f9f9f9 #f8f8f8 #f5f5f5 #f3f3f3 #f0f0f0 #eeeeee #f0f0f0 #f3f3f3 #f5f5f5 #f6f6f6 #f7f7f7 #f8f8f8 #f9f9f9 #fafafa #fbfbfb #fcfcfc #fdfdfd #fefefe;
+        -moz-border-right-colors: #ffffff #fefefe #fcfcfc #f8f8f8 #f7f7f7 #f6f6f6 #f5f5f5 #f3f3f3 #f0f0f0 #eeeeee #ebebeb #ececec #ededed #eeeeee #f0f0f0 #f3f3f3 #f4f4f4 #f5f5f5 #f6f6f6 #f7f7f7;
         p{
             font-size: 18px;
             width: 475px;

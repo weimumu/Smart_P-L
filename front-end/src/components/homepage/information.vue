@@ -18,14 +18,14 @@
         <div class="analysis-part">
             <h1 class="label">平台季度分析</h1>
             <p id="text1">2017年第一季度平台新增注册企业769家，</br>共385家企业通过平台贷款10.21亿元，平台促成担保融资29.81亿元......</p>
-            <div color="#4b4b4b"><a id="text2" href="http://baidu.com"><span >详情点击“智产智融”平台2017年第一季度分析报告</span></a></div>
+            <span class="report" @Onclick="skip">详情点击“智产智融”平台2017年第一季度分析报告</span>
         </div>
     </div>
 
     <div class="part3">
         <div class="publicity">
             <h1 class="label">失信企业公示</h1>
-            <table class="board">
+            <table class="board" border="0" cellpadding="0" cellspacing="0">
                 <tr bgcolor="#f8f9fb"><td>2017年第一季度平台违约交易公示</td></tr>
                 <tr bgcolor="#ffffff"><td>2017年8月8日失信企业公示</td></tr>
                 <tr bgcolor="#f8f9fb"><td>美服成衣有限责任公司</td></tr>
@@ -43,6 +43,9 @@
     </div>
 </div>
 </template>
+
+
+
 
 <style lang="scss" >
 .information{
@@ -96,10 +99,16 @@
         height: 236px;
         background-color: #ffffff;
         padding-top: 20px;
-        .analysis_part{
+        .analysis-part{
             width: 665px;
             height: 100%;
-            a:link{
+            margin-left: auto;
+            margin-right: auto;
+            #text1{
+                font-size: 16px;
+            }
+            .report{
+                font-size: 16px;
                 color: #d49f39;
                 text-decoration: underline;
             }
@@ -124,9 +133,11 @@
         background-color: #ffffff;
         padding-top: 20px;
         .msg{
+            position: relative;
             margin-left: auto;
             margin-right: auto;
             font-size: 16px;
+            top: 10px;
         }
     }
 

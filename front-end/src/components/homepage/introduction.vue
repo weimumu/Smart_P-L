@@ -169,7 +169,7 @@
 }
 
 .Item{
-    width: 1000px;
+    width: 940px;
     height: 278px;
     margin: 0 auto;
     text-align: left;
@@ -179,7 +179,7 @@
 .Description{
     display: inline-block;
     position: relative;
-    width: 490px;
+    width: 450px;
     height: 100%;
 }
 .Subtitle{

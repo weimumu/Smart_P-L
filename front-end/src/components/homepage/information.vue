@@ -18,7 +18,7 @@
         <div class="analysis-part">
             <h1 class="label">平台季度分析</h1>
             <p id="text1">2017年第一季度平台新增注册企业769家，</br>共385家企业通过平台贷款10.21亿元，平台促成担保融资29.81亿元......</p>
-            <span class="report" @Onclick="skip">详情点击“智产智融”平台2017年第一季度分析报告</span>
+            <a href="http://baidu.com"><span class="report">详情点击“智产智融”平台2017年第一季度分析报告</span></a>
         </div>
     </div>
 

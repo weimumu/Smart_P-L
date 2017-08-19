@@ -11,10 +11,8 @@
         </div>
       </div>
       <div class="buttons">
-        <button class="singleButton" id="button1">
-        </button>
-        <button class="singleButton" id="button2">
-        </button>
+        <button class="singleButton" id="button1" @click="goToLogin('/loginFin')"></button>
+        <button class="singleButton" id="button2" @click="goToLogin('/loginFac')"></button>
       </div>
       <div class="bg">
       </div>
@@ -52,27 +50,19 @@
             <p class="Detail" id="detail4">通过平台，中小企业基于他们各自的合作伙伴关系网络完成企业融资的相关业务，包括企业间借贷，企业间担保、企业贷款等，让中小企业更加规范，方便和高效率。</p>
         </div>
         <img class="Logo" id="logo4" src="/static/homepageImage/icon_efficiency.png"></img>
-    </div>
-
-    <div class="footer">
-        <div class="content">
-            <div id="symbol">
-                <div id="mLogo"></div>
-                <div id="mName">智产智融</div>
-            </div>
-            <div id="contactMes">@Smart P&L&nbsp;&nbsp;mail: 17748392@qq.com&nbsp;&nbsp;address: 广州科技园105号</div>
-            <div class="accounts">
-                <div id="account1"></div>
-                <div id="account2"></div>
-                <div id="account3"></div>
-            </div>
-        </div>
-    </div>
-    
+    </div> 
 </div>
 </template>
 
-
+<script>
+export default{
+  methods: {
+    goToLogin (mes) {
+      this.$router.push(mes);
+    }
+  }
+};
+</script>
 
 
 <style scoped>
@@ -255,101 +245,4 @@
     margin-top: -7.6%;
     right: 20%;
 }
-
-.footer{
-    text-align: center;
-    height: 60px;
-    width: 100%;
-    background-color: #f0f0f0;
-    padding-top: 1px;
-}
-.content{
-    height: 37.6px;
-    width: 864px;
-    margin-left: auto;
-    margin-right: auto;
-    margin-top: 11.2px;
-}
-#symbol{
-    display: inline-block;
-    height: 100%;
-    width: 13.5%;
-    float: left;
-}
-#mLogo{
-    display: inline-block;
-    height: 100%;
-    width: 19.2%;
-    float: left;
-    background: url("/static/logo.png") no-repeat;
-    background-size: 100% 100%;
-}
-#mName{
-    display: inline-block;
-    width: 65.8%;
-    height: auto;
-    float: left;
-    position: relative;
-    left: 9.6%;
-    top: 11.9%;
-    font-size: 18px;
-    color: #4b4b4b;
-}
-#contactMes{
-    text-align: left;
-    display: inline-block;
-    float: left;
-    position: relative;
-    width: auto;
-    height: auto;
-    top: 11.9%;
-    margin-left: 3.7%;
-    font-size: 18px;
-    color: #7c7c7c;
-    font-family: PC Sans Regular,Hiragino Sans GB;
-}
-.accounts{
-    display: inline-block;
-    float: left;
-    position: relative;
-    width: 12.4%;
-    height: 100%;
-    left: 9.26%;
-}
-#account1{
-    display: inline-block;
-    float: left;
-    position: relative;
-    width: 24.06%;
-    height: 57.4%;
-    background: url("/static/homepageImage/wechat.png") no-repeat;
-    background-size: 100% 100%;
-    top: 50%;
-    margin-top: -10.15%;
-}
-#account2{
-    display: inline-block;
-    float: left;
-    position: relative;
-    width: 19.54%;
-    height: 59.57%;
-    background: url("/static/homepageImage/qq.png") no-repeat;
-    background-size: 100% 100%;
-    top: 50%;
-    margin-left: 17.29%;
-    margin-top: -10.52%;
-}
-#account3{
-    display: inline-block;
-    float: left;
-    position: relative;
-    width: 21.8%;
-    height: 51.06%;
-    background: url("/static/homepageImage/weibo.png") no-repeat;
-    background-size: 100% 100%;
-    top: 50%;
-    margin-left: 17.29%;
-    margin-top: -9.02%;
-}
-
 </style>

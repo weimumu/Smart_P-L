@@ -29,28 +29,38 @@
       <div class="bottomLine"></div>
     </div>
     <div v-if="activeTab === '平台简介'">
-      <intro></intro>
+      <introduction></introduction>
     </div>
     <div v-if="activeTab === '信息披露'">
-      <h2>Tab Two</h2>
-      <p>
-        这是第二个 tab
-      </p>
+      <information></information>
     </div>
     <div v-if="activeTab === '关于我们'">
-      <h2>Tab Three</h2>
-      <p>
-        这是第三个 tab
-      </p>
+      <aboutus></aboutus>
     </div>
     <div v-if="activeTab === '与我合作'">
       <cooperate></cooperate>
+    </div>
+    <div class="footer">
+        <div class="content">
+            <div id="symbol">
+                <div id="mLogo"></div>
+                <div id="mName">智产智融</div>
+            </div>
+            <div id="contactMes">@Smart P&L&nbsp;&nbsp;mail: 17748392@qq.com&nbsp;&nbsp;address: 广州科技园105号</div>
+            <div class="accounts">
+                <div id="account1"></div>
+                <div id="account2"></div>
+                <div id="account3"></div>
+            </div>
+        </div>
     </div>
   </div>
 </template>
 
 <script>
-import intro from './intro';
+import aboutus from './aboutus';
+import information from './information';
+import introduction from './introduction';
 import cooperate from './cooperate';
 export default {
   data () {
@@ -65,8 +75,10 @@ export default {
     this.initData();
   },
   components: {
-    intro,
-    cooperate
+    introduction,
+    cooperate,
+    information,
+    aboutus
   },
   methods: {
     handleTabChange (val) {
@@ -182,6 +194,103 @@ export default {
     margin-right: 5px;
     top: 5px;
   }
+}
+.homepage{
+  .footer{
+    text-align: center;
+    height: 60px;
+    width: 100%;
+    background-color: #f0f0f0;
+    padding-top: 1px;
+}
+.content{
+    height: 37.6px;
+    width: 864px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-top: 11.2px;
+}
+#symbol{
+    display: inline-block;
+    height: 100%;
+    width: 13.5%;
+    float: left;
+}
+#mLogo{
+    display: inline-block;
+    height: 100%;
+    width: 19.2%;
+    float: left;
+    background: url("/static/logo.png") no-repeat;
+    background-size: 100% 100%;
+}
+#mName{
+    display: inline-block;
+    width: 65.8%;
+    height: auto;
+    float: left;
+    position: relative;
+    left: 9.6%;
+    top: 11.9%;
+    font-size: 18px;
+    color: #4b4b4b;
+}
+#contactMes{
+    text-align: left;
+    display: inline-block;
+    float: left;
+    position: relative;
+    width: auto;
+    height: auto;
+    top: 11.9%;
+    margin-left: 3.7%;
+    font-size: 18px;
+    color: #7c7c7c;
+    font-family: PC Sans Regular,Hiragino Sans GB;
+}
+.accounts{
+    display: inline-block;
+    float: left;
+    position: relative;
+    width: 12.4%;
+    height: 100%;
+    left: 9.26%;
+}
+#account1{
+    display: inline-block;
+    float: left;
+    position: relative;
+    width: 24.06%;
+    height: 57.4%;
+    background: url("/static/homepageImage/wechat.png") no-repeat;
+    background-size: 100% 100%;
+    top: 50%;
+    margin-top: -10.15%;
+}
+#account2{
+    display: inline-block;
+    float: left;
+    position: relative;
+    width: 19.54%;
+    height: 59.57%;
+    background: url("/static/homepageImage/qq.png") no-repeat;
+    background-size: 100% 100%;
+    top: 50%;
+    margin-left: 17.29%;
+    margin-top: -10.52%;
+}
+#account3{
+    display: inline-block;
+    float: left;
+    position: relative;
+    width: 21.8%;
+    height: 51.06%;
+    background: url("/static/homepageImage/weibo.png") no-repeat;
+    background-size: 100% 100%;
+    top: 50%;
+    margin-left: 17.29%;
+    margin-top: -9.02%;
+}
 }
 </style>
 

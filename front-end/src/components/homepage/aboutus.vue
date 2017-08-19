@@ -87,6 +87,7 @@
         margin-left: auto;
         margin-right: auto;
         margin-top: 40px;
+        margin-bottom: 50px;
         background-color: #ffffff;
         h1{
             margin-bottom: 50px;

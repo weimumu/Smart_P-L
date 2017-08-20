@@ -73,4 +73,90 @@
 * response: the same as `regist` except `userPass`
 
 
+### get another's basic info
+
+* GET `/api/user/:id`
+
+* response: 
+
+* ```json
+  {
+    "_id": "",
+    "comName": "",
+    "comTime": "",
+    "comRegistAddresss": "",
+    "comWorkAddresss": "",
+    "comField": "",
+    "comProduct": "",
+    "comIntro": "",
+    "comPhone": ""
+  }
+  ```
+
+### search
+
+* GET `/api/user/search?q=QUERY`
+* response: `[{BASIC INFO}]`
+
+## Friend
+
+### get friend list
+
+* GET `/api/friend/list`
+* response: `[{DETAIL(same as get-self-info)}]`
+
+### remove friend
+
+* DELETE `/api/friend/:friendId`
+* note: friendId given in the `_id` field in api responses
+
+### request to add a friend
+
+* POST `/api/friend/request?to=id`
+
+### get sent requests
+
+* GET `/api/friend/request/send`
+
+* response:
+
+* ```json
+  [
+    {
+      _id: requestId,
+      "to": {
+        "_id": userId,
+        "comName": ""
+      },
+      "date": Date
+    }
+  ]
+  ```
+
+### get received requests
+
+* GET `/api/friend/request/receive`
+
+* response:
+
+* ```json
+  [
+    {
+      _id: requestId,
+      "from": {
+        "_id": userId,
+        "comName": ""
+      },
+      "date": Date
+    }
+  ]
+  ```
+
+### accept add-friend request
+
+* POST `/api/request/:requestId/accept`
+
+### refuse request
+
+* POST `/api/request/:requestId/refuse`
 

@@ -18,7 +18,8 @@ module.exports = new Schema({
   },
   comName: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   comCode: {
     type: String,

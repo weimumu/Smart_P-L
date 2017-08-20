@@ -8,6 +8,7 @@ router
   .get('/logout', user.logout)
   .put('/self', user.edit)
   .get('/self', user.getSelf)
-  .get('/search', user.search);
+  .get('/search', user.search)
+  .get('/:id', user.getBasicInfo);
 
 module.exports = router;

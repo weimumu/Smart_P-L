@@ -10,7 +10,9 @@ router.use((req, res, next) => {
   next();
 });
 
-router.use('/user', require('./user'));
+router
+  .use('/user', require('./user'))
+  .use('/friend', require('./friend'));
 
 module.exports = router;
 

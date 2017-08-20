@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const {assert, asyncAssertThrow, mongo: {User}} = require('../lib');
+const excapeRegExp = require('escape-string-regexp');
 
 /**
  * regist
@@ -78,4 +79,17 @@ exports.getSelf = async (req, res) => {
   const user = res.locals.user;
   const filtered = _.omit(user, 'userPass');
   res.json(filtered);
+};
+
+exports.search = async (req, res) => {
+  const {q} = req.query;
+  assert(q, 'search key required');
+  const result = await User
+    .find({
+      comName: {
+        '$regex': excapeRegExp(q)
+      }
+    }, ['_id', 'comName', 'comTime', 'comRegistAddresss', 'comWorkAddresss', 'comField', 'comProduct', 'comIntro', 'comPhone'])
+    .limit(20);
+  res.json(result);
 };

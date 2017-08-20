@@ -7,6 +7,7 @@ router
   .post('/login', user.login)
   .get('/logout', user.logout)
   .put('/self', user.edit)
-  .get('/self', user.getSelf);
+  .get('/self', user.getSelf)
+  .get('/search', user.search);
 
 module.exports = router;

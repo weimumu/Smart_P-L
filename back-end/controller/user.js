@@ -1,5 +1,7 @@
 const _ = require('lodash');
 const {assert, asyncAssertThrow, mongo: {User}} = require('../lib');
+const excapeRegExp = require('escape-string-regexp');
+const {ObjectId} = require('mongoose').Types;
 
 /**
  * regist
@@ -9,6 +11,7 @@ exports.regist = async (req, res) => {
   console.log(user);
   await asyncAssertThrow(user.validate(), 'validate error');
   assert(!await User.findOne({userEmail: user.userEmail}), 'registed email');
+  assert(!await User.findOne({comName: user.comName}), 'registed com');
   await user.save();
   res.end('ok');
 };
@@ -78,4 +81,24 @@ exports.getSelf = async (req, res) => {
   const user = res.locals.user;
   const filtered = _.omit(user, 'userPass');
   res.json(filtered);
+};
+
+exports.search = async (req, res) => {
+  const {q} = req.query;
+  assert(q, 'search key required');
+  const result = await User
+    .find({
+      comName: {
+        '$regex': excapeRegExp(q)
+      }
+    }, ['_id', 'comName', 'comTime', 'comRegistAddresss', 'comWorkAddresss', 'comField', 'comProduct', 'comIntro', 'comPhone'])
+    .limit(20);
+  res.json(result);
+};
+
+exports.getBasicInfo = async (req, res) => {
+  const {id} = req.params;
+  assert(ObjectId.isValid(id), 'invalid id');
+  const result = await User.findById(id, ['_id', 'comName', 'comTime', 'comRegistAddresss', 'comWorkAddresss', 'comField', 'comProduct', 'comIntro', 'comPhone']);
+  res.json(result);
 };

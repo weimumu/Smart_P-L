@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-// const ObjectId = Schema.ObjectId;
+const ObjectId = Schema.ObjectId;
 
 /**
  * 用户
@@ -18,7 +18,8 @@ module.exports = new Schema({
   },
   comName: {
     type: String,
-    required: true
+    required: true,
+    unique: true
   },
   comCode: {
     type: String,
@@ -91,5 +92,28 @@ module.exports = new Schema({
   contactPhone: {
     type: String,
     required: true
+  },
+  friend: {
+    list: {
+      type: [{
+        type: ObjectId,
+        ref: 'User'
+      }],
+      default: []
+    },
+    requestSend: {
+      type: [{
+        type: ObjectId,
+        ref: 'FriendRequest'
+      }],
+      default: []
+    },
+    requestRecv: {
+      type: [{
+        type: ObjectId,
+        ref: 'FriendRequest'
+      }],
+      default: []
+    }
   }
 });

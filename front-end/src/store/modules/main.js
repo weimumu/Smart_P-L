@@ -1,10 +1,36 @@
 const state = {
   popUp: false,
   popMsg: '',
-  openid: ''
+  userMes: {
+    userEmail: '',
+    userPass: '',
+    comName: '',
+    comCode: '',
+    comCapital: '',
+    comTime: '',
+    comPerson: '',
+    comEmail: '',
+    comPhone: '',
+    comManager: '',
+    comRegistAddresss: '',
+    comWorkAddresss: '',
+    comField: '',
+    comProduct: '',
+    comIntro: '',
+    contactName: '',
+    contactJob: '',
+    contactMobile: '',
+    contactEmail: '',
+    contactQQ: '',
+    contactPhone: ''
+  }
 };
 
-const getters = {};
+const getters = {
+  getUserMes (state) {
+    return state.userMes;
+  }
+};
 
 const actions = {};
 
@@ -16,6 +42,11 @@ const mutations = {
       state.popUp = false;
       state.popMsg = '';
     }, 2000);
+  },
+  user (state, msg) {
+    for (var key in state.userMes) {
+      state.userMes[key] = msg[key];
+    }
   }
 };
 

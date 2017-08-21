@@ -7,7 +7,7 @@
       </div>
       <div class="tab tabs" :class="{tabsChange: state}">
         <mu-tabs :value="activeTab" @change="handleTabChange">
-          <mu-tab value="我的业务" title="我的业务" v-if="state === true" />
+          <mu-tab value="我的业务" title="我的业务" v-if="state === true" @click="goToBusiness"/>
           <i class="point" v-if="state === true"></i>
           <mu-tab value="平台简介" title="平台简介" />
           <i class="point"></i>
@@ -20,7 +20,13 @@
       </div>
       <div class="tab">
         <button class="registButton" v-if="state === false" @click="goToRegist"></button>
-        <span class="conName" v-if="state === true">{{comName}}</span>
+        <div class="conName" @mouseenter="enter" @mouseleave="leave">
+          <div v-if="state === true">{{comName}}</div>
+          <mu-menu v-show="menuActive" class="menu">
+            <mu-menu-item title="账户设置"/>
+            <mu-menu-item title="退出登录" @click="logout"/>
+          </mu-menu>
+        </div>
         <div class="notification" v-if="state === true">
           <img src="/static/homepageImage/tabs/notification.png">
           <span>消息中心</span>
@@ -68,7 +74,7 @@ export default {
       activeTab: '平台简介',
       isActive: false,
       state: false,
-      comName: ''
+      menuActive: true
     };
   },
   async created () {
@@ -81,6 +87,19 @@ export default {
     aboutus
   },
   methods: {
+    async logout () {
+      await this.$http.get('/api/user/logout');
+      this.$router.push('/loginFac');
+    },
+    enter () {
+      this.menuActive = true;
+    },
+    leave () {
+      this.menuActive = false;
+    },
+    goToBusiness () {
+      this.$router.push('/business');
+    },
     handleTabChange (val) {
       this.activeTab = val;
     },
@@ -93,10 +112,17 @@ export default {
         res = await this.$http.get('/api/user/self');
         this.state = true;
         console.log(res.data);
-        this.comName = res.data.comName;
+        this.$store.commit('user', res.data);
+        console.log(this.$store.getters.getUserMes);
+        // this.comName = res.data.comName;
       } catch (e) {
         this.state = false;
       }
+    }
+  },
+  computed: {
+    comName () {
+      return this.$store.getters.getUserMes['comName'].substr(0, 4);
     }
   }
 };
@@ -172,11 +198,18 @@ export default {
   }
   .conName{
     position: absolute;
+    top: 29px;
     right: 130px;
-    bottom: 29px;
     font-size: 15px;
     color:#d6a12c;
     cursor: pointer;
+    span{
+      position: absolute;
+    }
+    .menu{
+      margin-top: 3px;
+      position: relative;
+    }
   }
   .notification{
     position: absolute;
@@ -296,6 +329,27 @@ export default {
 
 <style lang="scss">
 .homepage {
+  .mu-menu-item{
+    padding: 0;
+  }
+  .mu-menu-item-wrapper{
+    height: 25px;
+    line-height: 25px;
+    text-align: center;
+  }
+  .mu-menu-item-title{
+    font-size: 11px;
+    color: #ffffff;
+    text-align: center;
+    padding-left: 8px;
+  }
+  .mu-menu, .mu-menu-list{
+    width: 60px !important;
+  }
+  .mu-menu-list{
+    background: #d6a12c;
+    padding: 4px 0;
+  }
   .mu-tab-link {
     color: #434343;
     font-size: 16px;

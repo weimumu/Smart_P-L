@@ -5,10 +5,7 @@ import registSuccess from '../components/regist/registSuccess.vue';
 import loginFin from '../components/login/loginFin.vue';
 import loginFac from '../components/login/loginFac.vue';
 import registMain from '../components/regist/registMain.vue';
-import introduction from '../components/homepage/introduction.vue';
-import cooperate from '../components/homepage/cooperate.vue';
-import information from '../components/homepage/information.vue';
-import aboutus from '../components/homepage/aboutus.vue';
+import business from '../components/business/main.vue';
 Vue.use(Router);
 
 export default new Router({
@@ -40,24 +37,9 @@ export default new Router({
       component: loginFac
     },
     {
-      path: '/introduction',
-      name: 'introduction',
-      component: introduction
-    },
-    {
-      path: '/cooperate',
-      name: 'cooperate',
-      component: cooperate
-    },
-    {
-      path: '/information',
-      name: 'information',
-      component: information
-    },
-    {
-      path: '/aboutus',
-      name: 'aboutus',
-      component: aboutus
+      path: '/business',
+      name: 'business',
+      component: business
     }
   ]
 });

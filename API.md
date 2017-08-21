@@ -123,9 +123,9 @@
 * ```json
   [
     {
-      _id: requestId,
+      "_id": "requestId",
       "to": {
-        "_id": userId,
+        "_id": "userId",
         "comName": ""
       },
       "date": Date
@@ -142,9 +142,9 @@
 * ```json
   [
     {
-      _id: requestId,
+      "_id": "requestId",
       "from": {
-        "_id": userId,
+        "_id": "userId",
         "comName": ""
       },
       "date": Date

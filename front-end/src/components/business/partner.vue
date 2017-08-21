@@ -39,7 +39,17 @@
       伙伴动态
     </div>
     <div class="news" v-if="show.news">
-      新闻
+      <span class="title">行业新闻</span>
+      <div class="news_list">
+        <div class="news_item" v-for="item in getNewsList">
+          <p class="news_title" >{{ item.title }}</p>
+          <div class="news_content">
+            <img class="news_pic" v-bind:src="item.url"/>
+            <p class="news_detail">{{item.detail}}</p>
+            <p class="news_info">{{item.report}}&nbsp;{{item.date}}</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -65,6 +75,29 @@ export default {
           comName: '华为公司',
           comField: '互联网'
         }
+      ],
+      newsList: [
+        {
+          title: '余额宝二度下调额度降风险 顺应目前金融监管大势',
+          url: '/static/business/partner/news/pic_first.png',
+          detail: '自8月14日零点起，个人持有余额宝的最高额度调整为10万元，这是继5月27日余额宝下调至25万元后的二度下调。与此同时，有关货币基金新规将出台的传闻引发市场关注，这将对余额宝等货币基金造成怎样的影响？',
+          report: '中国经营报',
+          date: '08月19日'
+        },
+        {
+          title: '好车e贷问题频发：贷款审批慢 抵押难解除强行逾期',
+          url: '/static/business/partner/news/pic_second.png',
+          detail: '近年，国内汽车金融逃入快速发展期。前不久，“爱分析” 通过调研和评价模型创作了“中国汽车金融企业估值榜”。上汽财务公司 “好车e货” 作为新车金融被纳入榜单之中，跃居第8位，被 “爱分析” 估值45亿元。但是在快速增长的背后，一些问题开始浮现。',
+          report: '中国经营报',
+          date: '08月19日'
+        },
+        {
+          title: '中国经济增速是否企稳： 专家称不应过于关注短期增速',
+          url: '/static/business/partner/news/pic_third.png',
+          detail: '在一季度实现“开门红”后，二季度经济数据依然稳中向好。国家统计局公布的7月份宏观经济数据显示，工业、投资、服务业多项指标增速小幅回落，但稳中向好的势头不减。多位专家对第一财经表示，不应过于关注短期增速的水平。',
+          report: '中国经营报',
+          date: '08月19日'
+        }
       ]
     };
   },
@@ -82,11 +115,71 @@ export default {
   computed: {
     getFriends () {
       return this.friends;
+    },
+    getNewsList () {
+      return this.newsList;
     }
   }
 };
 </script>
 
+
+<style lang="scss">
+  .news{
+    width: 788px;
+    height: 702px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 1px;
+    text-align: left;
+    .news_list{
+      height: 537px;
+      width: 100%;
+      margin-top: 20px;
+      .news_item{
+        height: 179px;
+        width: 100%;
+        padding-top: 1px;
+        .news_title{
+          font-size: 18px;
+          color: #4b4b4b;
+          margin-top: 30px;
+          margin-bottom: 10px;
+        }
+        .news_content{
+          height: 111px;
+          width: 100%;
+          font-size: 14px;
+          margin-bottom: 0px;
+          p{
+            display: inline-block;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            float: right;
+          }
+          .news_pic{
+            width: 174px;
+            height: 111px;
+            display: inline-block;
+            float: left;
+          }
+          .news_detail{
+            width: 582px;
+            height: 96px;
+            line-height: 24px;
+            color: #727272;
+          }
+          .news_info{
+            height: 15px;
+            width: 582px;
+            line-height: 15px;
+            color: #d6a12c;
+          }
+        }
+      }
+    }
+  }
+</style>
 
 <style scoped lang="scss">
 .title{

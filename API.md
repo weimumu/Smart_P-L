@@ -154,9 +154,9 @@
 
 ### accept add-friend request
 
-* POST `/api/request/:requestId/accept`
+* POST `/api/friend/request/:requestId/accept`
 
 ### refuse request
 
-* POST `/api/request/:requestId/refuse`
+* POST `/api/friend/request/:requestId/refuse`
 

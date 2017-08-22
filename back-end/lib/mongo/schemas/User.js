@@ -119,7 +119,7 @@ const userSchema = new Schema({
 });
 
 userSchema.methods.isFriend = function (id) {
-  return this.friend.list.indexOf(id) !== -1;
+  return this.friends.indexOf(id) !== -1;
 };
 
 module.exports = userSchema;

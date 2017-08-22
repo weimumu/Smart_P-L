@@ -1,12 +1,14 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
+// const ObjectIdType = mongoose.Types.ObjectId;
+// const {assert} = require('../../assert');
 
 /**
  * 用户
  * @type {Schema}
  */
-module.exports = new Schema({
+const userSchema = new Schema({
   userEmail: {
     type: String,
     required: true,
@@ -117,3 +119,9 @@ module.exports = new Schema({
     }
   }
 });
+
+userSchema.methods.isFriend = function (id) {
+  return this.friend.list.indexOf(id) !== -1;
+};
+
+module.exports = userSchema;

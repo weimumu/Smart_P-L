@@ -136,6 +136,29 @@ export default {
         news: false
       },
       friends: [
+      ],
+      newsList: [
+        {
+          title: '余额宝二度下调额度降风险 顺应目前金融监管大势',
+          url: '/static/business/partner/news/pic_first.png',
+          detail: '自8月14日零点起，个人持有余额宝的最高额度调整为10万元，这是继5月27日余额宝下调至25万元后的二度下调。与此同时，有关货币基金新规将出台的传闻引发市场关注，这将对余额宝等货币基金造成怎样的影响？',
+          report: '中国经营报',
+          date: '08月19日'
+        },
+        {
+          title: '好车e贷问题频发：贷款审批慢 抵押难解除强行逾期',
+          url: '/static/business/partner/news/pic_second.png',
+          detail: '近年，国内汽车金融逃入快速发展期。前不久，“爱分析” 通过调研和评价模型创作了“中国汽车金融企业估值榜”。上汽财务公司 “好车e货” 作为新车金融被纳入榜单之中，跃居第8位，被 “爱分析” 估值45亿元。但是在快速增长的背后，一些问题开始浮现。',
+          report: '中国经营报',
+          date: '08月19日'
+        },
+        {
+          title: '中国经济增速是否企稳： 专家称不应过于关注短期增速',
+          url: '/static/business/partner/news/pic_third.png',
+          detail: '在一季度实现“开门红”后，二季度经济数据依然稳中向好。国家统计局公布的7月份宏观经济数据显示，工业、投资、服务业多项指标增速小幅回落，但稳中向好的势头不减。多位专家对第一财经表示，不应过于关注短期增速的水平。',
+          report: '中国经营报',
+          date: '08月19日'
+        }
       ]
     };
   },
@@ -208,7 +231,6 @@ export default {
   },
   computed: {
     getFriends () {
-<<<<<<< HEAD
       var data = this.friends;
       var that = this;
       if (this.searchContent) {
@@ -218,12 +240,9 @@ export default {
         });
       }
       return data;
-=======
-      return this.friends;
     },
     getNewsList () {
       return this.newsList;
->>>>>>> 7e50341c939940e34ec19affd822c355da95b2b5
     }
   }
 };

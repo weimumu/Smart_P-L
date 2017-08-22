@@ -1,4 +1,5 @@
 const {assert, mongo: {User, FriendRequest}} = require('../lib');
+const {fields} = require('../config');
 const {ObjectId} = require('mongoose').Types;
 
 exports.getFriends = async (req, res) => {
@@ -6,27 +7,7 @@ exports.getFriends = async (req, res) => {
     .findById(res.locals.user._id, 'friend.list')
     .populate({
       path: 'friend.list',
-      select: [
-        'comName',
-        'comCode',
-        'comCapital',
-        'comTime',
-        'comPerson',
-        'comEmail',
-        'comPhone',
-        'comManager',
-        'comRegistAddresss',
-        'comWorkAddresss',
-        'comField',
-        'comProduct',
-        'comIntro',
-        'contactName',
-        'contactJob',
-        'contactMobile',
-        'contactEmail',
-        'contactQQ',
-        'contactPhone'
-      ]
+      select: fields.friend
     });
   res.json(result.friend.list);
 };
@@ -103,7 +84,7 @@ exports.getRequestRecv = async (req, res) => {
       populate: [
         {
           path: 'from',
-          select: ['comName', 'comTime', 'comRegistAddresss', 'comWorkAddresss', 'comField', 'comProduct', 'comIntro', 'comPhone']
+          select: fields.stranger
         }
       ]
     });
@@ -120,7 +101,7 @@ exports.getRequestSend = async (req, res) => {
       populate: [
         {
           path: 'to',
-          select: ['comName', 'comTime', 'comRegistAddresss', 'comWorkAddresss', 'comField', 'comProduct', 'comIntro', 'comPhone']
+          select: fields.stranger
         }
       ]
     });

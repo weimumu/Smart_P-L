@@ -12,7 +12,8 @@ router.use((req, res, next) => {
 
 router
   .use('/user', require('./user'))
-  .use('/friend', require('./friend'));
+  .use('/friend', require('./friend'))
+  .use('/message', require('./message'));
 
 module.exports = router;
 

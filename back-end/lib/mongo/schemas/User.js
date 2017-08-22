@@ -1,12 +1,35 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
+// const ObjectIdType = mongoose.Types.ObjectId;
+// const {assert} = require('../../assert');
 
 /**
  * 用户
  * @type {Schema}
  */
-module.exports = new Schema({
+const userSchema = new Schema({
+  friends: {
+    type: [{
+      type: ObjectId,
+      ref: 'User'
+    }],
+    default: []
+  },
+  messages: {
+    type: [{
+      type: ObjectId,
+      ref: 'Message'
+    }],
+    default: []
+  },
+  friendMessages: {
+    type: [{
+      type: ObjectId,
+      ref: 'Message'
+    }],
+    default: []
+  },
   userEmail: {
     type: String,
     required: true,
@@ -92,28 +115,11 @@ module.exports = new Schema({
   contactPhone: {
     type: String,
     required: true
-  },
-  friend: {
-    list: {
-      type: [{
-        type: ObjectId,
-        ref: 'User'
-      }],
-      default: []
-    },
-    requestSend: {
-      type: [{
-        type: ObjectId,
-        ref: 'FriendRequest'
-      }],
-      default: []
-    },
-    requestRecv: {
-      type: [{
-        type: ObjectId,
-        ref: 'FriendRequest'
-      }],
-      default: []
-    }
   }
 });
+
+userSchema.methods.isFriend = function (id) {
+  return this.friends.indexOf(id) !== -1;
+};
+
+module.exports = userSchema;

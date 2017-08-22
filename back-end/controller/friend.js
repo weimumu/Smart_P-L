@@ -1,42 +1,23 @@
-const {assert, mongo: {User, FriendRequest}} = require('../lib');
+const {assert, mongo: {User, FriendRequest, Message}} = require('../lib');
+const {fields} = require('../config');
 const {ObjectId} = require('mongoose').Types;
 
 exports.getFriends = async (req, res) => {
   const result = await User
-    .findById(res.locals.user._id, 'friend.list')
+    .findById(res.locals.user._id, 'friends')
     .populate({
-      path: 'friend.list',
-      select: [
-        'comName',
-        'comCode',
-        'comCapital',
-        'comTime',
-        'comPerson',
-        'comEmail',
-        'comPhone',
-        'comManager',
-        'comRegistAddresss',
-        'comWorkAddresss',
-        'comField',
-        'comProduct',
-        'comIntro',
-        'contactName',
-        'contactJob',
-        'contactMobile',
-        'contactEmail',
-        'contactQQ',
-        'contactPhone'
-      ]
+      path: 'friends',
+      select: fields.friend
     });
-  res.json(result.friend.list);
+  res.json(result.friends);
 };
 
 exports.removeFriend = async (req, res) => {
   const {id} = req.params;
   assert(ObjectId.isValid(id), 'invalid id');
   await Promise.all([
-    User.where('_id', res.locals.user._id).update({$pull: {'friend.list': id}}),
-    User.where('_id', id).update({$pull: {'friend.list': res.locals.user._id}})
+    User.where('_id', res.locals.user._id).update({$pull: {'friends': id}}),
+    User.where('_id', id).update({$pull: {'friends': res.locals.user._id}})
   ]);
   res.end('ok');
 };
@@ -49,13 +30,25 @@ exports.request = async (req, res) => {
 
   assert((await FriendRequest.where().or({from: self._id, to}).or({from: to, to: self._id})).length === 0, 'no duplicate request');
   try {
-    const request = await FriendRequest.create({
+    const request = new FriendRequest({from: self._id, to});
+    const message = new Message({
       from: self._id,
-      to
+      type: 'FriendRequest-Received',
+      info: {
+        request: request._id
+      }
     });
     await Promise.all([
-      User.where('_id', to).update({$push: {'friend.requestRecv': request._id}}),
-      User.where('_id', self._id).update({$push: {'friend.requestSend': request._id}})
+      request.save(),
+      message.save(),
+      User.where('_id', to).update({
+        $push: {
+          'friendMessages': {
+            $each: [message._id],
+            $position: 0
+          }
+        }
+      })
     ]);
     res.end('ok');
   } catch (err) {
@@ -72,12 +65,24 @@ exports.accept = async (req, res) => {
   assert(request, 'friend request not found');
   assert(request.to.toString() === self._id.toString(), 'friend request not found'); // not yours
 
+  const message = new Message({
+    from: self._id,
+    type: 'FriendRequest-Accepted'
+  });
   await Promise.all([
-    User.where('_id', request.from).update({$addToSet: {'friend.list': request.to}}),
-    User.where('_id', request.to).update({$addToSet: {'friend.list': request.from}}),
+    message.save(),
+    User.where('_id', request.from).update({
+      $addToSet: {'friends': request.to},
+      $push: {
+        'friendMessages': {
+          $each: [message._id],
+          $position: 0 // prepend
+        }
+      }
+    }),
+    User.where('_id', request.to).update({$addToSet: {'friends': request.from}}),
     request.remove()
   ]);
-  // TODO: send message?
   res.end('ok');
 };
 
@@ -89,40 +94,21 @@ exports.refuse = async (req, res) => {
   assert(request, 'friend request not found');
   assert(request.to.toString() === self._id.toString(), 'friend request not found'); // not yours
 
-  await request.remove();
+  const message = new Message({
+    from: self._id,
+    type: 'FriendRequest-Refused'
+  });
+  await Promise.all([
+    message.save(),
+    User.where('_id', request.from).update({
+      $push: {
+        'friendMessages': {
+          $each: [message._id],
+          $position: 0
+        }
+      }
+    }),
+    request.remove()
+  ]);
   res.end('ok');
-};
-
-exports.getRequestRecv = async (req, res) => {
-  const id = res.locals.user._id;
-  const result = await User
-    .findById(id, ['friend.requestRecv'])
-    .populate({
-      path: 'friend.requestRecv',
-      select: ['from', 'date'],
-      populate: [
-        {
-          path: 'from',
-          select: ['comName', 'comTime', 'comRegistAddresss', 'comWorkAddresss', 'comField', 'comProduct', 'comIntro', 'comPhone']
-        }
-      ]
-    });
-  res.json(result.friend.requestRecv);
-};
-
-exports.getRequestSend = async (req, res) => {
-  const id = res.locals.user._id;
-  const result = await User
-    .findById(id, ['friend.requestSend'])
-    .populate({
-      path: 'friend.requestSend',
-      select: ['to', 'date'],
-      populate: [
-        {
-          path: 'to',
-          select: ['comName', 'comTime', 'comRegistAddresss', 'comWorkAddresss', 'comField', 'comProduct', 'comIntro', 'comPhone']
-        }
-      ]
-    });
-  res.json(result.friend.requestSend);
 };

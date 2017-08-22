@@ -1,7 +1,7 @@
-module.exports = (exp, message) => {
+module.exports = (exp, message, status = 400) => {
   if (!exp) {
     const err = new Error(message);
-    err.status = 400;
+    err.status = status;
     throw err;
   }
 };

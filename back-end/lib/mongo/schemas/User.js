@@ -9,6 +9,27 @@ const ObjectId = Schema.ObjectId;
  * @type {Schema}
  */
 const userSchema = new Schema({
+  friends: {
+    type: [{
+      type: ObjectId,
+      ref: 'User'
+    }],
+    default: []
+  },
+  messages: {
+    type: [{
+      type: ObjectId,
+      ref: 'Message'
+    }],
+    default: []
+  },
+  friendMessages: {
+    type: [{
+      type: ObjectId,
+      ref: 'Message'
+    }],
+    default: []
+  },
   userEmail: {
     type: String,
     required: true,
@@ -94,29 +115,6 @@ const userSchema = new Schema({
   contactPhone: {
     type: String,
     required: true
-  },
-  friend: {
-    list: {
-      type: [{
-        type: ObjectId,
-        ref: 'User'
-      }],
-      default: []
-    },
-    requestSend: {
-      type: [{
-        type: ObjectId,
-        ref: 'FriendRequest'
-      }],
-      default: []
-    },
-    requestRecv: {
-      type: [{
-        type: ObjectId,
-        ref: 'FriendRequest'
-      }],
-      default: []
-    }
   }
 });
 

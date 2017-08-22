@@ -94,7 +94,17 @@
       伙伴动态
     </div>
     <div class="news" v-if="show.news">
-      新闻
+      <span class="title">行业新闻</span>
+      <div class="news_list">
+        <div class="news_item" v-for="item in getNewsList">
+          <p class="news_title" >{{ item.title }}</p>
+          <div class="news_content">
+            <img class="news_pic" v-bind:src="item.url"/>
+            <p class="news_detail">{{item.detail}}</p>
+            <p class="news_info">{{item.report}}&nbsp;{{item.date}}</p>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -198,6 +208,7 @@ export default {
   },
   computed: {
     getFriends () {
+<<<<<<< HEAD
       var data = this.friends;
       var that = this;
       if (this.searchContent) {
@@ -207,11 +218,74 @@ export default {
         });
       }
       return data;
+=======
+      return this.friends;
+    },
+    getNewsList () {
+      return this.newsList;
+>>>>>>> 7e50341c939940e34ec19affd822c355da95b2b5
     }
   }
 };
 </script>
 
+
+<style lang="scss">
+  .news{
+    width: 788px;
+    height: 702px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 1px;
+    text-align: left;
+    .news_list{
+      height: 537px;
+      width: 100%;
+      margin-top: 20px;
+      .news_item{
+        height: 179px;
+        width: 100%;
+        padding-top: 1px;
+        .news_title{
+          font-size: 18px;
+          color: #4b4b4b;
+          margin-top: 30px;
+          margin-bottom: 10px;
+        }
+        .news_content{
+          height: 111px;
+          width: 100%;
+          font-size: 14px;
+          margin-bottom: 0px;
+          p{
+            display: inline-block;
+            margin-top: 0px;
+            margin-bottom: 0px;
+            float: right;
+          }
+          .news_pic{
+            width: 174px;
+            height: 111px;
+            display: inline-block;
+            float: left;
+          }
+          .news_detail{
+            width: 582px;
+            height: 96px;
+            line-height: 24px;
+            color: #727272;
+          }
+          .news_info{
+            height: 15px;
+            width: 582px;
+            line-height: 15px;
+            color: #d6a12c;
+          }
+        }
+      }
+    }
+  }
+</style>
 
 <style scoped lang="scss">
 .title{

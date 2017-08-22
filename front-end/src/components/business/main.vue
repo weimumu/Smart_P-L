@@ -73,6 +73,7 @@ export default {
 
 <style lang="scss" scoped>
 .businessMain {
+  min-width: 1100px;
   .header {
     position: relative;
     width: 100%;

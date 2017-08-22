@@ -75,6 +75,8 @@ export default {
 .businessMain {
   min-width: 1100px;
   .header {
+    z-index: 10;
+    background: white;
     position: relative;
     width: 100%;
     height: 80px;

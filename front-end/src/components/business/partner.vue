@@ -1,7 +1,7 @@
 <template>
   <div class="partner">
     <div class="leftTab">
-      <div class="Tab" @click="goTo('friend')" :class="{TabChange: show.friend}">
+      <div class="Tab" @click="goTo('friend')" :class="{TabChange: show.friend}" :style="{marginTop: '80px'}">
         <span><img src="/static/business/partner/icon_friend.png"></span>
       </div>
       <div class="leftLine"></div>
@@ -315,6 +315,7 @@ export default {
   margin-left: 10px;
 }
 .leftTab{
+  top: 0px;
   position: fixed;
   height: 100%;
   width: 88px;

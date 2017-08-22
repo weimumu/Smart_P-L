@@ -2,7 +2,7 @@ exports.stranger = [
   '_id',
   'comName',
   'comTime',
-  'comCaptical',
+  'comCapital',
   'comRegistAddresss',
   'comWorkAddresss',
   'comField',

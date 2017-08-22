@@ -114,43 +114,47 @@
 
 * POST `/api/friend/request?to=id`
 
-### get sent requests
+### get messages (about friend-requesting)
 
-* GET `/api/friend/request/send`
-
-* response:
-
-* ```json
-  [
-    {
-      "_id": "requestId",
-      "to": {
-        "_id": "userId",
-        "comName": ""
-      },
-      "date": Date
-    }
-  ]
-  ```
-
-### get received requests
-
-* GET `/api/friend/request/receive`
+* GET `/api/message/friend?size=SIZE&page=PAGE`
 
 * response:
 
 * ```json
   [
-    {
-      "_id": "requestId",
-      "from": {
-        "_id": "userId",
-        "comName": ""
-      },
-      "date": Date
-    }
+      {
+          "_id": "", // message-id
+          "from": {
+              "_id": "", // sender-id
+              "comName": "阿里巴巴",
+              "comCapital": "900万元",
+              "comTime": "1990.09.09",
+              "comPhone": "0212-8989821",
+              "comRegistAddresss": "",
+              "comWorkAddresss": "",
+              "comField": "",
+              "comProduct": "",
+              "comIntro": ""
+          },
+          "type": "FriendRequest-Received",
+          "info": {
+              "request": "599c2bfd8404c83370943d4e" // request-id
+          },
+          "__v": 0,
+          "date": "2017-08-22T13:05:01.503Z",
+          "read": false
+      }
   ]
   ```
+
+* example: GET `/api/message/friend?size=5&page=0`
+
+### get messages 
+
+* GET `/api/message?size=SIZE&page=PAGE`
+
+* response: TO-BE-DONE
+
 
 ### accept add-friend request
 

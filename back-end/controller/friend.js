@@ -27,11 +27,12 @@ exports.request = async (req, res) => {
   const self = res.locals.user;
   assert(to, 'to user required');
   assert(to.toString() !== self._id.toString(), 'request to self is forbidden');
-
+  const toUser = await User.findById(to);
+  assert(toUser, 'user not exists');
   assert((await FriendRequest.where().or({from: self._id, to}).or({from: to, to: self._id})).length === 0, 'no duplicate request');
   try {
     const request = new FriendRequest({from: self._id, to});
-    const message = new Message({
+    const receiverMessage = new Message({
       from: self._id,
       type: 'FriendRequest-Received',
       info: {
@@ -40,15 +41,8 @@ exports.request = async (req, res) => {
     });
     await Promise.all([
       request.save(),
-      message.save(),
-      User.where('_id', to).update({
-        $push: {
-          'friendMessages': {
-            $each: [message._id],
-            $position: 0
-          }
-        }
-      })
+      receiverMessage.save(),
+      prependFriendMsg(to, receiverMessage)
     ]);
     res.end('ok');
   } catch (err) {
@@ -61,8 +55,9 @@ exports.accept = async (req, res) => {
   const self = res.locals.user;
   const {id} = req.params;
   assert(ObjectId.isValid(id), 'invalid id');
-  const request = await FriendRequest.findById(id);
-  assert(request, 'friend request not found');
+  const friendRequestMsg = await Message.findById(id);
+  assert(friendRequestMsg && friendRequestMsg.type === 'FriendRequest-Received', 'msg not found or invalid msg');
+  const request = await FriendRequest.findById(friendRequestMsg.info.request);
   assert(request.to.toString() === self._id.toString(), 'friend request not found'); // not yours
 
   const message = new Message({
@@ -71,7 +66,11 @@ exports.accept = async (req, res) => {
   });
   await Promise.all([
     message.save(),
-    User.where('_id', request.from).update({
+    friendRequestMsg.update({
+      $set: {type: 'FriendRequest-Received&Accepted'},
+      $unset: {info: ''}
+    }),
+    User.update({_id: request.from}, {
       $addToSet: {'friends': request.to},
       $push: {
         'friendMessages': {
@@ -90,8 +89,9 @@ exports.refuse = async (req, res) => {
   const self = res.locals.user;
   const {id} = req.params;
   assert(ObjectId.isValid(id), 'invalid id');
-  const request = await FriendRequest.findById(id);
-  assert(request, 'friend request not found');
+  const friendRequestMsg = await Message.findById(id);
+  assert(friendRequestMsg && friendRequestMsg.type === 'FriendRequest-Received', 'msg not found or invalid msg');
+  const request = await FriendRequest.findById(friendRequestMsg.info.request);
   assert(request.to.toString() === self._id.toString(), 'friend request not found'); // not yours
 
   const message = new Message({
@@ -100,15 +100,23 @@ exports.refuse = async (req, res) => {
   });
   await Promise.all([
     message.save(),
-    User.where('_id', request.from).update({
-      $push: {
-        'friendMessages': {
-          $each: [message._id],
-          $position: 0
-        }
-      }
+    friendRequestMsg.update({
+      $set: {type: 'FriendRequest-Received&Refused'},
+      $unset: {info: ''}
     }),
+    prependFriendMsg(request.from, message),
     request.remove()
   ]);
   res.end('ok');
 };
+
+async function prependFriendMsg (id, message) {
+  return User.update({_id: id}, {
+    $push: {
+      'friendMessages': {
+        $each: [message._id],
+        $position: 0 // prepend
+      }
+    }
+  });
+}

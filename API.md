@@ -73,11 +73,41 @@
 * response: the same as `regist` except `userPass`
 
 
-### get another's basic info
+### get another's info
 
 * GET `/api/user/:id`
 
 * response: 
+
+* if you are friends:
+
+* ```json
+  {
+      "_id": "",
+      "comName": "阿里巴巴",
+      "comCode": "1",
+      "comCapital": "1",
+      "comTime": "1",
+      "comPerson": "1",
+      "comEmail": "1",
+      "comPhone": "1",
+      "comManager": "1",
+      "comRegistAddresss": "1",
+      "comWorkAddresss": "1",
+      "comField": "1",
+      "comProduct": "1",
+      "comIntro": "1",
+      "contactName": "1",
+      "contactJob": "1",
+      "contactMobile": "1",
+      "contactEmail": "1",
+      "contactQQ": "1",
+      "contactPhone": "1",
+      "isFriend": true
+  }
+  ```
+
+* if not friends:
 
 * ```json
   {
@@ -114,49 +144,67 @@
 
 * POST `/api/friend/request?to=id`
 
-### get sent requests
+### get messages (about friend-requesting)
 
-* GET `/api/friend/request/send`
-
-* response:
-
-* ```json
-  [
-    {
-      _id: requestId,
-      "to": {
-        "_id": userId,
-        "comName": ""
-      },
-      "date": Date
-    }
-  ]
-  ```
-
-### get received requests
-
-* GET `/api/friend/request/receive`
+* GET `/api/message/friend?size=SIZE&page=PAGE`
 
 * response:
 
 * ```json
   [
-    {
-      _id: requestId,
-      "from": {
-        "_id": userId,
-        "comName": ""
-      },
-      "date": Date
-    }
+      {
+          "_id": "", // message-id
+          "from": {
+              "_id": "", // sender-id
+              "comName": "阿里巴巴",
+              "comCapital": "900万元",
+              "comTime": "1990.09.09",
+              "comPhone": "0212-8989821",
+              "comRegistAddresss": "",
+              "comWorkAddresss": "",
+              "comField": "",
+              "comProduct": "",
+              "comIntro": ""
+          },
+          "type": "FriendRequest-Received",
+          "info": {
+              "request": "599c2bfd8404c83370943d4e" // request-id
+          },
+          "__v": 0,
+          "date": "2017-08-22T13:05:01.503Z",
+          "read": false
+      }
   ]
   ```
+
+* example: GET `/api/message/friend?size=5&page=0`
+
+* message types:
+
+* ```javascript
+  [
+    'FriendRequest-Received', // when received a request
+    'FriendRequest-Received&Accepted', // when received & accepted a request
+    'FriendRequest-Received&Refused', // when received & refused a request
+    'FriendRequest-Accepted', // when a request one sent is accepted
+    'FriendRequest-Refused' // when a request one sent is refused
+  ]
+  ```
+
+* ​
+
+### get messages 
+
+* GET `/api/message?size=SIZE&page=PAGE`
+
+* response: TO-BE-DONE
+
 
 ### accept add-friend request
 
-* POST `/api/request/:requestId/accept`
+* POST `/api/friend/accept/:messageId`
 
 ### refuse request
 
-* POST `/api/request/:requestId/refuse`
+* POST `/api/friend/refuse/:messageId`
 

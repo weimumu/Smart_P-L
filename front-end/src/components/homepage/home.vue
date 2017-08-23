@@ -9,13 +9,13 @@
         <mu-tabs :value="activeTab" @change="handleTabChange">
           <mu-tab value="我的业务" title="我的业务" v-if="state === true" @click="goToBusiness"/>
           <i class="point" v-if="state === true"></i>
-          <mu-tab value="平台简介" title="平台简介" />
+          <mu-tab value="平台简介" title="平台简介" @click="goToMain"/>
           <i class="point"></i>
-          <mu-tab value="信息披露" title="信息披露" />
+          <mu-tab value="信息披露" title="信息披露" @click="goToMain"/>
           <i class="point"></i>
-          <mu-tab value="关于我们" title="关于我们" />
+          <mu-tab value="关于我们" title="关于我们" @click="goToMain"/>
           <i class="point"></i>
-          <mu-tab value="与我合作" title="与我合作" />
+          <mu-tab value="与我合作" title="与我合作" @click="goToMain"/>
         </mu-tabs>
       </div>
       <div class="tab">
@@ -27,13 +27,14 @@
             <mu-menu-item title="退出登录" @click="logout"/>
           </mu-menu>
         </div>
-        <div class="notification" v-if="state === true">
+        <div class="notification" v-if="state === true" @click="goToMes">
           <img src="/static/homepageImage/tabs/notification.png">
           <span>消息中心</span>
         </div>
       </div>
       <div class="bottomLine"></div>
     </div>
+    <div v-if="messageActive === false">
     <div v-if="activeTab === '平台简介'">
       <introduction></introduction>
     </div>
@@ -60,10 +61,16 @@
             </div>
         </div>
     </div>
+    </div>
+    <div v-if="messageActive">
+      <message @goToMes="goToBusiness"></message>
+    </div>
+    
   </div>
 </template>
 
 <script>
+import message from '../message/messageMain';
 import aboutus from './aboutus';
 import information from './information';
 import introduction from './introduction';
@@ -74,7 +81,8 @@ export default {
       activeTab: '平台简介',
       isActive: false,
       state: false,
-      menuActive: true
+      menuActive: false,
+      messageActive: false
     };
   },
   async created () {
@@ -84,12 +92,19 @@ export default {
     introduction,
     cooperate,
     information,
-    aboutus
+    aboutus,
+    message
   },
   methods: {
     async logout () {
       await this.$http.get('/api/user/logout');
       this.$router.push('/loginFac');
+    },
+    goToMain () {
+      this.messageActive = false;
+    },
+    goToMes () {
+      this.messageActive = true;
     },
     enter () {
       this.menuActive = true;
@@ -111,10 +126,7 @@ export default {
       try {
         res = await this.$http.get('/api/user/self');
         this.state = true;
-        console.log(res.data);
         this.$store.commit('user', res.data);
-        console.log(this.$store.getters.getUserMes);
-        // this.comName = res.data.comName;
       } catch (e) {
         this.state = false;
       }
@@ -197,6 +209,7 @@ export default {
     cursor: pointer;
   }
   .conName{
+    z-index: 15;
     position: absolute;
     top: 29px;
     right: 130px;

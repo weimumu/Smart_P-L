@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const {assert, asyncAssertThrow, mongo: {User}} = require('../lib');
+const {fields} = require('../config');
 const excapeRegExp = require('escape-string-regexp');
 const {ObjectId} = require('mongoose').Types;
 
@@ -91,14 +92,24 @@ exports.search = async (req, res) => {
       comName: {
         '$regex': excapeRegExp(q)
       }
-    }, ['_id', 'comName', 'comTime', 'comRegistAddresss', 'comWorkAddresss', 'comField', 'comProduct', 'comIntro', 'comPhone'])
-    .limit(20);
-  res.json(result);
+    }, fields.stranger);
+  res.json(_.maxBy(result, user => q.length / user.comName.length) || null);
 };
 
-exports.getBasicInfo = async (req, res) => {
+exports.getInfo = async (req, res) => {
   const {id} = req.params;
   assert(ObjectId.isValid(id), 'invalid id');
-  const result = await User.findById(id, ['_id', 'comName', 'comTime', 'comRegistAddresss', 'comWorkAddresss', 'comField', 'comProduct', 'comIntro', 'comPhone']);
-  res.json(result);
+  if (res.locals.user.isFriend(id)) {
+    // getting friend's info
+    const data = (await User.findById(id, fields.friend)).toObject();
+    assert(data, 'user not found');
+    data.isFriend = true;
+    res.json(data);
+  } else {
+    // getting stranger's info
+    const data = (await User.findById(id, fields.stranger)).toObject();
+    assert(data, 'user not found');
+    data.isFriend = false;
+    res.json(data);
+  }
 };

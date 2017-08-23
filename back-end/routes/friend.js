@@ -5,10 +5,8 @@ const {friend} = require('../controller');
 router
   .get('/list', friend.getFriends)
   .post('/request', friend.request)
-  .get('/request/send', friend.getRequestSend)
-  .get('/request/receive', friend.getRequestRecv)
-  .post('/request/:id/accept', friend.accept)
-  .post('/request/:id/refuse', friend.refuse)
+  .post('/accept/:id', friend.accept)
+  .post('/refuse/:id', friend.refuse)
   .delete('/:id', friend.removeFriend);
 
 module.exports = router;

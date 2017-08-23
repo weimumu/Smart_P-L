@@ -16,8 +16,10 @@ mongoose.connection.on('open', err => {
 
 mongoose.model('User', schemas.User);
 mongoose.model('FriendRequest', schemas.FriendRequest);
+mongoose.model('Message', schemas.Message);
 
 module.exports = {
   User: mongoose.model('User'),
-  FriendRequest: mongoose.model('FriendRequest')
+  FriendRequest: mongoose.model('FriendRequest'),
+  Message: mongoose.model('Message')
 };

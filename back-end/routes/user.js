@@ -9,6 +9,6 @@ router
   .put('/self', user.edit)
   .get('/self', user.getSelf)
   .get('/search', user.search)
-  .get('/:id', user.getBasicInfo);
+  .get('/:id', user.getInfo);
 
 module.exports = router;

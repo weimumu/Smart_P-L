@@ -199,8 +199,13 @@
         try {
           result = await this.$http.post('/api/user', this.message);
         } catch (e) {
+          console.log(e.response);
           if (e.response.status === 400) {
-            return this.$store.commit('info', '该邮箱地址已被注册');
+            if (e.response.data === 'registed email') {
+              return this.$store.commit('info', '该邮箱地址已被注册');
+            } else if (e.response.data === 'registed com') {
+              return this.$store.commit('info', '企业全称重复');
+            }
           }
           return this.$store.commit('info', '网络异常');
         }

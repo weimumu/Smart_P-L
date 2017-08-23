@@ -3,47 +3,62 @@
     <div class="header">
       <div class="tab">
         <mu-tabs :value="activeTab" @change="handleTabChange">
-          <mu-tab value="合作伙伴" title="合作伙伴" />
+          <mu-tab value="合作伙伴" title="合作伙伴" @click="goToMain"/>
           <i class="point"></i>
-          <mu-tab value="借贷业务" title="借贷业务" />
+          <mu-tab value="借贷业务" title="借贷业务" @click="goToMain"/>
           <i class="point" :style="{marginRight: '40px'}"></i>
-          <img src="/static/logo.png" class="logo"> 
+          <img src="/static/logo.png" class="logo" @click="goToHome"> 
           <i class="point" :style="{marginLeft: '40px'}"></i>  
-          <mu-tab value="债券交易" title="债券交易" />
+          <mu-tab value="债券交易" title="债券交易" @click="goToMain"/>
           <i class="point"></i>
-          <mu-tab value="担保业务" title="担保业务" />
+          <mu-tab value="担保业务" title="担保业务" @click="goToMain"/>
         </mu-tabs>
       </div>
       <span class="comName">{{comName}}</span>
-      <img src="/static/homepageImage/tabs/notification.png" class="mesMain"> 
+      <img src="/static/homepageImage/tabs/notification.png" class="mesMain" @click="goToMes"> 
       <div class="bottomLine"></div>
     </div>
-    <div v-if="activeTab === '合作伙伴'">
-      <partner></partner>
-    </div>
-    <div v-if="activeTab === '借贷业务'">
+    <div v-if="messageActive === false">
+      <div v-if="activeTab === '合作伙伴'">
+        <partner></partner>
+      </div>
+      <div v-if="activeTab === '借贷业务'">
       
-    </div>
-    <div v-if="activeTab === '债券交易'">
+      </div>
+      <div v-if="activeTab === '债券交易'">
      
+      </div>
+      <div v-if="activeTab === '担保业务'">
+      </div>
     </div>
-    <div v-if="activeTab === '担保业务'">
-      
+    <div v-if="messageActive">
+      <message @goToMes="goToMain"></message>
     </div>
   </div>
 </template>
 
 <script>
+import message from '../message/messageMain';
 import partner from './partner.vue';
 export default {
   data () {
     return {
-      activeTab: '合作伙伴'
+      activeTab: '合作伙伴',
+      messageActive: false
     };
   },
   methods: {
     handleTabChange (val) {
       this.activeTab = val;
+    },
+    goToMain () {
+      this.messageActive = false;
+    },
+    goToMes () {
+      this.messageActive = true;
+    },
+    goToHome () {
+      this.$router.push('/');
     }
   },
   computed: {
@@ -52,7 +67,8 @@ export default {
     }
   },
   components: {
-    partner
+    partner,
+    message
   }
 };
 </script>
@@ -62,6 +78,8 @@ export default {
 .businessMain {
   min-width: 1100px;
   .header {
+    z-index: 10;
+    background: white;
     position: relative;
     width: 100%;
     height: 80px;
@@ -86,6 +104,7 @@ export default {
       height: 60px;
       margin: 0 auto;
       .logo {
+        cursor: pointer;
         width: 25px;
       }
       .point {

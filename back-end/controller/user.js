@@ -92,9 +92,8 @@ exports.search = async (req, res) => {
       comName: {
         '$regex': excapeRegExp(q)
       }
-    }, fields.stranger)
-    .limit(20);
-  res.json(result);
+    }, fields.stranger);
+  res.json(_.maxBy(result, user => q.length / user.comName.length) || null);
 };
 
 exports.getInfo = async (req, res) => {

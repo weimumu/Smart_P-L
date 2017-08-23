@@ -102,12 +102,14 @@ exports.getInfo = async (req, res) => {
   assert(ObjectId.isValid(id), 'invalid id');
   if (res.locals.user.isFriend(id)) {
     // getting friend's info
-    const data = await User.findById(id, fields.friend);
+    const data = (await User.findById(id, fields.friend)).toObject();
+    assert(data, 'user not found');
     data.isFriend = true;
     res.json(data);
   } else {
     // getting stranger's info
-    const data = await User.findById(id, fields.stranger);
+    const data = (await User.findById(id, fields.stranger)).toObject();
+    assert(data, 'user not found');
     data.isFriend = false;
     res.json(data);
   }

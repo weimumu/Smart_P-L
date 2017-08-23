@@ -7,7 +7,7 @@
           <i class="point"></i>
           <mu-tab value="借贷业务" title="借贷业务" @click="goToMain"/>
           <i class="point" :style="{marginRight: '40px'}"></i>
-          <img src="/static/logo.png" class="logo"> 
+          <img src="/static/logo.png" class="logo" @click="goToHome"> 
           <i class="point" :style="{marginLeft: '40px'}"></i>  
           <mu-tab value="债券交易" title="债券交易" @click="goToMain"/>
           <i class="point"></i>
@@ -32,7 +32,7 @@
       </div>
     </div>
     <div v-if="messageActive">
-      <message></message>
+      <message @goToMes="goToMain"></message>
     </div>
   </div>
 </template>
@@ -56,6 +56,9 @@ export default {
     },
     goToMes () {
       this.messageActive = true;
+    },
+    goToHome () {
+      this.$router.push('/');
     }
   },
   computed: {
@@ -101,6 +104,7 @@ export default {
       height: 60px;
       margin: 0 auto;
       .logo {
+        cursor: pointer;
         width: 25px;
       }
       .point {

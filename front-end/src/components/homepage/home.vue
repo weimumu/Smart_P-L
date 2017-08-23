@@ -63,7 +63,7 @@
     </div>
     </div>
     <div v-if="messageActive">
-      <message></message>
+      <message @goToMes="goToBusiness"></message>
     </div>
     
   </div>
@@ -209,6 +209,7 @@ export default {
     cursor: pointer;
   }
   .conName{
+    z-index: 15;
     position: absolute;
     top: 29px;
     right: 130px;

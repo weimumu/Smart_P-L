@@ -45,7 +45,7 @@
             <div class="contentMes">
               <div class="left">
                 <p>成立时间：{{searchResult.comTime}}</p>
-                <p>注册资本：200美元</p>
+                <p>注册资本：{{searchResult.comCapital}}</p>
                 <p>注册地址：{{searchResult.comRegistAddresss}}</p>
                 <p>办公地址：{{searchResult.comWorkAddresss}}</p>
               </div>
@@ -66,7 +66,7 @@
             <div class="contentMes">
               <div class="left" :style="{marginTop : '20px'}">
                 <p>成立时间：{{comMes.comTime}}</p>
-                <p>注册资本：200美元</p>
+                <p>注册资本：{{comMes.comCapital}}</p>
                 <p>注册地址：{{comMes.comRegistAddresss}}</p>
                 <p>办公地址：{{comMes.comWorkAddresss}}</p>
                 <p>公司电话：{{comMes.comPhone}}</p>
@@ -76,12 +76,12 @@
               </div>
               <div class="right" :style="{marginTop : '20px'}">
                 <p :style="{color: '#d6a12c', fontSize: '18px'}">联系人信息</p>
-                <p>姓名：{{searchResult.comPhone}}</p>
-                <p>职务：{{searchResult.comField}}</p>
-                <p>手机：{{searchResult.comProduct}}</p>
-                <p>电子邮箱：{{searchResult.comProduct}}</p>
-                <p>QQ号码：{{searchResult.comIntro}}</p>
-                <p>公司电话：{{searchResult.comIntro}}</p>
+                <p>姓名：{{comMes.contactName}}</p>
+                <p>职务：{{comMes.contactJob}}</p>
+                <p>手机：{{comMes.contactMobile}}</p>
+                <p>电子邮箱：{{comMes.contactEmail}}</p>
+                <p>QQ号码：{{comMes.contactQQ}}</p>
+                <p>公司电话：{{comMes.contactPhone}}</p>
               </div>
             </div>
           </div>
@@ -126,7 +126,8 @@ export default {
         comPhone: '',
         comField: '',
         comProduct: '',
-        comIntro: ''
+        comIntro: '',
+        comCapital: ''
       },
       comMes: {
       },
@@ -189,17 +190,23 @@ export default {
     },
     async searchFriend () {
       let res = await this.$http.get('/api/user/search?q=' + this.searchContent);
-      if (res.data.length) {
+      if (res.data) {
         this.searchActive = true;
         this.initActive = false;
         for (var key in this.searchResult) {
-          this.searchResult[key] = res.data[0][key];
+          this.searchResult[key] = res.data[key];
         }
       } else {
         this.$store.commit('info', '暂时无此公司记录');
       }
     },
     async addFriend () {
+      for (let i = 0; i < this.friends.length; i++) {
+        if (this.friends[i].comName === this.searchResult.comName) {
+          this.$store.commit('info', '你们已经是好友关系');
+          return;
+        }
+      }
       try {
         await this.$http.post('/api/friend/request?to=' + this.searchResult._id);
         this.$store.commit('info', '请求发送成功，等待回复!');
@@ -404,7 +411,7 @@ export default {
     }
     .contentMes {
       line-height: 1;
-      width: 500px;
+      width: 550px;
       margin: 0 auto;
       font-size: 15px;
       .left, .right{

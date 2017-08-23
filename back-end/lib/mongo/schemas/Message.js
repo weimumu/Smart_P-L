@@ -11,7 +11,7 @@ const messageSchema = new Schema({
     type: String,
     required: true,
     enum: [
-      'FriendRequest-Sent', // when a request is sent
+      // 'FriendRequest-Sent', // when a request is sent
       'FriendRequest-Received', // when received a request
       'FriendRequest-Received&Accepted', // when received & accepted a request
       'FriendRequest-Received&Refused', // when received & refused a request

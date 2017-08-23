@@ -73,11 +73,41 @@
 * response: the same as `regist` except `userPass`
 
 
-### get another's basic info
+### get another's info
 
 * GET `/api/user/:id`
 
 * response: 
+
+* if you are friends:
+
+* ```json
+  {
+      "_id": "",
+      "comName": "阿里巴巴",
+      "comCode": "1",
+      "comCapital": "1",
+      "comTime": "1",
+      "comPerson": "1",
+      "comEmail": "1",
+      "comPhone": "1",
+      "comManager": "1",
+      "comRegistAddresss": "1",
+      "comWorkAddresss": "1",
+      "comField": "1",
+      "comProduct": "1",
+      "comIntro": "1",
+      "contactName": "1",
+      "contactJob": "1",
+      "contactMobile": "1",
+      "contactEmail": "1",
+      "contactQQ": "1",
+      "contactPhone": "1",
+      "isFriend": true
+  }
+  ```
+
+* if not friends:
 
 * ```json
   {
@@ -149,6 +179,20 @@
 
 * example: GET `/api/message/friend?size=5&page=0`
 
+* message types:
+
+* ```javascript
+  [
+    'FriendRequest-Received', // when received a request
+    'FriendRequest-Received&Accepted', // when received & accepted a request
+    'FriendRequest-Received&Refused', // when received & refused a request
+    'FriendRequest-Accepted', // when a request one sent is accepted
+    'FriendRequest-Refused' // when a request one sent is refused
+  ]
+  ```
+
+* ​
+
 ### get messages 
 
 * GET `/api/message?size=SIZE&page=PAGE`
@@ -158,9 +202,9 @@
 
 ### accept add-friend request
 
-* POST `/api/friend/request/:requestId/accept`
+* POST `/api/friend/accept/:messageId`
 
 ### refuse request
 
-* POST `/api/friend/request/:requestId/refuse`
+* POST `/api/friend/refuse/:messageId`
 

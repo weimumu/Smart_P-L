@@ -92,9 +92,8 @@ exports.search = async (req, res) => {
       comName: {
         '$regex': excapeRegExp(q)
       }
-    }, fields.stranger)
-    .limit(20);
-  res.json(result);
+    }, fields.stranger);
+  res.json(_.maxBy(result, user => q.length / user.comName.length) || null);
 };
 
 exports.getInfo = async (req, res) => {
@@ -102,9 +101,15 @@ exports.getInfo = async (req, res) => {
   assert(ObjectId.isValid(id), 'invalid id');
   if (res.locals.user.isFriend(id)) {
     // getting friend's info
-    res.json(await User.findById(id, fields.friend));
+    const data = (await User.findById(id, fields.friend)).toObject();
+    assert(data, 'user not found');
+    data.isFriend = true;
+    res.json(data);
   } else {
     // getting stranger's info
-    res.json(await User.findById(id, fields.stranger));
+    const data = (await User.findById(id, fields.stranger)).toObject();
+    assert(data, 'user not found');
+    data.isFriend = false;
+    res.json(data);
   }
 };

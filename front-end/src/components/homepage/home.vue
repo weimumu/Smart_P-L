@@ -21,7 +21,7 @@
       <div class="tab">
         <button class="registButton" v-if="state === false" @click="goToRegist"></button>
         <div class="conName" @mouseenter="enter" @mouseleave="leave">
-          <div v-if="state === true">{{comName}}</div>
+          <div v-if="state === true" :style="{minWidth: '60px'}">{{comName}}</div>
           <mu-menu v-show="menuActive" class="menu">
             <mu-menu-item title="账户设置"/>
             <mu-menu-item title="退出登录" @click="logout"/>
@@ -134,7 +134,10 @@ export default {
   },
   computed: {
     comName () {
-      return this.$store.getters.getUserMes['comName'].substr(0, 4);
+      if (this.$store.getters.getUserMes['comName'].length > 4) {
+        return this.$store.getters.getUserMes['comName'].substr(0, 4) + '...';
+      }
+      return this.$store.getters.getUserMes['comName'];
     }
   }
 };

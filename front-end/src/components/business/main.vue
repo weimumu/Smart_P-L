@@ -14,7 +14,7 @@
           <mu-tab value="担保业务" title="担保业务" @click="goToMain"/>
         </mu-tabs>
       </div>
-      <span class="comName">{{comName}}</span>
+      <span class="comName" :style="{minWidth: '60px'}">{{comName}}</span>
       <img src="/static/homepageImage/tabs/notification.png" class="mesMain" @click="goToMes"> 
       <div class="bottomLine"></div>
     </div>
@@ -64,7 +64,10 @@ export default {
   },
   computed: {
     comName () {
-      return this.$store.getters.getUserMes['comName'].substr(0, 4);
+      if (this.$store.getters.getUserMes['comName'].length > 4) {
+        return this.$store.getters.getUserMes['comName'].substr(0, 4) + '...';
+      }
+      return this.$store.getters.getUserMes['comName'];
     }
   },
   components: {

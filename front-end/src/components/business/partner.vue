@@ -325,7 +325,7 @@ export default {
   top: 0px;
   position: fixed;
   height: 100%;
-  width: 88px;
+  width: 80px;
   background: url("/static/business/partner/leftTab.png");
   background-size: 100% 100%;
   .Tab{

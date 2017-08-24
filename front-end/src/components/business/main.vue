@@ -23,7 +23,7 @@
         <partner></partner>
       </div>
       <div v-if="activeTab === '借贷业务'">
-      
+        <borrow></borrow>
       </div>
       <div v-if="activeTab === '债券交易'">
      
@@ -40,6 +40,7 @@
 <script>
 import message from '../message/messageMain';
 import partner from './partner.vue';
+import borrow from './borrow';
 export default {
   data () {
     return {
@@ -68,7 +69,8 @@ export default {
   },
   components: {
     partner,
-    message
+    message,
+    borrow
   }
 };
 </script>

@@ -202,7 +202,7 @@ export default {
     border: 0;
     outline: none;
     background: url("/static/homepageImage/tabs/buttonRegist.png");
-    background-size: 68px 29.6px;
+    background-size: 100% 100%;
     position: absolute;
     right: 50px;
     bottom: 26px;

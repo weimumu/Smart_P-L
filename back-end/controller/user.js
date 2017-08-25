@@ -9,7 +9,6 @@ const {ObjectId} = require('mongoose').Types;
  */
 exports.regist = async (req, res) => {
   const user = new User(req.body);
-  console.log(user);
   await asyncAssertThrow(user.validate(), 'validate error');
   assert(!await User.findOne({userEmail: user.userEmail}), 'registed email');
   assert(!await User.findOne({comName: user.comName}), 'registed com');

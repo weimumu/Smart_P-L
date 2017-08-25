@@ -45,7 +45,7 @@
             <div class="contentMes">
               <div class="left">
                 <p>成立时间：{{searchResult.comTime}}</p>
-                <p>注册资本：{{searchResult.comCapital}}</p>
+                <p>注册资本：{{searchResult.comCapital}}万元</p>
                 <p>注册地址：{{searchResult.comRegistAddresss}}</p>
                 <p>办公地址：{{searchResult.comWorkAddresss}}</p>
               </div>
@@ -66,7 +66,7 @@
             <div class="contentMes">
               <div class="left" :style="{marginTop : '20px'}">
                 <p>成立时间：{{comMes.comTime}}</p>
-                <p>注册资本：{{comMes.comCapital}}</p>
+                <p>注册资本：{{comMes.comCapital}}万元</p>
                 <p>注册地址：{{comMes.comRegistAddresss}}</p>
                 <p>办公地址：{{comMes.comWorkAddresss}}</p>
                 <p>公司电话：{{comMes.comPhone}}</p>

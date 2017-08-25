@@ -32,7 +32,10 @@
           <div class="leftPart">
             <myinput v-bind:change.value="message.comName" isActive=true itype='text' itname="企业全称" v-on:tranvalue="fatherValue"></myinput>
             <myinput v-bind:change.value="message.comCode" isActive=true itype='text' itname="组织机构代码" v-on:tranvalue="fatherValue"></myinput>
-            <myinput v-bind:change.value="message.comCapital" hint='例:50万元'isActive=true itype='text' itname="注册资本" v-on:tranvalue="fatherValue"></myinput>
+            <div class="special">
+              <span class="specialSpan">注册资本</span>
+              <input class="specialInput" type="number" v-model.number="message.comCapital" placeholder="以万元为单位">
+            </div>
             <myinput v-bind:change.value="message.comTime" hint='例:1997.06.19' isActive=true itype='text' itname="成立时间" v-on:tranvalue="fatherValue"></myinput>
             <myinput v-bind:change.value="message.comPerson" isActive=true itype='text' itname="法定代表人" v-on:tranvalue="fatherValue"></myinput>
             <myinput v-bind:change.value="message.comEmail" hint='邮箱地址' isActive=true itype='text' itname="公司邮箱" v-on:tranvalue="fatherValue"></myinput>
@@ -42,7 +45,12 @@
             <myinput v-bind:change.value="message.comManager" isActive=true itype='text' itname="总经理" v-on:tranvalue="fatherValue"></myinput>
             <myinput v-bind:change.value="message.comRegistAddresss" hint='例:广东省广州市' isActive=true itype='text' itname="注册地址" v-on:tranvalue="fatherValue"></myinput>
             <myinput v-bind:change.value="message.comWorkAddresss" hint='例:广东省广州市' isActive=true itype='text' itname="办公地址" v-on:tranvalue="fatherValue"></myinput>
-            <myinput v-bind:change.value="message.comField" hint='例:采矿业' isActive=true itype='text' itname="所属行业" v-on:tranvalue="fatherValue"></myinput>
+            <div class="special">
+              <span class="specialSpan">注册资本</span>
+              <select v-model="message.comField" class="select">
+                <option v-for="items in getField">{{items}}</option>
+              </select>
+            </div>
             <myinput v-bind:change.value="message.comProduct" isActive=true itype='text' itname="主营产品" v-on:tranvalue="fatherValue"></myinput>
             <myinput v-bind:change.value="message.comIntro" isActive=true itype='text' itname="企业简介" v-on:tranvalue="fatherValue"></myinput>
           </div>
@@ -423,12 +431,27 @@
       },
       getFileList2 () {
         return this.change.fileList2;
+      },
+      getField () {
+        return func.comField;
       }
     }
   };
 </script>
 
 <style scoped>
+  .select{
+    padding-left: 10px;
+    color: #6f6f6f;
+    font-size: 11.5px;
+    border: 0;
+    background: url("/static/typebox.png");
+    position: absolute;
+    outline: none;
+    width: 228px;
+    height: 30.8px;
+    right: 15px;
+  }
   .submit {
     position: absolute;
     width: 62.216px;
@@ -625,6 +648,34 @@
      margin-bottom: 3.53px;
      font-size: 10px;
      margin-left: -14.2px;
+  }
+  .special{
+    position: relative;
+    display:table;
+    margin-top: 9px;
+    left: 0;
+    width: 341px;
+    height: 30.8px;
+  }
+  .specialSpan {
+    font-family: "Hiragino Sans GB";
+    vertical-align:middle;  
+    display:table-cell;
+    color: #4b4b4b;
+    font-size: 14.2px;
+  }
+  .specialInput{
+    color: #6f6f6f;
+    padding-left: 15px;
+    position: absolute;
+    border: 0;
+    background: url("/static/typebox.png");
+    background-size: 100% 100%;
+    outline: none;
+    font-size: 11.5px;
+    width: 228px;
+    height: 30.8px;
+    right: 15px;
   }
 </style>
 

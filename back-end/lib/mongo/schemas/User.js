@@ -49,8 +49,14 @@ const userSchema = new Schema({
     required: true
   },
   comCapital: {
-    type: String,
+    type: Number,
     required: true
+  },
+  comCreditScore: {
+    type: Number,
+    default: () => {
+      return Math.floor(Math.random() * 51 + 70); // [70, 120]
+    }
   },
   comTime: {
     type: String,

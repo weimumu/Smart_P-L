@@ -3,6 +3,7 @@ exports.stranger = [
   'comName',
   'comTime',
   'comCapital',
+  'comCreditScore',
   'comRegistAddresss',
   'comWorkAddresss',
   'comField',
@@ -12,23 +13,15 @@ exports.stranger = [
 ];
 
 exports.friend = [
-  'comName',
-  'comCode',
-  'comCapital',
-  'comTime',
+  ...exports.stranger,
+  'contactPhone',
   'comPerson',
   'comEmail',
-  'comPhone',
+  'comCode',
   'comManager',
-  'comRegistAddresss',
-  'comWorkAddresss',
-  'comField',
-  'comProduct',
-  'comIntro',
   'contactName',
   'contactJob',
   'contactMobile',
   'contactEmail',
-  'contactQQ',
-  'contactPhone'
+  'contactQQ'
 ];

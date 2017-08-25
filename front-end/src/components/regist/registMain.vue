@@ -45,7 +45,12 @@
             <myinput v-bind:change.value="message.comManager" isActive=true itype='text' itname="总经理" v-on:tranvalue="fatherValue"></myinput>
             <myinput v-bind:change.value="message.comRegistAddresss" hint='例:广东省广州市' isActive=true itype='text' itname="注册地址" v-on:tranvalue="fatherValue"></myinput>
             <myinput v-bind:change.value="message.comWorkAddresss" hint='例:广东省广州市' isActive=true itype='text' itname="办公地址" v-on:tranvalue="fatherValue"></myinput>
-            <myinput v-bind:change.value="message.comField" hint='例:采矿业' isActive=true itype='text' itname="所属行业" v-on:tranvalue="fatherValue"></myinput>
+            <div class="special">
+              <span class="specialSpan">注册资本</span>
+              <select v-model="message.comField" class="select">
+                <option v-for="items in getField">{{items}}</option>
+              </select>
+            </div>
             <myinput v-bind:change.value="message.comProduct" isActive=true itype='text' itname="主营产品" v-on:tranvalue="fatherValue"></myinput>
             <myinput v-bind:change.value="message.comIntro" isActive=true itype='text' itname="企业简介" v-on:tranvalue="fatherValue"></myinput>
           </div>
@@ -426,12 +431,27 @@
       },
       getFileList2 () {
         return this.change.fileList2;
+      },
+      getField () {
+        return func.comField;
       }
     }
   };
 </script>
 
 <style scoped>
+  .select{
+    padding-left: 10px;
+    color: #6f6f6f;
+    font-size: 11.5px;
+    border: 0;
+    background: url("/static/typebox.png");
+    position: absolute;
+    outline: none;
+    width: 228px;
+    height: 30.8px;
+    right: 15px;
+  }
   .submit {
     position: absolute;
     width: 62.216px;

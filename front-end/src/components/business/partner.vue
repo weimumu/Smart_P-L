@@ -229,6 +229,9 @@ export default {
         res = await this.$http.get('/api/friend/list');
         this.friends = res.data;
         for (let i = 0; i < this.friends.length; i++) {
+          if (this.friends[i].comField.length > 10) {
+            this.friends[i].comField = this.friends[i].comField.substr(0, 10);
+          }
           this.friends[i].url = '/static/business/partner/boy.png';
         }
       } catch (e) {
@@ -417,35 +420,44 @@ export default {
       .left, .right{
         text-align: left;
         margin-top: 40px;
-        padding-left: 45px;
+        padding-left: 35px;
         width: 50%;
       }
       .left{
+        width: 51%;
         float: left;
       }
       .right{
+        padding-left: 20px;
+        width: 49%;
         float: right;
       }
     }
-    .addFriend, .delFriend{
+    .addFriend {
+      position: absolute;
+      bottom: -50px;
+      left: 239px;
       width: 112px;
       height: 41px;
       border: 0;
       color: #d6a12c;
       font-size: 16px;
-      position: relative;
-      top: 25px;
       outline: none;
       background: url("/static/business/partner/addFriend.png");
       background-size: 100% 100%;
     }
     .delFriend{
+      border: 0;
+      outline: none;
+      color: #d6a12c;
       width: 100px;
       height: 37px;
       position: relative;
       right: 150px;
-      top: 25px;
+      top: 23px;
       font-size: 15px;
+      background: url("/static/business/partner/addFriend.png");
+      background-size: 100% 100%;
     }
     .special{
       margin-right: 50px;

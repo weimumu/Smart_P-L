@@ -3,10 +3,10 @@
     <div class="leftpart">
         <div  class="info">
             <div class="info1">
-                <img class="info_pic" src="/static/business/borrow/borrowPart/info.png"/>
+                <img class="info_pic" src="/static/business/public/info.png"/>
                 <span class="info_text">请填写贷款信息，获得贷款匹配企业推荐结果</span>
             </div>
-            <img class="dividing" src="/static/business/borrow/borrowPart/dividingline_write.png"/>
+            <img class="dividing" src="/static/business/public/dividingline_write.png"/>
             <div class="info_basic"><span>投资主体：&nbsp;&nbsp;&nbsp;{{basicInfo.comName}}</span></div>
             <div class="info_basic"><span>注册地址：&nbsp;&nbsp;&nbsp;{{basicInfo.comRegistAddresss}}</span></div>
             <div class="info_basic"><span>所属行业：&nbsp;&nbsp;&nbsp;{{basicInfo.comField}}</span></div>
@@ -20,25 +20,25 @@
                 <input class="msg_item" type="number" :style="{width: '94px'}" v-model.number="message.loan_ddl"></input>
                 <span>&nbsp;&nbsp;月内</span>
             </div>
-            <img class="dividing" src="/static/business/borrow/borrowPart/dividingline_write.png"/>
+            <img class="dividing" src="/static/business/public/dividingline_write.png"/>
             <div class="info1" :style="{margin: '10px auto 0px auto'}">
-                <img class="info_pic" src="/static/business/borrow/borrowPart/info.png"/>
+                <img class="info_pic" src="/static/business/public/info.png"/>
                 <span class="info_text">请上传项目附件</span>
             </div>
             <div class="submit_files">
-                <img class="submit_pic" src="/static/business/borrow/borrowPart/icon_addfiles.png"/>
+                <img class="submit_pic" src="/static/business/public/icon_addfiles.png"/>
                 <span class="submit_text">企业营业执照/组织机构代码证/个体工商户营业执照/税务登记证</span>
             </div>
             <div class="submit_files">
-                <img class="submit_pic" src="/static/business/borrow/borrowPart/icon_addfiles.png"/>
+                <img class="submit_pic" src="/static/business/public/icon_addfiles.png"/>
                 <span class="submit_text">企业名下资产证明</span>
             </div>
             <div class="submit_files">
-                <img class="submit_pic" src="/static/business/borrow/borrowPart/icon_addfiles.png"/>
+                <img class="submit_pic" src="/static/business/public/icon_addfiles.png"/>
                 <span class="submit_text">近半年已签约的购销合同及提货单</span>
             </div>
             <div class="submit_files">
-                <img class="submit_pic" src="/static/business/borrow/borrowPart/icon_addfiles.png"/>
+                <img class="submit_pic" src="/static/business/public/icon_addfiles.png"/>
                 <span class="submit_text">近半年税务单</span>
             </div>
             <div class="submit_part" :style="{margin: '40px auto 0px auto'}">
@@ -104,7 +104,7 @@ input{
     padding-top: 30px;
     padding-bottom: 100px;
     .leftpart{
-        width: 72%;
+        width: 100%;
         height: auto;
         display: inline-block;
         .msg_item{

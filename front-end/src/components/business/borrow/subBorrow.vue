@@ -2,11 +2,11 @@
 <div class="sub_borrow">
     <div class="leftpart">
         <div  class="info">
-            <div class="info1">
-                <img class="info_pic" src="/static/business/borrow/borrowPart/info.png"/>
+            <div class="info_part">
+                <img class="info_pic" src="/static/business/public/info.png"/>
                 <span class="info_text">请填写借款信息，获得借款匹配企业推荐结果</span>
             </div>
-            <img class="dividing" src="/static/business/borrow/borrowPart/dividingline_write.png"/>
+            <img class="dividing" src="/static/business/public/dividingline_write.png"/>
             <div class="abstract">
                 <input class="msg_item" id="input_city" type="text" v-model="message.city"></input>
                 <span>市</span>
@@ -77,25 +77,25 @@
             </div>
             <div :style="{margin: '15px auto 0px auto'}"><span>项目概述</span></div>
             <div class="long_input"><textarea type="text" placeholder="（包括项目背景，项目简介，项目进展等，不超过80字）"  maxlength="80"></textarea></div>
-            <img class="dividing" src="/static/business/borrow/borrowPart/dividingline_write.png"/>
-            <div class="info1" :style="{margin: '10px auto 0px auto'}">
-                <img class="info_pic" src="/static/business/borrow/borrowPart/info.png"/>
+            <img class="dividing" src="/static/business/public/dividingline_write.png"/>
+            <div class="info_part" :style="{margin: '10px auto 0px auto'}">
+                <img class="info_pic" src="/static/business/public/info.png"/>
                 <span class="info_text">请上传项目附件</span>
             </div>
             <div class="submit_files">
-                <img class="submit_pic" src="/static/business/borrow/borrowPart/icon_addfiles.png"/>
+                <img class="submit_pic" src="/static/business/public/icon_addfiles.png"/>
                 <span class="submit_text">企业营业执照/组织机构代码证/个体工商户营业执照/税务登记证</span>
             </div>
             <div class="submit_files">
-                <img class="submit_pic" src="/static/business/borrow/borrowPart/icon_addfiles.png"/>
+                <img class="submit_pic" src="/static/business/public/icon_addfiles.png"/>
                 <span class="submit_text">企业名下资产证明</span>
             </div>
             <div class="submit_files">
-                <img class="submit_pic" src="/static/business/borrow/borrowPart/icon_addfiles.png"/>
+                <img class="submit_pic" src="/static/business/public/icon_addfiles.png"/>
                 <span class="submit_text">近半年已签约的购销合同及提货单</span>
             </div>
             <div class="submit_files">
-                <img class="submit_pic" src="/static/business/borrow/borrowPart/icon_addfiles.png"/>
+                <img class="submit_pic" src="/static/business/public/icon_addfiles.png"/>
                 <span class="submit_text">近半年税务单</span>
             </div>
             <div class="submit_part" :style="{margin: '40px auto 0px auto'}">
@@ -115,7 +115,7 @@
             <div class="result_item"><span>企业单笔贷款总风险系数：&emsp;{{result.total_risk_factor}}</span></div>
             <div class="result_item"><span>建议利率：&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{{result.interest_rate_suggested}}</span></div>
             <div class="modify">
-                <img class="modify_pic" src="/static/business/borrow/borrowPart/icon_evaluate_back.png"/>
+                <img class="modify_pic" src="/static/business/public/icon_evaluate_back.png"/>
                 <span class="modify_text">&emsp;在左侧修改信息，重新评估</span>
             </div>
             <button class="submit_button">直接提交</button>
@@ -272,14 +272,14 @@ label::before{
   display: inline-block;
   width: 18px;
   height: 18px;
-  background: url("/static/business/borrow/borrowPart/rec_select.png");
+  background: url("/static/business/public/rec_select.png");
   background-size: 100% 100%;
   vertical-align: middle;
   margin-right: 5px;
   -webkit-box-sizing:border-box;
 }
 input[type="checkbox"]:checked+label::before{
-  background: url("/static/business/borrow/borrowPart/rec_selected.png");
+  background: url("/static/business/public/rec_selected.png");
   background-size: 100% 100%;
 }
 .sub_borrow{
@@ -307,7 +307,7 @@ input[type="checkbox"]:checked+label::before{
             margin-right: auto;
             position: relative;
             left:40px;
-            .info1{
+            .info_part{
                 width: 100%;
                 height: 30px;
                 .info_pic{
@@ -449,7 +449,7 @@ input[type="checkbox"]:checked+label::before{
             width: 3px;
             height: 1200px;
             margin-top: 50px;
-            background: url("/static/business/borrow/borrowPart/line_straight.png");
+            background: url("/static/business/public/line_straight.png");
             background-size: 100% 100%;
         }
         .assess{

@@ -184,7 +184,7 @@ input{
     font-size: 15px;
     padding-top: 30px;
     .leftpart{
-        width: 77%;
+        width: 72%;
         height: 1400px;
         display: inline-block;
         .msg_item{
@@ -200,7 +200,7 @@ input{
             margin-left: auto;
             margin-right: auto;
             position: relative;
-            left: 80px;
+            left:40px;
             .info1{
                 width: 100%;
                 height: 30px;
@@ -328,7 +328,7 @@ input{
     }
     
     .rightpart{
-        width: 23%;
+        width: 28%;
         height: 1400px;
         display: inline-block;
         float: right;
@@ -342,7 +342,7 @@ input{
             background-size: 100% 100%;
         }
         .assess{
-            width: 230px;
+            width: 270px;
             height: 100%;
             display: inline-block;
             float: left;

@@ -19,7 +19,7 @@
       <sub-borrow></sub-borrow>
     </div>
     <div class="lendPart" v-if="show.lend">
-      <span :style="{marginLeft: '100px'}">lend</span>
+      <sub-lend></sub-lend>
     </div>
     <div class="morePart" v-if="show.more">
       <span :style="{marginLeft: '100px'}">more</span>
@@ -29,6 +29,7 @@
 
 <script>
 import subBorrow from './subBorrow.vue';
+import subLend from './subLend.vue';
 export default {
   data () {
     return {
@@ -51,7 +52,8 @@ export default {
     }
   },
   components: {
-    subBorrow
+    subBorrow,
+    subLend
   }
 };
 </script>
@@ -90,6 +92,11 @@ export default {
     }
   }
   .borrowPart{
+    width: 1200px;
+    height: 1100px;
+    margin-left: 80px;
+  }
+  .lendPart{
     width: 1200px;
     height: 1500px;
     margin-left: 80px;

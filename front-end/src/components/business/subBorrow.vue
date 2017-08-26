@@ -8,63 +8,64 @@
             </div>
             <img class="dividing" src="/static/business/borrow/borrowPart/dividingline_write.png"/>
             <div class="abstract">
-                <input class="msg_item" id="input_city" type="text"></input>
+                <input class="msg_item" id="input_city" type="text" v-model="message.city"></input>
                 <span>市</span>
-                <input class="msg_item" id="input_project" type="text"></input>
+                <input class="msg_item" id="input_project" type="text" v-model="message.project"></input>
                 <span>项目借款</span>
-                <input class="msg_item" id="input_amount" type="text"></input>
+                <input class="msg_item" id="input_amount" type="text" v-model="message.amount"></input>
                 <span>人民币</span>
             </div>
-            <div class="info_basic"><span>借款主体&nbsp;&nbsp;&nbsp;{{comName}}</span></div>
-            <div class="info_basic"><span>注册地址&nbsp;&nbsp;&nbsp;{{comAdd}}</span></div>
-            <div class="info_basic"><span>所属行业&nbsp;&nbsp;&nbsp;{{comField}}</span></div>
+            <div class="info_basic"><span>借款主体&nbsp;&nbsp;&nbsp;{{basicInfo.comName}}</span></div>
+            <div class="info_basic"><span>注册地址&nbsp;&nbsp;&nbsp;{{basicInfo.comAdd}}</span></div>
+            <div class="info_basic"><span>所属行业&nbsp;&nbsp;&nbsp;{{basicInfo.comField}}</span></div>
             <div class="info_basic"><span>借款原因</span></div>
-            <div class="long_input"><textarea type="text" placeholder="（请填写借款原因，不超过50字）"  maxlength="50"></textarea></div>
+            <div class="long_input"><textarea type="text" placeholder="（请填写借款原因，不超过50字）"  maxlength="50" v-model="reason"></textarea></div>
             <div class="info2" :style="{margin: '15px auto 0px auto'}">
                 <span>融资金额&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                <input class="msg_item" type="text" :style="{width: '94px'}"></input>
+                <input class="msg_item" type="text" :style="{width: '94px'}" v-model="message.min_amount"></input>
                 <span>&nbsp;&nbsp;万&nbsp;&nbsp;—&nbsp;&nbsp;</span>
-                <input class="msg_item" type="text" :style="{width: '94px'}"></input>
+                <input class="msg_item" type="text" :style="{width: '94px'}" v-model="message.max_amount"></input>
                 <span>&nbsp;&nbsp;万人民币</span>
             </div>
             <div class="info3" :style="{margin: '15px auto 0px auto'}">
                 <span>可承担最高利息&nbsp;&nbsp;</span>
-                <input class="msg_item" type="text" :style="{width: '94px'}"></input>
+                <input class="msg_item" type="text" :style="{width: '94px'}" v-model="message.max_rate"></input>
                 <span>&nbsp;&nbsp;%/年</span>
                 <span class="warning_interest">&nbsp;&nbsp;&nbsp;&nbsp;*不得超过央行基准贷款利率的4倍</span>
             </div>
             <div class="info4" :style="{margin: '15px auto 0px auto'}">
                 <span>预计还款时间&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                <input class="msg_item" type="text" :style="{width: '94px'}"></input>
+                <input class="msg_item" type="text" :style="{width: '94px'}" v-model="message.loan_ddl"></input>
                 <span>&nbsp;&nbsp;月内</span>
             </div>
             <div class="check1" :style="{margin: '15px auto 0px auto'}">
                 <span>还款来源&emsp;&emsp;&emsp;&emsp;</span>
-                <input id="sales" type="checkbox" :style="{width: '18px', height: '18px'}" />
+                <input id="sales" type="checkbox" :style="{width: '18px', height: '18px'}" v-model="message.repaySupport.sales"/>
                 <label for="sales">销售回款&emsp;&emsp;&emsp;&emsp;</label>
-                <input id="othersrc"type="checkbox" :style="{width: '18px', height: '18px'}"/>
+                <input id="othersrc"type="checkbox" :style="{width: '18px', height: '18px'}" v-model="message.repaySupport.other"/>
                 <label for="othersrc" >其他来源</label>
             </div>
             <div class="check2" :style="{margin: '15px auto 0px auto'}">
                 <span>可提供风控&emsp;&emsp;&emsp;</span>
-                <input id="mortgage"type="checkbox" :style="{width: '18px', height: '18px'}"/>
+                <input id="mortgage"type="checkbox" :style="{width: '18px', height: '18px'}" v-model="message.riskControl.mortgage" />
                 <label for="mortgage" >抵押&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</label>
-                <input id="guarentee"type="checkbox" :style="{width: '18px', height: '18px'}"/>
+                <input id="guarentee"type="checkbox" :style="{width: '18px', height: '18px'}" v-model="message.riskControl.guarentee" />
                 <label for="guarentee" >担保</label></br>
                 <span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</span>
-                <input id="other"type="checkbox" :style="{width: '18px', height: '18px'}"/>
+                <input id="other"type="checkbox" :style="{width: '18px', height: '18px'}" v-model="message.riskControl.other" />
                 <label for="other" >其他</label>
+                <input id="other_detail" type="text" v-model="message.riskControl.other_detail" />
             </div>
-            <div class="check3" :style="{margin: '15px auto 0px auto'}">
+            <div class="check3" :style="{margin: '15px auto 0px auto'}" v-if="message.riskControl.mortgage">
                 <span>抵押物类型&emsp;&emsp;&emsp;</span>
-                <input id="fixed_wealth" type="checkbox" :style="{width: '18px', height: '18px'}"/>
+                <input id="fixed_wealth" type="checkbox" :style="{width: '18px', height: '18px'}" v-model="message.riskControl.mortgage_fixed"/>
                 <label for="fixed_wealth">固定资产&emsp;&emsp;&emsp;&emsp;</label>
-                <input id="other_wealth" type="checkbox" :style="{width: '18px', height: '18px'}"/>
+                <input id="other_wealth" type="checkbox" :style="{width: '18px', height: '18px'}" v-model="message.riskControl.mortgage_other"/>
                 <label for="other_wealth">其他资产</label>
             </div>
-            <div class="info5" :style="{margin: '15px auto 0px auto'}">
+            <div class="info5" :style="{margin: '15px auto 0px auto'}" v-if="message.riskControl.mortgage">
                 <span>抵押物市值&emsp;&emsp;&emsp;</span>
-                <input class="msg_item" type="text" :style="{width: '94px'}"></input>
+                <input class="msg_item" type="text" :style="{width: '94px'}" v-model="message.riskControl.mortgage_value"></input>
                 <span>&nbsp;&nbsp;万人民币</span>
             </div>
             <div :style="{margin: '15px auto 0px auto'}"><span>项目概述</span></div>
@@ -120,6 +121,36 @@
   export default{
     data () {
       return {
+        basicInfo: {
+          comName: '',
+          comAdd: '',
+          comField: ''
+        },
+        message: {
+          city: '',
+          project: '',
+          amount: '',
+          reason: '',
+          min_amount: '',
+          max_amount: '',
+          max_rate: '',
+          loan_ddl: '',
+          repaySupport: {
+            sales: false,
+            other: false,
+            other_detail: ''
+          },
+          riskControl: {
+            mortgage: false,
+            guarentee: false,
+            other: false,
+            other_detail: '',
+            mortgage_fixed: false,
+            mortgage_other: false,
+            mortgage_value: '',
+            mortgage_other_detail: ''
+          }
+        },
         result: {
           amount: '',
           risk_factor: '',
@@ -133,20 +164,20 @@
 
 <style lang="scss">
 .sub_borrow{
-    width: 939px;
+    width: 100%;
     height: auto;
     color: #4b4b4b;
-    font-size: 16px;
+    font-size: 15px;
     margin-top: 30px;
     .leftpart{
-        width: 620px;
+        width: 66%;
         height: 1500px;
         display: inline-block;
         float: left;
         .msg_item{
             height: 30px;
             border-radius: 5px;
-            font-size: 16px;
+            font-size: 15px;
             border: 1px solid #4b4b4b;
             text-align: center;
         }
@@ -166,7 +197,7 @@
                 .info_text{
                     display: inline-block;
                     float: left;
-                    font-size: 16px;
+                    font-size: 15px;
                     margin-left: 18px;
                     margin-top: 4px;
                 }
@@ -209,7 +240,7 @@
                     width: 530px;
                     height: 80px;
                     border-radius: 5px;
-                    font-size: 16px;
+                    font-size: 15px;
                     border: 1px solid;
                     color: #cccccc;
                 }
@@ -223,6 +254,15 @@
             .info4{
                 width: 100%;
                 margin-top: 15px;
+            }
+            .check2{
+              #other_detail{
+                width: 190px;
+                border-left-width: 0px;
+                border-right-width: 0px;
+                border-top-width: 0px;
+                border-bottom: #4b4b4b 1px solid;
+              }
             }
             .submit_files {
               width: 530px;
@@ -261,7 +301,7 @@
                 top: 10px;
                 .submit_text{
                   text-decoration: underline;
-                  font-size: 16px;
+                  font-size: 15px;
                   color: #D6A12C;
                 }
               }
@@ -278,15 +318,15 @@
         background-size: 100% 100%;
     }
     .rightpart{
-        width: 316px;
+        width: 33.7%;
         height: auto;
         display: inline-block;
         float: left;
         .assess{
-            width: 264px;
+            width: 230px;
             height: 100%;
-            margin-left: auto;
-            margin-right: auto;
+            float: right;
+            margin-right: 20px;
             .result_title{
               font-size: 25px;
               color: #D6A12C;
@@ -302,7 +342,7 @@
               }
               .modify_text{
                 float: left;
-                font-size: 16px;
+                font-size: 15px;
                 color: #D6A12C;
               }
             }

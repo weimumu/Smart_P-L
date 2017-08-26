@@ -13,13 +13,13 @@
                 <input class="msg_item" id="input_project" type="text" v-model="message.project"></input>
                 <span>项目借款</span>
                 <input class="msg_item" id="input_amount" type="text" v-model="message.amount"></input>
-                <span>人民币</span>
+                <span>万人民币</span>
             </div>
-            <div class="info_basic"><span>借款主体&nbsp;&nbsp;&nbsp;{{basicInfo.comName}}</span></div>
-            <div class="info_basic"><span>注册地址&nbsp;&nbsp;&nbsp;{{basicInfo.comAdd}}</span></div>
-            <div class="info_basic"><span>所属行业&nbsp;&nbsp;&nbsp;{{basicInfo.comField}}</span></div>
+            <div class="info_basic"><span>借款主体：&nbsp;&nbsp;&nbsp;{{basicInfo.comName}}</span></div>
+            <div class="info_basic"><span>注册地址：&nbsp;&nbsp;&nbsp;{{basicInfo.comRegistAddresss}}</span></div>
+            <div class="info_basic"><span>所属行业：&nbsp;&nbsp;&nbsp;{{basicInfo.comField}}</span></div>
             <div class="info_basic"><span>借款原因</span></div>
-            <div class="long_input"><textarea type="text" placeholder="（请填写借款原因，不超过50字）"  maxlength="50" v-model="reason"></textarea></div>
+            <div class="long_input"><textarea type="text" placeholder="（请填写借款原因，不超过50字）"  maxlength="50" v-model="message.reason"></textarea></div>
             <div class="info2" :style="{margin: '15px auto 0px auto'}">
                 <span>融资金额&nbsp;&nbsp;&nbsp;&nbsp;</span>
                 <input class="msg_item" type="text" :style="{width: '94px'}" v-model="message.min_amount"></input>
@@ -133,7 +133,7 @@
       return {
         basicInfo: {
           comName: '',
-          comAdd: '',
+          comRegistAddresss: '',
           comField: ''
         },
         message: {
@@ -169,6 +169,22 @@
           interest_rate_suggested: ''
         }
       };
+    },
+    async created () {
+      this.initData();
+    },
+    methods: {
+      async initData () {
+        let res;
+        try {
+          res = await this.$http.get('/api/user/self');
+          for (var key in this.basicInfo) {
+            this.basicInfo[key] = res.data[key];
+          }
+        } catch (e) {
+
+        }
+      }
     }
   };
 </script>

@@ -94,12 +94,12 @@ export default {
   .borrowPart{
     width: 100%;
     min-width: 1300px;
-    height: 1400px;
+    height: auto;
   }
   .lendPart{
-    width: 1200px;
-    height: 1500px;
-    margin-left: 80px;
+    width: 100%;
+    min-width: 1300px;
+    height: auto;
   }
 }
 </style>

@@ -40,7 +40,7 @@
             </div>
             <div class="check1" :style="{margin: '15px auto 0px auto'}">
                 <span>还款来源&emsp;&emsp;&emsp;&emsp;</span>
-                <input id="sales" type="checkbox" :style="{width: '18px', height: '18px'}" v-model="message.repaySupport.sales"/>
+                <input id="sales" type="checkbox" :style="{width: '18px', height: '18px', border: '2px solid #666'}" v-model="message.repaySupport.sales"/>
                 <label for="sales">销售回款&emsp;&emsp;&emsp;&emsp;</label>
                 <input id="othersrc"type="checkbox" :style="{width: '18px', height: '18px'}" v-model="message.repaySupport.other"/>
                 <label for="othersrc" >其他来源</label>
@@ -173,19 +173,41 @@
   };
 </script>
 
-<style lang="scss">
+<style scoped lang="scss">
 input{
   outline: none;
 }
+input[type="checkbox"]{
+  display: none;
+}
+input[type="checkbox"]+label{
+  display: inline-block;
+}
+label::before{
+  content: "";
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  background: url("/static/business/borrow/borrowPart/rec_select.png");
+  background-size: 100% 100%;
+  vertical-align: middle;
+  margin-right: 5px;
+  -webkit-box-sizing:border-box;
+}
+input[type="checkbox"]:checked+label::before{
+  background: url("/static/business/borrow/borrowPart/rec_selected.png");
+  background-size: 100% 100%;
+}
 .sub_borrow{
     width: 100%;
-    height: 1400px;
+    height: auto;
     color: #4b4b4b;
     font-size: 15px;
     padding-top: 30px;
+    padding-bottom: 100px;
     .leftpart{
         width: 72%;
-        height: 1400px;
+        height: auto;
         display: inline-block;
         .msg_item{
             height: 25px;
@@ -195,8 +217,8 @@ input{
             text-align: center;
         }
         .info{
-            width: 560px;
-            height: 100%;
+            width: 600px;
+            height: auto;
             margin-left: auto;
             margin-right: auto;
             position: relative;
@@ -271,6 +293,8 @@ input{
                 width: 100%;
                 margin-top: 15px;
             }
+            .check1{
+            }
             .check2{
               #other_detail{
                 width: 190px;
@@ -306,6 +330,7 @@ input{
                 width: 147px;
                 border: 0px;
                 display: inline-block;
+                float: left;
                 margin-left: 190px;
                 margin-top: 20px;
                 cursor: pointer;
@@ -314,9 +339,10 @@ input{
               }
               .submit_directly{
                 display: inline-block;
-                float: right;
+                float: left;
                 position: relative;
                 top: 32px;
+                left: 135px;
                 .submit_text{
                   text-decoration: underline;
                   font-size: 15px;
@@ -329,21 +355,21 @@ input{
     
     .rightpart{
         width: 28%;
-        height: 1400px;
+        height: auto;
         display: inline-block;
         float: right;
         .line{
             display: inline-block;
             float: left;
             width: 3px;
-            height: 1317px;
+            height: 1200px;
             margin-top: 50px;
             background: url("/static/business/borrow/borrowPart/line_straight.png");
             background-size: 100% 100%;
         }
         .assess{
             width: 270px;
-            height: 100%;
+            height: auto;
             display: inline-block;
             float: left;
             margin-left: 40px;
@@ -364,6 +390,8 @@ input{
                 float: left;
                 font-size: 15px;
                 color: #D6A12C;
+                position: relative;
+                top: -3px;
               }
             }
             .submit_button{

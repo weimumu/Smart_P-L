@@ -95,7 +95,11 @@
   };
 </script>
 
+<<<<<<< HEAD
 <style scoped lang="scss">
+=======
+<style lang="scss" scoped>
+>>>>>>> c31ad3c5ac71d02de5ddea456b5999b9a2712add
 input{
   outline: none;
 }

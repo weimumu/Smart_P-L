@@ -12,30 +12,28 @@
                 <span>市</span>
                 <input class="msg_item" id="input_project" type="text" v-model="message.project"></input>
                 <span>项目借款</span>
-                <input class="msg_item" id="input_amount" type="text" v-model="message.amount"></input>
-                <span>人民币</span>
+                <input class="msg_item" id="input_amount" type="number" v-model.number="message.amount"></input>
+                <span>万人民币</span>
             </div>
-            <div class="info_basic"><span>借款主体&nbsp;&nbsp;&nbsp;{{basicInfo.comName}}</span></div>
-            <div class="info_basic"><span>注册地址&nbsp;&nbsp;&nbsp;{{basicInfo.comAdd}}</span></div>
-            <div class="info_basic"><span>所属行业&nbsp;&nbsp;&nbsp;{{basicInfo.comField}}</span></div>
+            <div class="info_basic"><span>借款主体：&nbsp;&nbsp;&nbsp;{{basicInfo.comName}}</span></div>
+            <div class="info_basic"><span>注册地址：&nbsp;&nbsp;&nbsp;{{basicInfo.comRegistAddresss}}</span></div>
+            <div class="info_basic"><span>所属行业：&nbsp;&nbsp;&nbsp;{{basicInfo.comField}}</span></div>
             <div class="info_basic"><span>借款原因</span></div>
-            <div class="long_input"><textarea type="text" placeholder="（请填写借款原因，不超过50字）"  maxlength="50" v-model="reason"></textarea></div>
+            <div class="long_input"><textarea type="text" placeholder="（请填写借款原因，不超过50字）"  maxlength="50" v-model="message.reason"></textarea></div>
             <div class="info2" :style="{margin: '15px auto 0px auto'}">
                 <span>融资金额&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                <input class="msg_item" type="text" :style="{width: '94px'}" v-model="message.min_amount"></input>
-                <span>&nbsp;&nbsp;万&nbsp;&nbsp;—&nbsp;&nbsp;</span>
-                <input class="msg_item" type="text" :style="{width: '94px'}" v-model="message.max_amount"></input>
+                <input class="msg_item" type="number" :style="{width: '94px'}" v-model.number="message.max_amount"></input>
                 <span>&nbsp;&nbsp;万人民币</span>
             </div>
             <div class="info3" :style="{margin: '15px auto 0px auto'}">
                 <span>可承担最高利息&nbsp;&nbsp;</span>
-                <input class="msg_item" type="text" :style="{width: '94px'}" v-model="message.max_rate"></input>
+                <input class="msg_item" type="number" :style="{width: '94px'}" v-model.number="message.max_rate"></input>
                 <span>&nbsp;&nbsp;%/年</span>
                 <span class="warning_interest">&nbsp;&nbsp;&nbsp;&nbsp;*不得超过央行基准贷款利率的4倍</span>
             </div>
             <div class="info4" :style="{margin: '15px auto 0px auto'}">
                 <span>预计还款时间&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                <input class="msg_item" type="text" :style="{width: '94px'}" v-model="message.loan_ddl"></input>
+                <input class="msg_item" type="number" :style="{width: '94px'}" v-model.number="message.loan_ddl"></input>
                 <span>&nbsp;&nbsp;月内</span>
             </div>
             <div class="check1" :style="{margin: '15px auto 0px auto'}">
@@ -65,7 +63,7 @@
             </div>
             <div class="info5" :style="{margin: '15px auto 0px auto'}" v-if="message.riskControl.mortgage">
                 <span>抵押物市值&emsp;&emsp;&emsp;</span>
-                <input class="msg_item" type="text" :style="{width: '94px'}" v-model="message.riskControl.mortgage_value"></input>
+                <input class="msg_item" type="number" :style="{width: '94px'}" v-model.number="message.riskControl.mortgage_value"></input>
                 <span>&nbsp;&nbsp;万人民币</span>
             </div>
             <div :style="{margin: '15px auto 0px auto'}" v-if="message.riskControl.guarentee">
@@ -74,7 +72,7 @@
             </div>
             <div :style="{margin: '15px auto 0px auto'}" v-if="message.riskControl.guarentee">
                 <span>担保额度&emsp;&emsp;&emsp;&emsp;</span>
-                <input class="msg_item" type="text" :style="{width: '94px'}" v-model="message.riskControl.guarentee_amount" />
+                <input class="msg_item" type="number" :style="{width: '94px'}" v-model.number="message.riskControl.guarentee_amount" />
                 <span>&nbsp;&nbsp;万人民币</span>
             </div>
             <div :style="{margin: '15px auto 0px auto'}"><span>项目概述</span></div>
@@ -101,7 +99,7 @@
                 <span class="submit_text">近半年税务单</span>
             </div>
             <div class="submit_part" :style="{margin: '40px auto 0px auto'}">
-                <input type="button" class="eval_button"/>
+                <button class="eval_button" @click="evaluate">风险及额度评估</button>
                 <a class="submit_directly"><span class="submit_text">直接提交</span></a>
             </div>
         </div>
@@ -112,8 +110,8 @@
         <div class="line"></div>
         <div class="assess">
             <div class="result_title"><span>风险及额度评估</span></div>
-            <div class="result_item"><span>企业建议最高贷款额度：&emsp;&emsp;{{result.amount}}</span></div>
-            <div class="result_item"><span>单笔贷款金额风险系数：&emsp;&emsp;{{result.risk_factor}}</span></div>
+            <div class="result_item"><span>企业建议最高贷款额度：&emsp;{{result.amount}}</span></div>
+            <div class="result_item"><span>单笔贷款金额风险系数：&emsp;{{result.risk_factor}}</span></div>
             <div class="result_item"><span>企业单笔贷款总风险系数：&emsp;{{result.total_risk_factor}}</span></div>
             <div class="result_item"><span>建议利率：&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;{{result.interest_rate_suggested}}</span></div>
             <div class="modify">
@@ -123,6 +121,13 @@
             <input type="button" class="submit_button"/>
         </div>
     </div>
+
+    <div>
+      <mu-dialog :open="dialog" title="错误提示">
+        {{wrongMes}}
+        <mu-flat-button label="确定" slot="actions" primary @click="close"/>
+      </mu-dialog>
+    </div>
 </div>
 </template>
 
@@ -131,17 +136,20 @@
   export default{
     data () {
       return {
+        wrongMes: '',
+        dialog: false,
         basicInfo: {
           comName: '',
-          comAdd: '',
-          comField: ''
+          comRegistAddresss: '',
+          comField: '',
+          comCreditScore: '',
+          comCapital: ''
         },
         message: {
           city: '',
           project: '',
           amount: '',
           reason: '',
-          min_amount: '',
           max_amount: '',
           max_rate: '',
           loan_ddl: '',
@@ -156,10 +164,10 @@
             other_detail: '',
             mortgage_fixed: false,
             mortgage_other: false,
-            mortgage_value: '',
+            mortgage_value: 0,
             mortgage_other_detail: '',
             guarentee_comName: '',
-            guarentee_amount: ''
+            guarentee_amount: 0
           }
         },
         result: {
@@ -169,11 +177,87 @@
           interest_rate_suggested: ''
         }
       };
+    },
+    async created () {
+      this.initData();
+    },
+    methods: {
+      close () {
+        this.dialog = false;
+      },
+      async initData () {
+        let res;
+        try {
+          res = await this.$http.get('/api/user/self');
+          for (var key in this.basicInfo) {
+            this.basicInfo[key] = res.data[key];
+          }
+        } catch (e) {
+
+        }
+      },
+      validate (mes) {
+        for (var key in mes) {
+          if (key.toString() === 'riskControl') {
+            if (mes[key].mortgage && mes[key].mortgage_value <= 0) {
+              return '请正确填写抵押物市值';
+            }
+            if (mes[key].guarentee) {
+              if (mes[key].guarentee_comName === '') {
+                return '请正确填写担保公司名称';
+              }
+              if (mes[key].guarentee_amount <= 0) {
+                return '请正确填写担保额度';
+              }
+            }
+          } else if (key.toString() === 'repaySupport') {
+            continue;
+          } else {
+            if (mes[key] === '') {
+              return '信息填写不完整';
+            }
+            if (mes.amount < 0) {
+              return '请正确填写借款额度';
+            }
+            if (mes.loan_ddl <= 3) {
+              return '贷款期限必须大于3个月';
+            }
+            if (mes.max_amount !== mes.amount) {
+              return '融资金额与标题借款额度不一致';
+            }
+            if (mes.max_rate < 0 || mes.max_rate > 4.90 * 4) {
+              return '请正确填写可承担最高利息';
+            }
+          }
+        }
+        return 'true';
+      },
+      evaluate () {
+        let res = this.validate(this.message);
+        if (res !== 'true') {
+          this.wrongMes = res;
+          this.dialog = true;
+          return;
+        }
+        this.result.amount = this.basicInfo.comCreditScore * this.basicInfo.comCapital * 1.5 / 100;
+        this.result.risk_factor = ((this.message.max_amount - 0.5 * (this.message.riskControl.guarentee_amount + this.message.riskControl.mortgage_value)) / this.result.amount).toFixed(4);
+        this.result.total_risk_factor = (this.result.risk_factor * (1.0 + Math.log(4.0 * this.message.loan_ddl / 12))).toFixed(4);
+        if (this.message.loan_ddl <= 12) {
+          this.result.interest_rate_suggested = (4.35 * this.result.total_risk_factor).toFixed(4);
+        } else if (this.message.loan_ddl > 12 && this.message.loan_ddl <= 60) {
+          this.result.interest_rate_suggested = (4.75 * this.result.total_risk_factor).toFixed(4);
+        } else {
+          this.result.interest_rate_suggested = (4.90 * this.result.total_risk_factor).toFixed(4);
+        }
+        this.result.amount += '万元';
+        this.result.interest_rate_suggested += '%';
+        this.$store.commit('info', '评估成功，请查看右侧评估结果');
+      }
     }
   };
 </script>
 
-<style scoped lang="scss">
+<style lang="scss" scoped>
 input{
   outline: none;
 }
@@ -326,6 +410,8 @@ input[type="checkbox"]:checked+label::before{
             }
             .submit_part{
               .eval_button{
+                border-radius: 20px;
+                color: #ffffff;
                 height: 42px;
                 width: 147px;
                 border: 0px;
@@ -334,8 +420,7 @@ input[type="checkbox"]:checked+label::before{
                 margin-left: 190px;
                 margin-top: 20px;
                 cursor: pointer;
-                background: url("/static/business/borrow/borrowPart/eval_button.png");
-                background-size: 100% 100%;
+                background: #D6A12C;
               }
               .submit_directly{
                 display: inline-block;
@@ -406,4 +491,19 @@ input[type="checkbox"]:checked+label::before{
         }
     }
 }
+</style>
+
+<style lang="scss">
+.mu-dialog-title, .mu-flat-button-label{
+    color: #d6a12c;
+  }
+  .mu-dialog-title{
+    font-size: 20px;
+  }
+  .mu-dialog-body {
+    font-size: 16px;
+  }
+  .mu-dialog{
+    width: 50%;
+  }
 </style>

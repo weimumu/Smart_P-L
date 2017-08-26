@@ -92,9 +92,9 @@ export default {
     }
   }
   .borrowPart{
-    width: 1200px;
-    height: 1100px;
-    margin-left: 80px;
+    width: 100%;
+    min-width: 1300px;
+    height: 1400px;
   }
   .lendPart{
     width: 1200px;

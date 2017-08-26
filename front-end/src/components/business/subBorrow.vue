@@ -107,8 +107,9 @@
         </div>
         
     </div>
-    <div class="line"></div>
+    
     <div class="rightpart">
+        <div class="line"></div>
         <div class="assess">
             <div class="result_title"><span>风险及额度评估</span></div>
             <div class="result_item"><span>企业建议最高贷款额度：&emsp;&emsp;{{result.amount}}</span></div>
@@ -178,15 +179,14 @@ input{
 }
 .sub_borrow{
     width: 100%;
-    height: auto;
+    height: 1400px;
     color: #4b4b4b;
     font-size: 15px;
-    margin-top: 30px;
+    padding-top: 30px;
     .leftpart{
-        width: 80%;
-        height: 1100px;
+        width: 77%;
+        height: 1400px;
         display: inline-block;
-        float: left;
         .msg_item{
             height: 25px;
             border-radius: 5px;
@@ -195,10 +195,12 @@ input{
             text-align: center;
         }
         .info{
-            width: 65%;
+            width: 530px;
             height: 100%;
             margin-left: auto;
             margin-right: auto;
+            position: relative;
+            left: 80px;
             .info1{
                 width: 100%;
                 height: 30px;
@@ -325,23 +327,25 @@ input{
             }
         }
     }
-    .line{
-        display: inline-block;
-        float: left;
-        width: 3px;
-        height: 1317px;
-        margin-top: 50px;
-        background: url("/static/business/borrow/borrowPart/line_straight.png");
-        background-size: 100% 100%;
-    }
+    
     .rightpart{
-        width: 14%;
-        height: 1100px;
+        width: 23%;
+        height: 1400px;
         display: inline-block;
-        float: left;
+        float: right;
+        .line{
+            display: inline-block;
+            float: left;
+            width: 3px;
+            height: 1317px;
+            margin-top: 50px;
+            background: url("/static/business/borrow/borrowPart/line_straight.png");
+            background-size: 100% 100%;
+        }
         .assess{
             width: 230px;
             height: 100%;
+            display: inline-block;
             float: left;
             margin-left: 40px;
             .result_title{

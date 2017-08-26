@@ -317,7 +317,6 @@ input{
                 float: right;
                 position: relative;
                 top: 32px;
-                left: -300px;
                 .submit_text{
                   text-decoration: underline;
                   font-size: 15px;

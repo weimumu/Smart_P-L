@@ -24,9 +24,10 @@ export default {
   width: 100%;
   height: 100%;
 }
-button{
+button, input{
   outline:none;
 }
+
 .popup-top {
   background-color: #d6a12c !important;
   color: #ffffff !important;

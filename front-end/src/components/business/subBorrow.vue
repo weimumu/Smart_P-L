@@ -68,6 +68,15 @@
                 <input class="msg_item" type="text" :style="{width: '94px'}" v-model="message.riskControl.mortgage_value"></input>
                 <span>&nbsp;&nbsp;万人民币</span>
             </div>
+            <div :style="{margin: '15px auto 0px auto'}" v-if="message.riskControl.guarentee">
+                <span>担保公司名称&emsp;&emsp;</span>
+                <input class="msg_item" type="text" :style="{width: '200px'}" v-model="message.riskControl.guarentee_comName" />
+            </div>
+            <div :style="{margin: '15px auto 0px auto'}" v-if="message.riskControl.guarentee">
+                <span>担保额度&emsp;&emsp;&emsp;&emsp;</span>
+                <input class="msg_item" type="text" :style="{width: '94px'}" v-model="message.riskControl.guarentee_amount" />
+                <span>&nbsp;&nbsp;万人民币</span>
+            </div>
             <div :style="{margin: '15px auto 0px auto'}"><span>项目概述</span></div>
             <div class="long_input"><textarea type="text" placeholder="（包括项目背景，项目简介，项目进展等，不超过80字）"  maxlength="80"></textarea></div>
             <img class="dividing" src="/static/business/borrow/borrowPart/dividingline_write.png"/>
@@ -137,8 +146,7 @@
           loan_ddl: '',
           repaySupport: {
             sales: false,
-            other: false,
-            other_detail: ''
+            other: false
           },
           riskControl: {
             mortgage: false,
@@ -148,7 +156,9 @@
             mortgage_fixed: false,
             mortgage_other: false,
             mortgage_value: '',
-            mortgage_other_detail: ''
+            mortgage_other_detail: '',
+            guarentee_comName: '',
+            guarentee_amount: ''
           }
         },
         result: {
@@ -163,6 +173,9 @@
 </script>
 
 <style lang="scss">
+input{
+  outline: none;
+}
 .sub_borrow{
     width: 100%;
     height: auto;
@@ -170,19 +183,19 @@
     font-size: 15px;
     margin-top: 30px;
     .leftpart{
-        width: 66%;
+        width: 85%;
         height: 1500px;
         display: inline-block;
         float: left;
         .msg_item{
-            height: 30px;
+            height: 25px;
             border-radius: 5px;
             font-size: 15px;
             border: 1px solid #4b4b4b;
             text-align: center;
         }
         .info{
-            width: 538px;
+            width: 80%;
             height: 100%;
             margin-left: auto;
             margin-right: auto;
@@ -203,7 +216,8 @@
                 }
             }
             .dividing{
-                size: 530px 7px;
+                width: 100%;
+                height: 7px;
                 margin-top: 30px;
             }
             .abstract{
@@ -237,7 +251,7 @@
                 height: 82px;
                 margin-top: 12px; 
                 textarea{
-                    width: 530px;
+                    width: 100%;
                     height: 80px;
                     border-radius: 5px;
                     font-size: 15px;
@@ -268,7 +282,8 @@
               width: 530px;
               height: 92px;
               text-align: center;
-              margin: 15px auto 0px auto;
+              float: left;
+              margin-top: 15px;
               border: 1px solid #4b4b4b;
               border-radius: 5px;
               padding-top: 20px;
@@ -290,6 +305,7 @@
                 border: 0px;
                 display: inline-block;
                 margin-left: 190px;
+                margin-top: 20px;
                 cursor: pointer;
                 background: url("/static/business/borrow/borrowPart/eval_button.png");
                 background-size: 100% 100%;
@@ -298,7 +314,8 @@
                 display: inline-block;
                 float: right;
                 position: relative;
-                top: 10px;
+                top: 32px;
+                left: -300px;
                 .submit_text{
                   text-decoration: underline;
                   font-size: 15px;
@@ -318,15 +335,15 @@
         background-size: 100% 100%;
     }
     .rightpart{
-        width: 33.7%;
+        width: 14.7%;
         height: auto;
         display: inline-block;
         float: left;
         .assess{
             width: 230px;
             height: 100%;
-            float: right;
-            margin-right: 20px;
+            float: left;
+            margin-left: 40px;
             .result_title{
               font-size: 25px;
               color: #D6A12C;

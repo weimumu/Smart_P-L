@@ -29,6 +29,7 @@
      
       </div>
       <div v-if="activeTab === '担保业务'">
+        <guarantee></guarantee>
       </div>
     </div>
     <div v-if="messageActive">
@@ -39,8 +40,9 @@
 
 <script>
 import message from '../message/messageMain';
-import partner from './partner.vue';
-import borrow from './borrow';
+import partner from './partner/partner';
+import borrow from './borrow/borrow';
+import guarantee from './guarantee/guarantee';
 export default {
   data () {
     return {
@@ -73,7 +75,8 @@ export default {
   components: {
     partner,
     message,
-    borrow
+    borrow,
+    guarantee
   }
 };
 </script>

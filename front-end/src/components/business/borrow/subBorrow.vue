@@ -118,7 +118,7 @@
                 <img class="modify_pic" src="/static/business/borrow/borrowPart/icon_evaluate_back.png"/>
                 <span class="modify_text">&emsp;在左侧修改信息，重新评估</span>
             </div>
-            <input type="button" class="submit_button"/>
+            <button class="submit_button">直接提交</button>
         </div>
     </div>
 
@@ -482,11 +482,12 @@ input[type="checkbox"]:checked+label::before{
             .submit_button{
               height: 40px;
               width: 146px;
-              border: 0px;
+              border-radius: 20px;
+              color: #D6A12C;
+              background-color: #ffffff;
               margin-top: 20px;
               cursor: pointer;
-              background: url("/static/business/borrow/borrowPart/button_submit.png");
-              background-size: 100% 100%;
+              border: 1px solid #D6A12C;
             }
         }
     }

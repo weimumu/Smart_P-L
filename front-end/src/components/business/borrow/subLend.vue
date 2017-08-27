@@ -115,7 +115,7 @@ input{
             text-align: center;
         }
         .info{
-            width: 600px;
+            width: 700px;
             height: auto;
             margin-left: auto;
             margin-right: auto;

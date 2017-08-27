@@ -15,11 +15,10 @@
                 <input class="msg_item" id="input_amount" type="number" v-model.number="message.amount"></input>
                 <span>万人民币担保申请</span>
             </div>
-            <div class="info_basic"><span>担保申请主体：&nbsp;&nbsp;&nbsp;{{basicInfo.comName}}</span></div>
-            <div class="info_basic"><span>注册地址：&nbsp;&nbsp;&nbsp;{{basicInfo.comRegistAddresss}}</span></div>
-            <div class="info_basic"><span>所属行业：&nbsp;&nbsp;&nbsp;{{basicInfo.comField}}</span></div>
-            <div class="info_basic"><span>注册资本：&nbsp;&nbsp;&nbsp;{{basicInfo.comCapital}}</span></div>
-            <div class="info_basic"><span>愿意担保的企业行业类型：（多选）&nbsp;&nbsp;&nbsp;{{basicInfo.comCapital}}</span></div>
+            <div class="info_basic"><span>担保申请主体：&emsp;&emsp;{{basicInfo.comName}}</span></div>
+            <div class="info_basic"><span>注册地址：&emsp;&emsp;&emsp;&emsp;{{basicInfo.comRegistAddresss}}</span></div>
+            <div class="info_basic"><span>所属行业：&emsp;&emsp;&emsp;&emsp;{{basicInfo.comField}}</span></div>
+            <div class="info_basic"><span>注册资本：&emsp;&emsp;&emsp;&emsp;{{basicInfo.comCapital}}</span></div>
             <div class="info_basic"><span>担保贷款项目简述</span></div>
             <div class="long_input"><textarea type="text" placeholder="（请填写项目简述，不超过100字）"  maxlength="100" v-model="message.project_brief"></textarea></div>
             <div class="check" :style="{margin: '15px auto 0px auto'}">
@@ -145,6 +144,22 @@
           }
         }
       };
+    },
+    async created () {
+      this.initData();
+    },
+    methods: {
+      async initData () {
+        let res;
+        try {
+          res = await this.$http.get('/api/user/self');
+          for (var key in this.basicInfo) {
+            this.basicInfo[key] = res.data[key];
+          }
+        } catch (e) {
+
+        }
+      }
     }
   };
 </script>

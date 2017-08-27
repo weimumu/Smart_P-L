@@ -26,7 +26,7 @@
         <borrow></borrow>
       </div>
       <div v-if="activeTab === '债券交易'">
-     
+        <bondtrade></bondtrade>
       </div>
       <div v-if="activeTab === '担保业务'">
         <guarantee></guarantee>
@@ -43,6 +43,7 @@ import message from '../message/messageMain';
 import partner from './partner/partner';
 import borrow from './borrow/borrow';
 import guarantee from './guarantee/guarantee';
+import bondtrade from './bondtrade/bondtrade';
 export default {
   data () {
     return {
@@ -76,7 +77,8 @@ export default {
     partner,
     message,
     borrow,
-    guarantee
+    guarantee,
+    bondtrade
   }
 };
 </script>

@@ -23,8 +23,6 @@
             <div class="long_input"><textarea type="text" placeholder="（请填写项目简述，不超过100字）"  maxlength="100" v-model="message.project_brief"></textarea></div>
             <div class="info_item" :style="{margin: '15px auto 0px auto'}">
                 <span>担保费用&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                <input class="msg_item" type="number" :style="{width: '94px'}" v-model.number="message.min_amount"></input>
-                <span>&emsp;万&emsp;—&emsp;</span>
                 <input class="msg_item" type="number" :style="{width: '94px'}" v-model.number="message.max_amount"></input>
                 <span>&emsp;万人民币</span>
             </div>

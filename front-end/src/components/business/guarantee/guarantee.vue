@@ -15,11 +15,11 @@
         </div>
       </div>
     </div>
-    <div class="borrowPart" v-if="show.borrow">
-      <span :style="{marginLeft: '80px'}">寻求担保</span>
+    <div class="seekPart" v-if="show.borrow">
+      <seekfor-guarantee></seekfor-guarantee>
     </div>
-    <div class="lendPart" v-if="show.lend">
-      <span :style="{marginLeft: '80px'}">我愿担保</span>
+    <div class="offerPart" v-if="show.lend">
+      <offer-guarantee></offer-guarantee>
     </div>
     <div class="morePart" v-if="show.more">
       <span :style="{marginLeft: '80px'}">更多</span>
@@ -28,6 +28,8 @@
 </template>
 
 <script>
+import seekforGuarantee from './seekforGuarantee.vue';
+import offerGuarantee from './offerGuarantee.vue';
 export default {
   data () {
     return {
@@ -50,6 +52,8 @@ export default {
     }
   },
   components: {
+    seekforGuarantee,
+    offerGuarantee
   }
 };
 </script>
@@ -87,12 +91,12 @@ export default {
       background: url("/static/business/partner/leftLine.png");
     }
   }
-  .borrowPart{
+  .seekPart{
     width: 100%;
     min-width: 1300px;
     height: auto;
   }
-  .lendPart{
+  .offerPart{
     width: 100%;
     min-width: 1300px;
     height: auto;

@@ -47,6 +47,10 @@
         </div>
         
     </div>
+
+    <div class="rightpart">
+        <div class="line"></div>
+    </div>
 </div>
 </template>
 
@@ -104,7 +108,7 @@ input{
     padding-top: 30px;
     padding-bottom: 100px;
     .leftpart{
-        width: 100%;
+        width: 72%;
         height: auto;
         display: inline-block;
         .msg_item{
@@ -115,7 +119,7 @@ input{
             text-align: center;
         }
         .info{
-            width: 700px;
+            width: 600px;
             height: auto;
             margin-left: auto;
             margin-right: auto;
@@ -198,6 +202,21 @@ input{
                 }
               }
             }
+        }
+    }
+    .rightpart{
+        width: 28%;
+        height: auto;
+        display: inline-block;
+        float: right;
+        .line{
+            display: inline-block;
+            float: left;
+            width: 3px;
+            height: 750px;
+            margin-top: 50px;
+            background: url("/static/business/public/line_straight.png");
+            background-size: 100% 100%;
         }
     }
 }

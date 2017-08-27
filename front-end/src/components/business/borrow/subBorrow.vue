@@ -363,8 +363,12 @@ input[type="checkbox"]:checked+label::before{
                     height: 80px;
                     border-radius: 5px;
                     font-size: 15px;
-                    border: 1px solid;
+                    border: 1px solid #4b4b4b;
                     color: #cccccc;
+                    resize: none;
+                }
+                textarea:focus{
+                    outline: 1px solid #d6a12c;
                 }
             }
             .info3{

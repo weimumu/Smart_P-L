@@ -56,6 +56,8 @@
             <div class="long_input"><textarea type="text" v-model="message.situation.about_repaySource"></textarea></div>
             <div :style="{margin: '15px auto 0px auto'}"><span>还款计划</span></div>
             <div class="long_input"><textarea type="text" v-model="message.situation.about_repayPlan"></textarea></div>
+            <div :style="{margin: '15px auto 0px auto'}"><span>企业资产负债状况说明</span></div>
+            <div class="long_input"><textarea type="text" v-model="message.situation.about_debt"></textarea></div>
             <img class="dividing" src="/static/business/public/dividingline_write.png"/>
             <div class="info_part" :style="{margin: '10px auto 0px auto'}">
                 <img class="info_pic" src="/static/business/public/info.png"/>
@@ -160,7 +162,8 @@
           situation: {
             about_borrow: '',
             about_repaySource: '',
-            about_repayPlan: ''
+            about_repayPlan: '',
+            about_debt: ''
           }
         },
         result: {
@@ -354,8 +357,12 @@ input[type="checkbox"]:checked+label::before{
                     height: 80px;
                     border-radius: 5px;
                     font-size: 15px;
-                    border: 1px solid;
+                    border: 1px solid #4b4b4b;
+                    resize: none;
                     color: #cccccc;
+                }
+                textarea:focus{
+                    outline: 1px solid #d6a12c;
                 }
             }
             .submit_files {

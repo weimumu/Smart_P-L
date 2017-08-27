@@ -38,9 +38,8 @@
             </div>
             <div class="info_item" :style="{margin: '15px auto 0px auto'}">
                 <span>申请担保的贷款期限&emsp;&emsp;&emsp;</span>
-                <input class="msg_item" type="date" :style="{width: '174px'}" v-model.date="message.loan_ddl.start_date"></input>
-                <span>&emsp;至&emsp;</span>
-                <input class="msg_item" type="date" :style="{width: '174px'}" v-model.date="message.loan_ddl.end_date"></input>
+                <input class="msg_item" type="number" :style="{width: '94px'}" v-model.number="message.loan_ddl"></input>
+                <span>&emsp;月内</span>
             </div>
             <div class="check" :style="{margin: '15px auto 0px auto'}">
                 <span>寻求担保方式&emsp;&emsp;</span>
@@ -152,10 +151,7 @@
           max_amount: 0,
           amount_guarantee: 0,
           rate_guarantee: 0,
-          loan_ddl: {
-            start_date: '2017/08/27',
-            end_date: '2018/08/27'
-          },
+          loan_ddl: 0,
           guarantee_way: {
             single: false,
             multi: false,

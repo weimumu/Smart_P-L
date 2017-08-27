@@ -34,6 +34,11 @@
                 <label for="fiveyear" >五年内</label>
             </div>
             <div class="info_item" :style="{margin: '15px auto 0px auto'}">
+                <span>愿意担保的贷款额度&emsp;&emsp;</span>
+                <input class="msg_item" type="number" :style="{width: '94px'}" v-model.number="message.max_amount"></input>
+                <span>&emsp;万人民币</span>
+            </div>
+            <div class="info_item" :style="{margin: '15px auto 0px auto'}">
                 <span>可接受的最低担保费率&nbsp;&nbsp;&nbsp;&nbsp;</span>
                 <input class="msg_item" type="number" :style="{width: '94px'}" v-model.number="message.min_rate"></input>
                 <span>&emsp;%</span>
@@ -125,6 +130,7 @@
           project: '',
           amount: 0,
           project_brief: '',
+          max_amount: 0,
           min_rate: 0,
           loan_ddl: {
             halfyear: false,

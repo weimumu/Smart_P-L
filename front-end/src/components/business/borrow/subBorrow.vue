@@ -133,6 +133,7 @@
 
 
 <script>
+  import func from '../function';
   export default{
     data () {
       return {
@@ -148,11 +149,11 @@
         message: {
           city: '',
           project: '',
-          amount: '',
+          amount: 0,
           reason: '',
-          max_amount: '',
-          max_rate: '',
-          loan_ddl: '',
+          max_amount: 0,
+          max_rate: 0,
+          loan_ddl: 0,
           repaySupport: {
             sales: false,
             other: false
@@ -193,47 +194,11 @@
             this.basicInfo[key] = res.data[key];
           }
         } catch (e) {
-
+          this.$store.commit('info', '用户未登录');
         }
-      },
-      validate (mes) {
-        for (var key in mes) {
-          if (key.toString() === 'riskControl') {
-            if (mes[key].mortgage && mes[key].mortgage_value <= 0) {
-              return '请正确填写抵押物市值';
-            }
-            if (mes[key].guarentee) {
-              if (mes[key].guarentee_comName === '') {
-                return '请正确填写担保公司名称';
-              }
-              if (mes[key].guarentee_amount <= 0) {
-                return '请正确填写担保额度';
-              }
-            }
-          } else if (key.toString() === 'repaySupport') {
-            continue;
-          } else {
-            if (mes[key] === '') {
-              return '信息填写不完整';
-            }
-            if (mes.amount < 0) {
-              return '请正确填写借款额度';
-            }
-            if (mes.loan_ddl <= 3) {
-              return '贷款期限必须大于3个月';
-            }
-            if (mes.max_amount !== mes.amount) {
-              return '融资金额与标题借款额度不一致';
-            }
-            if (mes.max_rate < 0 || mes.max_rate > 4.90 * 4) {
-              return '请正确填写可承担最高利息';
-            }
-          }
-        }
-        return 'true';
       },
       evaluate () {
-        let res = this.validate(this.message);
+        let res = func.validateBorrow(this.message);
         if (res !== 'true') {
           this.wrongMes = res;
           this.dialog = true;

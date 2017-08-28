@@ -42,7 +42,7 @@
                 <span class="submit_text">近半年税务单</span>
             </div>
             <div class="submit_part" :style="{margin: '40px auto 0px auto'}">
-                <button class="eval_button">提交信息</button>
+                <button class="eval_button" @click="lendPost">提交信息</button>
             </div>
         </div>
         
@@ -51,23 +51,32 @@
     <div class="rightpart">
         <div class="line"></div>
     </div>
+
+    <div>
+      <mu-dialog :open="dialog" title="错误提示">
+        {{wrongMes}}
+        <mu-flat-button label="确定" slot="actions" primary @click="close"/>
+      </mu-dialog>
+    </div>
 </div>
 </template>
 
 
 <script>
+  import func from '../function';
   export default{
     data () {
       return {
+        wrongMes: '',
+        dialog: false,
         basicInfo: {
           comName: '',
           comRegistAddresss: '',
           comField: ''
         },
         message: {
-          min_amount: '',
-          max_amount: '',
-          loan_ddl: ''
+          max_amount: 0,
+          loan_ddl: 0
         },
         result: {
           amount: '',
@@ -81,6 +90,9 @@
       this.initData();
     },
     methods: {
+      close () {
+        this.dialog = false;
+      },
       async initData () {
         let res;
         try {
@@ -89,7 +101,15 @@
             this.basicInfo[key] = res.data[key];
           }
         } catch (e) {
-
+          this.$store.commit('info', '用户未登录');
+        }
+      },
+      lendPost () {
+        let res = func.validateLend(this.message);
+        if (res !== 'true') {
+          this.wrongMes = res;
+          this.dialog = true;
+          return;
         }
       }
     }
@@ -220,4 +240,19 @@ input{
         }
     }
 }
+</style>
+
+<style lang="scss">
+.mu-dialog-title, .mu-flat-button-label{
+    color: #d6a12c;
+  }
+  .mu-dialog-title{
+    font-size: 20px;
+  }
+  .mu-dialog-body {
+    font-size: 16px;
+  }
+  .mu-dialog{
+    width: 50%;
+  }
 </style>

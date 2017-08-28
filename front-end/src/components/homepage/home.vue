@@ -9,13 +9,13 @@
         <mu-tabs :value="activeTab" @change="handleTabChange">
           <mu-tab value="我的业务" title="我的业务" v-if="state === true" @click="goToBusiness"/>
           <i class="point" v-if="state === true"></i>
-          <mu-tab value="平台简介" title="平台简介" @click="goToMain"/>
+          <mu-tab value="平台简介" title="平台简介" @click="goToMain('active1')" :class="{colorActive: show.active1}"/>
           <i class="point"></i>
-          <mu-tab value="信息披露" title="信息披露" @click="goToMain"/>
+          <mu-tab value="信息披露" title="信息披露" @click="goToMain('active2')" :class="{colorActive: show.active2}"/>
           <i class="point"></i>
-          <mu-tab value="关于我们" title="关于我们" @click="goToMain"/>
+          <mu-tab value="关于我们" title="关于我们" @click="goToMain('active3')" :class="{colorActive: show.active3}"/>
           <i class="point"></i>
-          <mu-tab value="与我合作" title="与我合作" @click="goToMain"/>
+          <mu-tab value="与我合作" title="与我合作" @click="goToMain('active4')" :class="{colorActive: show.active4}"/>
         </mu-tabs>
       </div>
       <div class="tab">
@@ -82,7 +82,13 @@ export default {
       isActive: false,
       state: false,
       menuActive: false,
-      messageActive: false
+      messageActive: false,
+      show: {
+        active1: true,
+        active2: false,
+        active3: false,
+        active4: false
+      }
     };
   },
   async created () {
@@ -100,11 +106,21 @@ export default {
       await this.$http.get('/api/user/logout');
       this.$router.push('/loginFac');
     },
-    goToMain () {
+    goToMain (mes) {
       this.messageActive = false;
+      for (var key in this.show) {
+        if (key.toString() === mes) {
+          this.show[key] = true;
+        } else {
+          this.show[key] = false;
+        }
+      }
     },
     goToMes () {
       this.messageActive = true;
+      for (var key in this.show) {
+        this.show[key] = false;
+      }
     },
     enter () {
       this.menuActive = true;
@@ -163,6 +179,9 @@ export default {
     top: 3.5px;
   }
 
+  .colorActive{
+    color:#d6a12c;
+  }
   .tabsChange {
     width: 550px;
     position: relative;

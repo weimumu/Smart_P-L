@@ -3,15 +3,15 @@
     <div class="header">
       <div class="tab">
         <mu-tabs :value="activeTab" @change="handleTabChange">
-          <mu-tab value="合作伙伴" title="合作伙伴" @click="goToMain"/>
+          <mu-tab value="合作伙伴" title="合作伙伴" @click="goToMain('active1')" :class="{colorActive: show.active1}"/>
           <i class="point"></i>
-          <mu-tab value="借贷业务" title="借贷业务" @click="goToMain"/>
+          <mu-tab value="借贷业务" title="借贷业务" @click="goToMain('active2')" :class="{colorActive: show.active2}"/>
           <i class="point" :style="{marginRight: '40px'}"></i>
           <img src="/static/logo.png" class="logo" @click="goToHome"> 
           <i class="point" :style="{marginLeft: '40px'}"></i>  
-          <mu-tab value="债券交易" title="债券交易" @click="goToMain"/>
+          <mu-tab value="债券交易" title="债券交易" @click="goToMain('active3')" :class="{colorActive: show.active3}"/>
           <i class="point"></i>
-          <mu-tab value="担保业务" title="担保业务" @click="goToMain"/>
+          <mu-tab value="担保业务" title="担保业务" @click="goToMain('active4')" :class="{colorActive: show.active4}"/>
         </mu-tabs>
       </div>
       <span class="comName" :style="{minWidth: '60px'}">{{comName}}</span>
@@ -48,18 +48,34 @@ export default {
   data () {
     return {
       activeTab: '合作伙伴',
-      messageActive: false
+      messageActive: false,
+      show: {
+        active1: true,
+        active2: false,
+        active3: false,
+        active4: false
+      }
     };
   },
   methods: {
     handleTabChange (val) {
       this.activeTab = val;
     },
-    goToMain () {
+    goToMain (mes) {
       this.messageActive = false;
+      for (var key in this.show) {
+        if (key.toString() === mes) {
+          this.show[key] = true;
+        } else {
+          this.show[key] = false;
+        }
+      }
     },
     goToMes () {
       this.messageActive = true;
+      for (var key in this.show) {
+        this.show[key] = false;
+      }
     },
     goToHome () {
       this.$router.push('/');
@@ -113,6 +129,9 @@ export default {
       width: 700px;
       height: 60px;
       margin: 0 auto;
+      .colorActive{
+        color:#d6a12c;
+      }
       .logo {
         cursor: pointer;
         width: 25px;

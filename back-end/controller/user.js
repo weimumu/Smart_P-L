@@ -12,6 +12,11 @@ exports.regist = async (req, res) => {
   await asyncAssertThrow(user.validate(), 'validate error');
   assert(!await User.findOne({userEmail: user.userEmail}), 'registed email');
   assert(!await User.findOne({comName: user.comName}), 'registed com');
+
+  // campute credit score
+  let score = Math.floor(user.comIntegrityScore * 0.4 + user.comAttributeScore * 0.2 + user.comHistoryScore * 0.4);
+  user.comCreditScore = score > 100 ? 100 : score;
+
   await user.save();
   res.end('ok');
 };
@@ -79,6 +84,7 @@ exports.edit = async (req, res) => {
 
 exports.getSelf = async (req, res) => {
   const user = res.locals.user;
+  console.log(user.comCreditScore);
   const filtered = _.omit(user, 'userPass');
   res.json(filtered);
 };

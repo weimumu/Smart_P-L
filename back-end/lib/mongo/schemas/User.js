@@ -52,11 +52,27 @@ const userSchema = new Schema({
     type: Number,
     required: true
   },
-  comCreditScore: {
+  comIntegrityScore: {
     type: Number,
     default: () => {
-      return Math.floor(Math.random() * 51 + 70); // [70, 120]
+      return Math.floor(Math.random() * 41 + 80); // [80, 120]
     }
+  },
+  comAttributeScore: {
+    type: Number,
+    default: () => {
+      return Math.floor(Math.random() * 31 + 70); // [70, 100]
+    }
+  },
+  comHistoryScore: {
+    type: Number,
+    default: () => {
+      return Math.floor(Math.random() * 66 + 35); // [35, 100]
+    }
+  },
+  comCreditScore: {
+    type: Number,
+    default: 0
   },
   comTime: {
     type: String,

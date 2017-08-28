@@ -16,7 +16,17 @@ const messageSchema = new Schema({
       'FriendRequest-Received&Accepted', // when received & accepted a request
       'FriendRequest-Received&Refused', // when received & refused a request
       'FriendRequest-Accepted', // when a request one sent is accepted
-      'FriendRequest-Refused' // when a request one sent is refused
+      'FriendRequest-Refused', // when a request one sent is refused
+      'BorrowRequest-Received',
+      'BorrowRequest-Received&Accepted',
+      'BorrowRequest-Received&Refused',
+      'BorrowRequest-Accepted',
+      'BorrowRequest-Refused',
+      'BorrowContract-Received',
+      'BorrowContract-Received&Accepted',
+      'BorrowContract-Received&Refused',
+      'BorrowContract-Accepted', // transaction done
+      'BorrowContract-Refused'
     ]
   },
   info: Schema.Types.Mixed,

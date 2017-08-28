@@ -17,9 +17,15 @@ mongoose.connection.on('open', err => {
 mongoose.model('User', schemas.User);
 mongoose.model('FriendRequest', schemas.FriendRequest);
 mongoose.model('Message', schemas.Message);
+mongoose.model('Borrow', schemas.loan.Borrow);
+mongoose.model('Lend', schemas.loan.Lend);
+mongoose.model('LoanTransaction', schemas.loan.LoanTransaction);
 
 module.exports = {
   User: mongoose.model('User'),
   FriendRequest: mongoose.model('FriendRequest'),
-  Message: mongoose.model('Message')
+  Message: mongoose.model('Message'),
+  Borrow: mongoose.model('Borrow'),
+  Lend: mongoose.model('Lend'),
+  LoanTransaction: mongoose.model('LoanTransaction')
 };

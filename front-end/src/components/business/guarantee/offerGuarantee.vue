@@ -281,6 +281,7 @@ input[type="checkbox"]:checked+label::before, input[type="radio"]:checked+label:
                 }
                 textarea:focus{
                     outline: 1px solid #d6a12c;
+                    border: 0px;
                 }
             }
             .submit_files {

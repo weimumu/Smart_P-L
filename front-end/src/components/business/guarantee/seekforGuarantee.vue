@@ -310,6 +310,7 @@ input[type="radio"]:checked+label::before{
                 }
                 textarea:focus{
                     outline: 1px solid #d6a12c;
+                    border: 0px;
                 }
             }
             .submit_files {

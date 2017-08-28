@@ -8,9 +8,9 @@
             </div>
             <img class="dividing" src="/static/business/public/dividingline_write.png"/>
             <div class="abstract">
-                <input class="msg_item" id="input_city" type="text" v-model="message.city"></input>
+                <input class="msg_item" id="input_city" type="text" v-model="message.company_lend"></input>
                 <span>企业关于对于</span>
-                <input class="msg_item" id="input_project" type="text" v-model="message.project"></input>
+                <input class="msg_item" id="input_project" type="text" v-model="message.company_borrow"></input>
                 <span>企业应收账款</span>
                 <input class="msg_item" id="input_amount" type="number" v-model.number="message.amount"></input>
                 <span>万人民币的债权出售</span>
@@ -20,25 +20,25 @@
             <div class="info_basic"><span>所属行业：&emsp;&emsp;{{basicInfo.comField}}</span></div>
             <div class="info_item" :style="{margin: '15px auto 0px auto'}">
                 <span>债务主体名称&emsp;&emsp;</span>
-                <input class="msg_item" type="text" :style="{width: '94px'}" v-model.number="message.max_amount"></input>
+                <input class="msg_item" type="text" :style="{width: '94px'}" v-model.number="message.loan_owner"></input>
             </div>
             <div class="info_item" :style="{margin: '15px auto 0px auto'}">
                 <span>债权金额&emsp;&emsp;&emsp;&emsp;</span>
-                <input class="msg_item" type="number" :style="{width: '94px'}" v-model.number="message.max_amount"></input>
+                <input class="msg_item" type="number" :style="{width: '94px'}" v-model.number="message.loan_amount"></input>
                 <span>&emsp;万人民币</span>
             </div>
             <div class="info_item" :style="{margin: '15px auto 0px auto'}">
                 <span>债权期限&emsp;&emsp;&emsp;&emsp;</span>
-                <input class="msg_item" type="number" :style="{width: '94px'}" v-model.number="message.max_amount"></input>
+                <input class="msg_item" type="number" :style="{width: '94px'}" v-model.number="message.loan_ddl"></input>
                 <span>&emsp;月内</span>
             </div>
             <div class="info_basic"><span>持有债权的来历</span></div>
-            <div class="long_input"><textarea type="text" v-model="message.project_brief"></textarea></div>
+            <div class="long_input"><textarea type="text" v-model="message.loan_source"></textarea></div>
             <div class="info_basic"><span>对应债务方的情况</span></div>
-            <div class="long_input"><textarea type="text" v-model="message.project_brief"></textarea></div>
+            <div class="long_input"><textarea type="text" v-model="message.situation_borrower"></textarea></div>
             <div class="info_item" :style="{margin: '15px auto 0px auto'}">
                 <span>债权定价&emsp;&emsp;&emsp;&emsp;</span>
-                <input class="msg_item" type="number" :style="{width: '94px'}" v-model.number="message.max_amount"></input>
+                <input class="msg_item" type="number" :style="{width: '94px'}" v-model.number="message.loan_price"></input>
                 <span>&emsp;万人民币</span>
             </div>
             <img class="dividing" src="/static/business/public/dividingline_write.png"/>
@@ -89,47 +89,17 @@
           comCapital: ''
         },
         message: {
-          city: '',
-          project: '',
+          company_borrow: '',
+          company_lend: '',
           amount: 0,
-          project_brief: '',
-          max_amount: 0,
-          min_rate: 0,
-          loan_ddl: {
-            halfyear: false,
-            oneyear: false,
-            threeyears: false,
-            fiveyears: false
-          },
-          guarantee_type: {
-            neither: false,
-            mortgage: false,
-            pledge: false,
-            both: false
-          },
-          situation: {
-            about_borrow: '',
-            about_lend: '',
-            about_credit: ''
-          }
+          loan_owner: '',
+          loan_amount: 0,
+          loan_ddl: 0,
+          loan_source: '',
+          situation_borrower: '',
+          loan_price: 0
         }
       };
-    },
-    async created () {
-      this.initData();
-    },
-    methods: {
-      async initData () {
-        let res;
-        try {
-          res = await this.$http.get('/api/user/self');
-          for (var key in this.basicInfo) {
-            this.basicInfo[key] = res.data[key];
-          }
-        } catch (e) {
-
-        }
-      }
     }
   };
 </script>
@@ -214,15 +184,15 @@ input[type="checkbox"]:checked+label::before{
                     padding-right: 6px;
                 }
                 #input_city{
-                    width: 75px;
+                    width: 100px;
                     height: 100%;
                 }
                 #input_project{
-                    width: 120px;
+                    width: 100px;
                     height: 100%;
                 }
                 #input_amount{
-                    width: 90px;
+                    width: 85px;
                     height: 100%;
                 }
             }
@@ -246,6 +216,7 @@ input[type="checkbox"]:checked+label::before{
                 }
                 textarea:focus{
                     outline: 1px solid #d6a12c;
+                    border: 0px;
                 }
             }
             .submit_files {
@@ -294,7 +265,7 @@ input[type="checkbox"]:checked+label::before{
             display: inline-block;
             float: left;
             width: 3px;
-            height: 1800px;
+            height: 900px;
             margin-top: 50px;
             background: url("/static/business/public/line_straight.png");
             background-size: 100% 100%;

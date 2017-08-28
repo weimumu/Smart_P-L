@@ -91,7 +91,27 @@
       </div>
     </div>
     <div class="moments" v-if="show.moments">
-      伙伴动态
+      <span class="title">伙伴动态</span>
+      <div class="moments_list">
+        <img src="/static/business/partner/boy.png" :style="{marginTop: '4px'}">
+        <span class="comName">华为科技公司</span>
+        <span class="time">2017-08-19 21:00</span>
+        <mu-icon-menu :anchorOrigin="leftTop" :targetOrigin="leftTop" slot="right" icon="expand_more" tooltip="操作" class="menu" :size="30">
+          <mu-menu-item title="举报" />
+          <mu-menu-item title="屏蔽" />
+        </mu-icon-menu>
+        <span class="mes">中山市无人便利店项目计划借款300万</span>
+        <img class="contact" src="/static/homepageImage/tabs/notification.png">
+        <span class="contactMes">与他联系</span>
+        <img class="good" src="/static/business/partner/favour.png">
+        <span class="goodMes">123</span>
+        <div class="content">
+          <div><span>融资金额:&emsp;2000万元</span><span :style="{position: 'absolute', left: '300px'}">融资用途:&emsp;共享单车前期开发</span></div>
+          <div><span>提供利率:&emsp;3.45%</span><span :style="{position: 'absolute', left: '300px'}">风险评级:&emsp;0.6842</span></div>
+          <span>融资期限:&emsp;12个月</span>
+        </div>
+        <div class="line"></div>
+      </div>
     </div>
     <div class="news" v-if="show.news">
       <span class="title">行业新闻</span>
@@ -235,7 +255,7 @@ export default {
           this.friends[i].url = '/static/business/partner/boy.png';
         }
       } catch (e) {
-
+        this.$store.commit('info', '用户未登录');
       }
     }
   },
@@ -311,6 +331,84 @@ export default {
             color: #d6a12c;
           }
         }
+      }
+    }
+  }
+  .moments {
+    width: 788px;
+    height: 702px;
+    margin-left: auto;
+    margin-right: auto;
+    padding-top: 1px;
+    text-align: left;
+    .moments_list{
+      position: relative;
+      margin-top: 40px;
+      margin-left: 10px;
+      color: #4b4b4b;
+      height: 190px;
+      .comName{
+        top: 5px;
+        position: absolute;
+        font-size: 15px;
+        left: 55px;
+      }
+      .time{
+        top: 28px;
+        font-size: 11px;
+        position: absolute;
+        left: 55px;
+      }
+      .menu{
+        position: absolute;
+        right: 0;
+      }
+      .mes{
+        position: absolute;
+        top: 60px;
+        left: 5px;
+        font-size: 18px;
+      }
+      .line{
+        width: 100%;
+        height: 1px;
+        background: #c2c2c2;
+        position: absolute;
+        bottom: 0;
+      }
+      .good{
+        position: absolute;
+        bottom: 106px;
+        right:45px
+      }
+      .goodMes{
+        position: absolute;
+        bottom: 103px;
+        right:16px;
+        font-size: 13px;
+      }
+      .contact{
+        position: absolute;
+        bottom: 104px;
+        right: 145px;
+        width: 16px;
+      }
+      .contactMes{
+        color: #4b4b4b;
+        font-size: 13px;
+        position: absolute;
+        bottom: 103px;
+        right: 90px;
+      }
+      .content{
+        font-size: 14px;
+        height: 84px;
+        width: 100%;
+        position: absolute;
+        bottom: 10px;
+        background: #f2f2f2;
+        padding-left: 55px;
+        padding-top: 10px;
       }
     }
   }
@@ -467,6 +565,25 @@ export default {
 </style>
 
 <style>
+.mu-menu-list, .mu-menu{
+  width: 52px !important;
+}
+.mu-menu-list{
+  padding: 0;
+  background: url('/static/business/partner/frame.png');
+  background-size: 100% 100%;
+}
+.mu-menu-item-wrapper{
+  height: 30px;
+  line-height: 30px;
+}
+.mu-menu-item-title{
+  color: #4b4b4b;
+  font-size: 13px;
+}
+.mu-menu-item{
+  padding: 0 12px;
+}
 .mu-item{
   padding: 4px;
 }

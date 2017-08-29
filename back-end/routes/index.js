@@ -14,7 +14,8 @@ router
   .use('/user', require('./user'))
   .use('/friend', require('./friend'))
   .use('/message', require('./message'))
-  .use('/loan', require('./loan'));
+  .use('/loan', require('./loan'))
+  .use('/timeline', require('./timeline'));
 
 module.exports = router;
 

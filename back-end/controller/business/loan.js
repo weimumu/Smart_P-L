@@ -1,5 +1,5 @@
 const _ = require('lodash');
-const {assert, asyncAssertThrow, mongo: {Borrow, Lend, Message, LoanTransaction, User}} = require('../../lib');
+const {assert, asyncAssertThrow, mongo: {Borrow, Lend, Message, LoanTransaction, User, TimelineItem}} = require('../../lib');
 const {ObjectId} = require('mongoose').Types;
 
 exports.borrow = async (req, res) => {
@@ -11,7 +11,20 @@ exports.borrow = async (req, res) => {
     ['city', 'project', 'max_amount', 'reason', 'max_rate', 'loan_ddl', 'other_detail']
   );
   data.from = res.locals.user._id;
-  await asyncAssertThrow(Borrow.create(data), 'invalid data');
+  const borrowInstance = new Borrow(data);
+  assert(!(borrowInstance.validateSync() instanceof Error), 'invalid data');
+  const timelineItem = new TimelineItem({
+    from: res.locals.user._id,
+    type: 'Borrow',
+    info: {
+      borrowId: borrowInstance._id
+    }
+  });
+  await Promise.all([
+    borrowInstance.save(),
+    res.locals.user.addTimeline(timelineItem)
+  ]);
+
   res.end('ok');
 };
 
@@ -103,14 +116,7 @@ exports.request = async (req, res) => {
   await Promise.all([
     transaction.save(),
     message.save(),
-    User.update({_id: lendInstance.from}, {
-      $push: {
-        messages: {
-          $each: [message._id],
-          $position: 0
-        }
-      }
-    })
+    User.addMessage(lendInstance.from, message)
   ]);
   res.end('ok');
 };
@@ -119,6 +125,13 @@ exports.acceptRequest = async (req, res) => {
   // TODO:
   //   1. 接受一个事务申请，将事务推进一个阶段
   //     * 双方发消息
+  // const {transactionId} = req.body;
+  // assert(transactionId, 'transaction-id required');
+  // assert(ObjectId.isValid(transactionId), 'invalid transaction-id');
+  // const transaction = await LoanTransaction.findById(transactionId);
+  // assert(transaction, 'transaction-instance not exist');
+  // assert(transaction.status === 'Request', 'incorrect transaction status');
+
   const {messageId} = req.body;
   assert(messageId, 'message-id required');
   assert(ObjectId.isValid(messageId), 'invalid message-id');
@@ -138,14 +151,7 @@ exports.acceptRequest = async (req, res) => {
     message.update({$set: {type: 'BorrowRequest-Received&Accepted'}}),
     messageToBorrower.save(),
     LoanTransaction.update({_id: message.info.transactionId}, {$set: {status: 'Progressing'}}),
-    User.update({_id: message.from}, {
-      $push: {
-        messages: {
-          $each: [messageToBorrower._id],
-          $position: 0
-        }
-      }
-    })
+    User.addMessage(message.from, messageToBorrower)
   ]);
 
   res.end('ok');
@@ -171,14 +177,7 @@ exports.sendTransaction = async (req, res) => {
 
   await Promise.all([
     messageToLender.save(),
-    User.update({_id: message.from}, {
-      $push: {
-        messages: {
-          $each: [messageToLender._id],
-          $position: 0
-        }
-      }
-    })
+    User.addMessage(message.from, messageToLender)
   ]);
 
   res.end('ok');
@@ -214,22 +213,8 @@ exports.acceptTransaction = async (req, res) => {
   await Promise.all([
     messageToBorrower.save(),
     completeMessage.save(),
-    User.update({_id: message.from}, {
-      $push: {
-        messages: {
-          $each: [completeMessage._id, messageToBorrower._id],
-          $position: 0
-        }
-      }
-    }),
-    res.locals.user.update({
-      $push: {
-        messages: {
-          $each: [completeMessage._id],
-          $position: 0
-        }
-      }
-    }),
+    User.addMessage(message.from, completeMessage, messageToBorrower),
+    res.locals.user.addMessage(completeMessage),
     message.update({$set: {type: 'BorrowContract-Received&Accepted'}}),
     LoanTransaction.update({_id: message.info.transactionId}, {
       $set: {status: 'Completed'}

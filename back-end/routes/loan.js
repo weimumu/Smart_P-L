@@ -9,6 +9,8 @@ router
   .get('/lend', loan.getMyLend)
   .get('/recommend', loan.getRecommend)
   .get('/messages', loan.getRelatedMessages)
+  .get('/detail/borrow', loan.getBorrow)
+  .get('/detail/lend', loan.getLend)
   .post('/request', loan.request)
   .post('/accept-request', loan.acceptRequest)
   .post('/transaction', loan.sendTransaction)

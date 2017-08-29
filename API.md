@@ -208,3 +208,331 @@
 
 * POST `/api/friend/refuse/:messageId`
 
+
+## Loan 借贷部分
+
+###publish Lend
+
+* POST `/api/loan/lend`
+
+* ```json
+  {
+    "max_amount": 1,
+    "loan_ddl": 12
+  }
+  ```
+
+### publish Borrow
+
+* POST `/api/loan/borrow`
+
+* ```json
+  {
+    "city": "",
+    "project": "",
+    "max_amount": 1,
+    "reason": "",
+    "max_rate": 3,
+    "loan_ddl": 12,
+    "other_detail": ""
+  }
+  ```
+
+### get my own borrow list
+
+* GET `/api/loan/borrow`
+
+* ```json
+  [
+      {
+          "_id": "59a41435b80d0d38a465c2a3",
+          "city": "广州1",
+          "project": "smart_PL1",
+          "max_amount": 10,
+          "reason": "吃喝嫖赌",
+          "max_rate": 4.3,
+          "loan_ddl": 6,
+          "other_detail": "我要钱",
+          "from": "599fe35e6e76741bf0b321cd",
+          "__v": 0,
+          "date": "2017-08-28T13:01:41.112Z"
+      }
+  ]
+  ```
+
+### get my own lend list
+
+* GET `/api/loan/lend`
+
+* ```json
+  [
+      {
+          "_id": "59a410a4599bfd1ae8c872fc",
+          "max_amount": 30,
+          "loan_ddl": 12,
+          "from": "59a3bc193cde380b1cef10a5",
+          "__v": 0,
+          "date": "2017-08-28T12:46:28.484Z"
+      }
+  ]
+  ```
+
+### get borrow detail
+
+* GET `/api/loan/detail/borrow?id=BORROWID`
+
+* ```json
+  {
+      "_id": "59a56a1d42e9f105809ed944",
+      "city": "广州",
+      "project": "辣鸡",
+      "max_amount": 200,
+      "reason": "辣鸡",
+      "max_rate": 4.9,
+      "loan_ddl": 12,
+      "mortgage_value": 0,
+      "guarentee_amount": 0,
+      "supportSales": false,
+      "supportOther": false,
+      "risk_factor": null,
+      "total_risk_factor": null,
+      "from": {
+          "_id": "59a55a94ff71d31c94d5349c",
+          "comName": "华为科技",
+          "comCapital": 300,
+          "comTime": "1997.09.10",
+          "comPhone": "0992-2121898",
+          "comRegistAddresss": "广东省揭阳市",
+          "comWorkAddresss": "广东省揭阳市",
+          "comField": "采矿业",
+          "comProduct": "煤矿",
+          "comIntro": "美好",
+          "comCreditScore": 85,
+          "comHistoryScore": 86,
+          "comAttributeScore": 77,
+          "comIntegrityScore": 89
+      },
+      "__v": 0,
+      "date": "2017-08-29T13:20:29.903Z"
+  }
+  ```
+
+### get lend detail
+
+* GET `/api/loan/detail/lend?id=LENDID`
+
+* ```json
+  {
+      "_id": "59a5694442e9f105809ed942",
+      "max_amount": 200,
+      "loan_ddl": 12,
+      "from": {
+          "_id": "59a55a94ff71d31c94d5349c",
+          "comName": "华为科技",
+          "comCapital": 300,
+          "comTime": "1997.09.10",
+          "comPhone": "0992-2121898",
+          "comRegistAddresss": "广东省揭阳市",
+          "comWorkAddresss": "广东省揭阳市",
+          "comField": "采矿业",
+          "comProduct": "煤矿",
+          "comIntro": "美好",
+          "comCreditScore": 85,
+          "comHistoryScore": 86,
+          "comAttributeScore": 77,
+          "comIntegrityScore": 89
+      },
+      "__v": 0,
+      "date": "2017-08-29T13:16:52.991Z"
+  }
+  ```
+
+* ​
+
+### get recommend for my Borrow
+
+* GET `/api/loan/recommend?id=BORROWID`
+
+* ```json
+  [
+      {
+          "_id": "59a412aa5427b5622c4fdf11",
+          "max_amount": 344,
+          "loan_ddl": 12,
+          "from": "59a3bc193cde380b1cef10a5",
+          "__v": 0,
+          "date": "2017-08-28T12:55:06.996Z"
+      },
+      {
+          "_id": "59a412ab5427b5622c4fdf12",
+          "max_amount": 344,
+          "loan_ddl": 12,
+          "from": "59a3bc193cde380b1cef10a5",
+          "__v": 0,
+          "date": "2017-08-28T12:55:07.270Z"
+      },
+      {
+          "_id": "59a412ab5427b5622c4fdf13",
+          "max_amount": 344,
+          "loan_ddl": 12,
+          "from": "59a3bc193cde380b1cef10a5",
+          "__v": 0,
+          "date": "2017-08-28T12:55:07.598Z"
+      }
+  ]
+  ```
+
+### get related messages
+
+* GET `/api/loan/messages`
+
+* ```json
+  [
+      {
+          "_id": "59a41b35cc066138d0ac9b1e",
+          "type": "BorrowContract-Accepted",
+          "from": "59a3bc193cde380b1cef10a5",
+          "info": {
+              "transactionId": "59a415ee1437f23db0f4d8e8"
+          },
+          "__v": 0,
+          "date": "2017-08-28T13:31:33.510Z",
+          "read": false
+      },
+      {
+          "_id": "59a41ae5e005ea1d70a4df6a",
+          "type": "BorrowContract-Accepted",
+          "from": "599fe35e6e76741bf0b321cd",
+          "info": {
+              "transactionId": "59a415ee1437f23db0f4d8e8"
+          },
+          "__v": 0,
+          "date": "2017-08-28T13:30:13.487Z",
+          "read": false
+      },
+      {
+          "_id": "59a41a1e4527a415b4b42389",
+          "type": "BorrowContract-Received",
+          "from": "59a3bc193cde380b1cef10a5",
+          "info": {
+              "transactionId": "59a415ee1437f23db0f4d8e8"
+          },
+          "__v": 0,
+          "date": "2017-08-28T13:26:54.448Z",
+          "read": false
+      },
+      {
+          "_id": "59a418e31a5c072fc0eb677a",
+          "type": "BorrowRequest-Accepted",
+          "from": "59a3bc193cde380b1cef10a5",
+          "info": {
+              "transactionId": "59a415ee1437f23db0f4d8e8"
+          },
+          "__v": 0,
+          "date": "2017-08-28T13:21:39.453Z",
+          "read": false
+      }
+  ]
+  ```
+
+* note: `info.transactionId` is quite important
+
+### request (Loan - step 1)
+
+* POST `/api/loan/request`
+
+* ```json
+  {
+    "borrowId": "",
+    "lendId": ""
+  }
+  ```
+
+* note: 
+
+  * `borrowId` and `lendId` are provided in **get recommend** api and **get my borrow** api
+  * once this API is called:
+    * a **transaction** is created
+    * the *lender* get a `BorrowRequest-Received` message
+
+### accept request (Loan - step 2)
+
+* POST `/api/loan/accept-request`
+
+* ```json
+  {
+      "messageId": ""
+  }
+  ```
+
+* note: 
+
+  * `messageId` is provided in message of type `BorrowRequest-Received` (field `_id`)
+  * once this API is called, the *borrower* get a `BorrowRequest-Accepted` message
+
+### send contract (Loan - step 3)
+
+* POST `/api/loan/transaction`
+
+* ```json
+  {
+      "messageId": ""
+  }
+  ```
+
+* note:
+
+  * `messageId` is provided in message of type `BorrowRequest-Accpted` (field `_id`)
+  * once this API is called, the *lender* get a `BorrowContract-Received` message
+
+### accept contract (Loan - step 4 - complete)
+
+* POST `/api/loan/accept-transaction`
+
+* ```json
+  {
+      "messageId": ""
+  }
+  ```
+
+* note:
+
+  - `messageId` is provided in message of type `BorrowContract-Received` (field `_id`)
+  - once this API is called, both *lender* & *borrower* get a `Borrow-Completed` message
+
+## Timeline
+
+### get timeline
+
+* GET `/api/timeline?page=PAGE&size=SIZE`
+
+* ```json
+  [
+      {
+          "_id": "59a531fa68aa9638dcce650a",
+          "from": "59a3bc193cde380b1cef10a5",
+          "type": "Borrow",
+          "info": {
+              "borrowId": "59a531fa68aa9638dcce6509"
+          },
+          "__v": 0,
+          "date": "2017-08-29T09:20:58.257Z"
+      },
+      {
+          "_id": "59a531d816c1c918fcf80f99",
+          "from": "59a3bc193cde380b1cef10a5",
+          "type": "Borrow",
+          "info": {
+              "borrowId": "59a531d816c1c918fcf80f98"
+          },
+          "__v": 0,
+          "date": "2017-08-29T09:20:24.921Z"
+      }
+  ]
+  ```
+
+### get my own timeline
+
+* GET `/api/timeline/me?page=PAGE&size=SIZE`
+* same as **get timeline**
+

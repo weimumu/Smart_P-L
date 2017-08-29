@@ -23,6 +23,7 @@
     </div>
     <div class="morePart" v-if="show.more">
       <span :style="{marginLeft: '100px'}">more</span>
+      <match-result></match-result>
     </div>
   </div>
 </template>
@@ -30,6 +31,7 @@
 <script>
 import subBorrow from './subBorrow.vue';
 import subLend from './subLend.vue';
+import matchResult from '../result/matchResult.vue';
 export default {
   data () {
     return {
@@ -53,7 +55,8 @@ export default {
   },
   components: {
     subBorrow,
-    subLend
+    subLend,
+    matchResult
   }
 };
 </script>
@@ -97,6 +100,11 @@ export default {
     height: auto;
   }
   .lendPart{
+    width: 100%;
+    min-width: 1300px;
+    height: auto;
+  }
+  .morepart{
     width: 100%;
     min-width: 1300px;
     height: auto;

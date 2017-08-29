@@ -18,12 +18,12 @@
             <div class="info_basic"><span>担保申请主体：&emsp;&emsp;{{basicInfo.comName}}</span></div>
             <div class="info_basic"><span>注册地址：&emsp;&emsp;&emsp;&emsp;{{basicInfo.comRegistAddresss}}</span></div>
             <div class="info_basic"><span>所属行业：&emsp;&emsp;&emsp;&emsp;{{basicInfo.comField}}</span></div>
-            <div class="info_basic"><span>注册资本：&emsp;&emsp;&emsp;&emsp;{{basicInfo.comCapital}}</span></div>
+            <div class="info_basic"><span>注册资本：&emsp;&emsp;&emsp;&emsp;{{basicInfo.comCapital}}万元</span></div>
             <div class="info_basic"><span>担保贷款项目简述</span></div>
             <div class="long_input"><textarea type="text" placeholder="（请填写项目简述，不超过100字）"  maxlength="100" v-model="message.project_brief"></textarea></div>
             <div class="info_item" :style="{margin: '15px auto 0px auto'}">
                 <span>担保费用&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                <input class="msg_item" type="number" :style="{width: '94px'}" v-model.number="message.max_amount"></input>
+                <input class="msg_item" type="number" :style="{width: '94px'}" v-model.number="message.cost"></input>
                 <span>&emsp;万人民币</span>
             </div>
             <div class="info_item" :style="{margin: '15px auto 0px auto'}">
@@ -43,11 +43,11 @@
             </div>
             <div class="check" :style="{margin: '15px auto 0px auto'}">
                 <span>寻求担保方式&emsp;&emsp;</span>
-                <input id="single" type="checkbox" :style="{width: '18px', height: '18px', border: '2px solid #666'}" v-model="message.guarantee_way.single"/>
+                <input id="single" type="radio" value="single" :style="{width: '18px', height: '18px', border: '2px solid #666'}" v-model="message.guarantee_way"/>
                 <label for="single">单企业担保&emsp;&emsp;&emsp;</label>
-                <input id="multi"type="checkbox" :style="{width: '18px', height: '18px'}" v-model="message.guarantee_way.multi"/>
+                <input id="multi"type="radio" value="multi" :style="{width: '18px', height: '18px'}" v-model="message.guarantee_way"/>
                 <label for="multi" >多企业担保&emsp;&emsp;&emsp;</label>
-                <input id="both"type="checkbox" :style="{width: '18px', height: '18px'}" v-model="message.guarantee_way.both"/>
+                <input id="both"type="radio" value="both" :style="{width: '18px', height: '18px'}" v-model="message.guarantee_way"/>
                 <label for="both" >均可</label>
             </div>
             <div :style="{margin: '15px auto 0px auto'}"><span>企业目前贷款情况</span></div>
@@ -132,6 +132,7 @@
 
 
 <script>
+  import func from '../function';
   export default{
     data () {
       return {
@@ -149,16 +150,11 @@
           project: '',
           amount: 0,
           project_brief: '',
-          min_amount: 0,
-          max_amount: 0,
+          cost: 0,
           amount_guarantee: 0,
           rate_guarantee: 0,
           loan_ddl: 0,
-          guarantee_way: {
-            single: false,
-            multi: false,
-            both: false
-          },
+          guarantee_way: '',
           situation: {
             about_borrow: '',
             about_repaySource: '',
@@ -187,65 +183,16 @@
             this.basicInfo[key] = res.data[key];
           }
         } catch (e) {
-
+          this.$store.commit('info', '用户未登录');
         }
-      },
-      validate (mes) {
-        for (var key in mes) {
-          if (key.toString() === 'riskControl') {
-            if (mes[key].mortgage && mes[key].mortgage_value <= 0) {
-              return '请正确填写抵押物市值';
-            }
-            if (mes[key].guarentee) {
-              if (mes[key].guarentee_comName === '') {
-                return '请正确填写担保公司名称';
-              }
-              if (mes[key].guarentee_amount <= 0) {
-                return '请正确填写担保额度';
-              }
-            }
-          } else if (key.toString() === 'repaySupport') {
-            continue;
-          } else {
-            if (mes[key] === '') {
-              return '信息填写不完整';
-            }
-            if (mes.amount < 0) {
-              return '请正确填写借款额度';
-            }
-            if (mes.loan_ddl <= 3) {
-              return '贷款期限必须大于3个月';
-            }
-            if (mes.max_amount !== mes.amount) {
-              return '融资金额与标题借款额度不一致';
-            }
-            if (mes.max_rate < 0 || mes.max_rate > 4.90 * 4) {
-              return '请正确填写可承担最高利息';
-            }
-          }
-        }
-        return 'true';
       },
       evaluate () {
-        let res = this.validate(this.message);
+        let res = func.validateSeek(this.message);
         if (res !== 'true') {
           this.wrongMes = res;
           this.dialog = true;
           return;
         }
-        this.result.amount = this.basicInfo.comCreditScore * this.basicInfo.comCapital * 1.5 / 100;
-        this.result.risk_factor = ((this.message.max_amount - 0.5 * (this.message.riskControl.guarentee_amount + this.message.riskControl.mortgage_value)) / this.result.amount).toFixed(4);
-        this.result.total_risk_factor = (this.result.risk_factor * (1.0 + Math.log(4.0 * this.message.loan_ddl / 12))).toFixed(4);
-        if (this.message.loan_ddl <= 12) {
-          this.result.interest_rate_suggested = (4.35 * this.result.total_risk_factor).toFixed(4);
-        } else if (this.message.loan_ddl > 12 && this.message.loan_ddl <= 60) {
-          this.result.interest_rate_suggested = (4.75 * this.result.total_risk_factor).toFixed(4);
-        } else {
-          this.result.interest_rate_suggested = (4.90 * this.result.total_risk_factor).toFixed(4);
-        }
-        this.result.amount += '万元';
-        this.result.interest_rate_suggested += '%';
-        this.$store.commit('info', '评估成功，请查看右侧评估结果');
       }
     }
   };
@@ -255,10 +202,10 @@
 input{
   outline: none;
 }
-input[type="checkbox"]{
+input[type="radio"]{
   display: none;
 }
-input[type="checkbox"]+label{
+input[type="radio"]+label{
   display: inline-block;
 }
 label::before{
@@ -272,7 +219,7 @@ label::before{
   margin-right: 5px;
   -webkit-box-sizing:border-box;
 }
-input[type="checkbox"]:checked+label::before{
+input[type="radio"]:checked+label::before{
   background: url("/static/business/public/rec_selected.png");
   background-size: 100% 100%;
 }
@@ -363,6 +310,7 @@ input[type="checkbox"]:checked+label::before{
                 }
                 textarea:focus{
                     outline: 1px solid #d6a12c;
+                    border: 0px;
                 }
             }
             .submit_files {

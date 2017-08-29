@@ -4,55 +4,43 @@
         <div  class="info">
             <div class="info_part">
                 <img class="info_pic" src="/static/business/public/info.png"/>
-                <span class="info_text">请填写担保意愿信息，获得被担保匹配企业推荐结果</span>
+                <span class="info_text">请填写债权出售信息，获得债权匹配企业推荐结果</span>
             </div>
             <img class="dividing" src="/static/business/public/dividingline_write.png"/>
-            <div class="info_basic"><span>担保提供主体：&emsp;&emsp;{{basicInfo.comName}}</span></div>
-            <div class="info_basic"><span>注册地址：&emsp;&emsp;&emsp;&emsp;{{basicInfo.comRegistAddresss}}</span></div>
-            <div class="info_basic"><span>所属行业：&emsp;&emsp;&emsp;&emsp;{{basicInfo.comField}}</span></div>
-            <div class="info_basic"><span>注册资本：&emsp;&emsp;&emsp;&emsp;{{basicInfo.comCapital}}万元</span></div>
-            <div class="info_basic"><span>担保贷款项目简述</span></div>
-            <div class="long_input"><textarea type="text" placeholder="（请填写项目简述，不超过100字）"  maxlength="100" v-model="message.project_brief"></textarea></div>
-            <div class="check" :style="{margin: '15px auto 0px auto'}">
-                <span>愿意担保的贷款期限&emsp;&emsp;</span>
-                <input id="halfyear" type="radio" value="halfyear" :style="{width: '18px', height: '18px', border: '2px solid #666'}" v-model="message.loan_ddl"/>
-                <label for="halfyear">半年内&emsp;&emsp;</label>
-                <input id="oneyear"type="radio" value="oneyear" :style="{width: '18px', height: '18px'}" v-model="message.loan_ddl"/>
-                <label for="oneyear" >一年内&emsp;&emsp;</label>
-                <input id="threeyear"type="radio" value="threeyear" :style="{width: '18px', height: '18px'}" v-model="message.loan_ddl"/>
-                <label for="threeyear" >三年内&emsp;&emsp;</label>
-                <input id="fiveyear"type="radio" value="fiveyear" :style="{width: '18px', height: '18px'}" v-model="message.loan_ddl" />
-                <label for="fiveyear" >五年内</label>
+            <div class="abstract">
+                <input class="msg_item" id="input_city" type="text" v-model="message.company_lend"></input>
+                <span>企业关于对于</span>
+                <input class="msg_item" id="input_project" type="text" v-model="message.company_borrow"></input>
+                <span>企业应收账款</span>
+                <input class="msg_item" id="input_amount" type="number" v-model.number="message.amount"></input>
+                <span>万人民币的债权出售</span>
+            </div>
+            <div class="info_basic"><span>融资主体：&emsp;&emsp;{{basicInfo.comName}}</span></div>
+            <div class="info_basic"><span>注册地址：&emsp;&emsp;{{basicInfo.comRegistAddresss}}</span></div>
+            <div class="info_basic"><span>所属行业：&emsp;&emsp;{{basicInfo.comField}}</span></div>
+            <div class="info_item" :style="{margin: '15px auto 0px auto'}">
+                <span>债务主体名称&emsp;&emsp;</span>
+                <input class="msg_item" type="text" :style="{width: '94px'}" v-model.number="message.loan_owner"></input>
             </div>
             <div class="info_item" :style="{margin: '15px auto 0px auto'}">
-                <span>愿意担保的贷款额度&emsp;&emsp;</span>
-                <input class="msg_item" type="number" :style="{width: '94px'}" v-model.number="message.amount_guarantee"></input>
+                <span>债权金额&emsp;&emsp;&emsp;&emsp;</span>
+                <input class="msg_item" type="number" :style="{width: '94px'}" v-model.number="message.loan_amount"></input>
                 <span>&emsp;万人民币</span>
             </div>
             <div class="info_item" :style="{margin: '15px auto 0px auto'}">
-                <span>可接受的最低担保费率&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                <input class="msg_item" type="number" :style="{width: '94px'}" v-model.number="message.min_rate"></input>
-                <span>&emsp;%</span>
+                <span>债权期限&emsp;&emsp;&emsp;&emsp;</span>
+                <input class="msg_item" type="number" :style="{width: '94px'}" v-model.number="message.loan_ddl"></input>
+                <span>&emsp;月内</span>
             </div>
-            <div class="check" :style="{margin: '15px auto 0px auto'}">
-                <span>可接受担保类型&emsp;&emsp;</span>
-                <input id="neither" type="checkbox" :style="{width: '18px', height: '18px', border: '2px solid #666'}" v-model="message.guarantee_type.neither"/>
-                <label for="neither">无抵、质押担保&emsp;&emsp;&emsp;</label>
-                <input id="mortgage"type="checkbox" :style="{width: '18px', height: '18px'}" v-model="message.guarantee_type.mortgage"/>
-                <label for="mortgage" >抵押担保</label>
-                <br/>
-                <span>&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;</span>
-                <input id="both"type="checkbox" :style="{width: '18px', height: '18px'}" v-model="message.guarantee_type.pledge"/>
-                <label for="both" >抵、质押担保均可&emsp;&emsp;</label>
-                <input id="pledge"type="checkbox" :style="{width: '18px', height: '18px'}" v-model="message.guarantee_type.both"/>
-                <label for="pledge" >质押担保</label>
+            <div class="info_basic"><span>持有债权的来历</span></div>
+            <div class="long_input"><textarea type="text" v-model="message.loan_source"></textarea></div>
+            <div class="info_basic"><span>对应债务方的情况</span></div>
+            <div class="long_input"><textarea type="text" v-model="message.situation_borrower"></textarea></div>
+            <div class="info_item" :style="{margin: '15px auto 0px auto'}">
+                <span>债权定价&emsp;&emsp;&emsp;&emsp;</span>
+                <input class="msg_item" type="number" :style="{width: '94px'}" v-model.number="message.loan_price"></input>
+                <span>&emsp;万人民币</span>
             </div>
-            <div :style="{margin: '15px auto 0px auto'}"><span>近三年企业的借款情况</span></div>
-            <div class="long_input"><textarea type="text" v-model="message.situation.about_borrow"></textarea></div>
-            <div :style="{margin: '15px auto 0px auto'}"><span>近三年企业的贷款情况</span></div>
-            <div class="long_input"><textarea type="text" v-model="message.situation.about_lend"></textarea></div>
-            <div :style="{margin: '15px auto 0px auto'}"><span>企业的信用违约记录</span></div>
-            <div class="long_input"><textarea type="text" v-model="message.situation.about_credit"></textarea></div>
             <img class="dividing" src="/static/business/public/dividingline_write.png"/>
             <div class="info_part" :style="{margin: '10px auto 0px auto'}">
                 <img class="info_pic" src="/static/business/public/info.png"/>
@@ -64,26 +52,10 @@
             </div>
             <div class="submit_files">
                 <img class="submit_pic" src="/static/business/public/icon_addfiles.png"/>
-                <span class="submit_text">企业名下资产证明</span>
-            </div>
-            <div class="submit_files">
-                <img class="submit_pic" src="/static/business/public/icon_addfiles.png"/>
-                <span class="submit_text">近半年已签约的购销合同及提货单</span>
-            </div>
-            <div class="submit_files">
-                <img class="submit_pic" src="/static/business/public/icon_addfiles.png"/>
-                <span class="submit_text">近半年税务单</span>
-            </div>
-            <div class="submit_files">
-                <img class="submit_pic" src="/static/business/public/icon_addfiles.png"/>
-                <span class="submit_text">近三年的财务报表</span>
-            </div>
-            <div class="submit_files">
-                <img class="submit_pic" src="/static/business/public/icon_addfiles.png"/>
-                <span class="submit_text">经合法机构审核出具的审计表</span>
+                <span class="submit_text">债权相关合同以及证据证明</span>
             </div>
             <div class="submit_part" :style="{margin: '40px auto 0px auto'}">
-                <button class="eval_button" @click="offer">提交信息</button>
+                <button class="eval_button" @click="evaluate">提交信息</button>
             </div>
         </div>
         
@@ -104,7 +76,6 @@
 
 
 <script>
-  import func from '../function';
   export default{
     data () {
       return {
@@ -118,53 +89,17 @@
           comCapital: ''
         },
         message: {
-          city: '',
-          project: '',
+          company_borrow: '',
+          company_lend: '',
           amount: 0,
-          project_brief: '',
-          amount_guarantee: 0,
-          min_rate: 0,
-          loan_ddl: '',
-          guarantee_type: {
-            neither: false,
-            mortgage: false,
-            pledge: false,
-            both: false
-          },
-          situation: {
-            about_borrow: '',
-            about_lend: '',
-            about_credit: ''
-          }
+          loan_owner: '',
+          loan_amount: 0,
+          loan_ddl: 0,
+          loan_source: '',
+          situation_borrower: '',
+          loan_price: 0
         }
       };
-    },
-    async created () {
-      this.initData();
-    },
-    methods: {
-      close () {
-        this.dialog = false;
-      },
-      async initData () {
-        let res;
-        try {
-          res = await this.$http.get('/api/user/self');
-          for (var key in this.basicInfo) {
-            this.basicInfo[key] = res.data[key];
-          }
-        } catch (e) {
-          this.$store.commit('info', '用户未登录');
-        }
-      },
-      offer () {
-        let res = func.validateOffer(this.message);
-        if (res !== 'true') {
-          this.wrongMes = res;
-          this.dialog = true;
-          return;
-        }
-      }
     }
   };
 </script>
@@ -173,10 +108,10 @@
 input{
   outline: none;
 }
-input[type="checkbox"], input[type="radio"]{
+input[type="checkbox"]{
   display: none;
 }
-input[type="checkbox"]+label, input[type="radio"]+label{
+input[type="checkbox"]+label{
   display: inline-block;
 }
 label::before{
@@ -190,7 +125,7 @@ label::before{
   margin-right: 5px;
   -webkit-box-sizing:border-box;
 }
-input[type="checkbox"]:checked+label::before, input[type="radio"]:checked+label::before{
+input[type="checkbox"]:checked+label::before{
   background: url("/static/business/public/rec_selected.png");
   background-size: 100% 100%;
 }
@@ -213,7 +148,7 @@ input[type="checkbox"]:checked+label::before, input[type="radio"]:checked+label:
             text-align: center;
         }
         .info{
-            width: 600px;
+            width: 660px;
             height: auto;
             margin-left: auto;
             margin-right: auto;
@@ -245,19 +180,19 @@ input[type="checkbox"]:checked+label::before, input[type="radio"]:checked+label:
                 height: 27px;
                 margin-top: 24px;
                 span{
-                    padding-left: 16px;
-                    padding-right: 16px;
+                    padding-left: 6px;
+                    padding-right: 6px;
                 }
                 #input_city{
-                    width: 75px;
+                    width: 100px;
                     height: 100%;
                 }
                 #input_project{
-                    width: 120px;
+                    width: 100px;
                     height: 100%;
                 }
                 #input_amount{
-                    width: 90px;
+                    width: 85px;
                     height: 100%;
                 }
             }
@@ -330,7 +265,7 @@ input[type="checkbox"]:checked+label::before, input[type="radio"]:checked+label:
             display: inline-block;
             float: left;
             width: 3px;
-            height: 1800px;
+            height: 900px;
             margin-top: 50px;
             background: url("/static/business/public/line_straight.png");
             background-size: 100% 100%;

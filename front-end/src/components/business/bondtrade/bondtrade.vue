@@ -15,10 +15,10 @@
         </div>
       </div>
     </div>
-    <div class="seekPart" v-if="show.borrow">
-      <span :style="{marginLeft: '80px'}">债券出售</span>
+    <div class="sellPart" v-if="show.borrow">
+      <sell-debt></sell-debt>
     </div>
-    <div class="offerPart" v-if="show.lend">
+    <div class="buyPart" v-if="show.lend">
       <span :style="{marginLeft: '80px'}">债券购买</span>
     </div>
     <div class="morePart" v-if="show.more">
@@ -28,6 +28,7 @@
 </template>
 
 <script>
+import sellDebt from './sellDebt.vue';
 export default {
   data () {
     return {
@@ -50,6 +51,7 @@ export default {
     }
   },
   components: {
+    sellDebt
   }
 };
 </script>
@@ -87,12 +89,12 @@ export default {
       background: url("/static/business/partner/leftLine.png");
     }
   }
-  .seekPart{
+  .sellPart{
     width: 100%;
     min-width: 1300px;
     height: auto;
   }
-  .offerPart{
+  .buyPart{
     width: 100%;
     min-width: 1300px;
     height: auto;

@@ -37,7 +37,20 @@ exports.lend = async (req, res) => {
     ['max_amount', 'loan_ddl']
   );
   data.from = res.locals.user._id;
-  await asyncAssertThrow(Lend.create(data), 'invalid data');
+  const lendInstance = new Lend(data);
+  assert(!(lendInstance.validateSync() instanceof Error), 'invalid data');
+  const timelineItem = new TimelineItem({
+    from: res.locals.user._id,
+    type: 'Lend',
+    info: {
+      lendId: lendInstance._id
+    }
+  });
+  await Promise.all([
+    lendInstance.save(),
+    res.locals.user.addTimeline(timelineItem)
+  ]);
+
   res.end('ok');
 };
 

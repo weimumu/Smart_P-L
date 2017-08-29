@@ -1,1 +1,3 @@
-module.exports = require('require-indexify')();
+module.exports = require('require-indexify')({
+  recursive: true
+});

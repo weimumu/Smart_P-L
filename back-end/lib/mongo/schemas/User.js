@@ -185,7 +185,10 @@ userSchema.statics.getFriendTimeline = async function (id, size, page = 0) {
   assert(user, 'user not exist');
   return this.model('TimelineItem')
     .find({
-      from: {$in: user.friends}
+      $or: [
+        {from: id},
+        {from: {$in: user.friends}}
+      ]
     })
     .sort('-date')
     .skip(size * page)

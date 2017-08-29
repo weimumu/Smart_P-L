@@ -277,6 +277,78 @@
   ]
   ```
 
+### get borrow detail
+
+* GET `/api/loan/detail/borrow?id=BORROWID`
+
+* ```json
+  {
+      "_id": "59a56a1d42e9f105809ed944",
+      "city": "广州",
+      "project": "辣鸡",
+      "max_amount": 200,
+      "reason": "辣鸡",
+      "max_rate": 4.9,
+      "loan_ddl": 12,
+      "mortgage_value": 0,
+      "guarentee_amount": 0,
+      "supportSales": false,
+      "supportOther": false,
+      "risk_factor": null,
+      "total_risk_factor": null,
+      "from": {
+          "_id": "59a55a94ff71d31c94d5349c",
+          "comName": "华为科技",
+          "comCapital": 300,
+          "comTime": "1997.09.10",
+          "comPhone": "0992-2121898",
+          "comRegistAddresss": "广东省揭阳市",
+          "comWorkAddresss": "广东省揭阳市",
+          "comField": "采矿业",
+          "comProduct": "煤矿",
+          "comIntro": "美好",
+          "comCreditScore": 85,
+          "comHistoryScore": 86,
+          "comAttributeScore": 77,
+          "comIntegrityScore": 89
+      },
+      "__v": 0,
+      "date": "2017-08-29T13:20:29.903Z"
+  }
+  ```
+
+### get lend detail
+
+* GET `/api/loan/detail/lend?id=LENDID`
+
+* ```json
+  {
+      "_id": "59a5694442e9f105809ed942",
+      "max_amount": 200,
+      "loan_ddl": 12,
+      "from": {
+          "_id": "59a55a94ff71d31c94d5349c",
+          "comName": "华为科技",
+          "comCapital": 300,
+          "comTime": "1997.09.10",
+          "comPhone": "0992-2121898",
+          "comRegistAddresss": "广东省揭阳市",
+          "comWorkAddresss": "广东省揭阳市",
+          "comField": "采矿业",
+          "comProduct": "煤矿",
+          "comIntro": "美好",
+          "comCreditScore": 85,
+          "comHistoryScore": 86,
+          "comAttributeScore": 77,
+          "comIntegrityScore": 89
+      },
+      "__v": 0,
+      "date": "2017-08-29T13:16:52.991Z"
+  }
+  ```
+
+* ​
+
 ### get recommend for my Borrow
 
 * GET `/api/loan/recommend?id=BORROWID`

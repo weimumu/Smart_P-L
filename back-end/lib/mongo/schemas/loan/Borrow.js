@@ -13,7 +13,7 @@ const Borrow = new Schema({
     required: true
   },
   max_amount: {
-    type: String,
+    type: Number,
     required: true
   },
   max_rate: {

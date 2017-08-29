@@ -1,9 +1,8 @@
 const _ = require('lodash');
-const {assert, asyncAssertThrow, mongo: {Borrow, Lend, Message, LoanTransaction, User, TimelineItem}} = require('../../lib');
+const {assert, mongo: {Borrow, Lend, Message, LoanTransaction, User, TimelineItem}} = require('../../lib');
 const {ObjectId} = require('mongoose').Types;
 
 exports.borrow = async (req, res) => {
-  // TODO:
   //  1. 生成借款实例、加到自己的业务消息
   //  2. 朋友圈推送
   const data = _.pick(
@@ -29,7 +28,6 @@ exports.borrow = async (req, res) => {
 };
 
 exports.lend = async (req, res) => {
-  // TODO:
   //  1. 生成放款实例、加到自己的业务消息
   //  2. 朋友圈推送
   const data = _.pick(
@@ -135,9 +133,9 @@ exports.request = async (req, res) => {
 };
 
 exports.acceptRequest = async (req, res) => {
-  // TODO:
   //   1. 接受一个事务申请，将事务推进一个阶段
   //     * 双方发消息
+
   // const {transactionId} = req.body;
   // assert(transactionId, 'transaction-id required');
   // assert(ObjectId.isValid(transactionId), 'invalid transaction-id');
@@ -171,7 +169,6 @@ exports.acceptRequest = async (req, res) => {
 };
 
 exports.sendTransaction = async (req, res) => {
-  // TODO:
   //   发送合同信息
   const {messageId} = req.body;
   assert(messageId, 'message-id required');
@@ -197,7 +194,6 @@ exports.sendTransaction = async (req, res) => {
 };
 
 exports.acceptTransaction = async (req, res) => {
-  // TODO:
   //   1. 接受一个交易实例
   //     * 双方发消息
   //     * 完成交易

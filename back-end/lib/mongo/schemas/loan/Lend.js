@@ -9,7 +9,7 @@ const Lend = new Schema({
     required: true
   },
   max_amount: {
-    type: String,
+    type: Number,
     required: true
   },
   loan_ddl: {

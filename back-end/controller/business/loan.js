@@ -68,16 +68,8 @@ exports.lend = async (req, res) => {
   data.from = res.locals.user._id;
   const lendInstance = new Lend(data);
   assert(!(lendInstance.validateSync() instanceof Error), 'invalid data');
-  const timelineItem = new TimelineItem({
-    from: res.locals.user._id,
-    type: 'Lend',
-    info: {
-      lendId: lendInstance._id
-    }
-  });
   await Promise.all([
-    lendInstance.save(),
-    res.locals.user.addTimeline(timelineItem)
+    lendInstance.save()
   ]);
 
   res.json(lendInstance._id);

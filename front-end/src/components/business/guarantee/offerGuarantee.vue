@@ -280,8 +280,9 @@ input[type="checkbox"]:checked+label::before, input[type="radio"]:checked+label:
                     resize: none;
                 }
                 textarea:focus{
-                    outline: 1px solid #d6a12c;
+                    outline: 1px solid #ffffff;
                     border: 0px;
+                    box-shadow: 0 0 0px 1px #d6a12c;
                 }
             }
             .submit_files {

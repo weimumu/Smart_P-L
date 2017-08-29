@@ -19,6 +19,12 @@
                 </tr>
             </table>
         </div>
+        <div class="ps">
+            <span>请在申请通过后进行合同确认，逾期一个月未进行确认将被扣除2分信用分</span>
+        </div>
+        <div class="show_request">
+            <button>查看申请</button>
+        </div>
     </div>
 </div>
 </template>
@@ -95,6 +101,23 @@
                 height: 55px;
                 color: #505b72;
             }
+        }
+        .ps{
+          margin-top: 30px;
+          color: #d5a03a;
+          font-size: 14px;
+        }
+        .show_request{
+          margin-top : 18px;
+          button{
+            color: #4b4b4b;
+            font-size: 16px;
+            background: #ffffff;
+            border: 1px solid #4b4b4b;
+            border-radius: 20px;
+            width: 152px;
+            height: 40px;
+          }
         }
     }
 }

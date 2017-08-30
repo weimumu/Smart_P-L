@@ -7,7 +7,7 @@ exports.borrow = async (req, res) => {
   //  2. 朋友圈推送
   const data = _.pick(
     req.body,
-    ['city', 'project', 'max_amount', 'reason', 'max_rate', 'loan_ddl', 'other_detail']
+    ['city', 'project', 'max_amount', 'reason', 'max_rate', 'loan_ddl', 'other_detail', 'mortgage_value', 'guarentee_amount', 'supportSales', 'supportOther', 'risk_factor', 'total_risk_factor']
   );
   data.from = res.locals.user._id;
   const borrowInstance = new Borrow(data);

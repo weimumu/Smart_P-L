@@ -118,7 +118,7 @@
                 <img class="modify_pic" src="/static/business/public/icon_evaluate_back.png"/>
                 <span class="modify_text">&emsp;在左侧修改信息，重新评估</span>
             </div>
-            <button class="submit_button">直接提交</button>
+            <button class="submit_button" @click="submit">直接提交</button>
         </div>
     </div>
 
@@ -217,6 +217,32 @@
         this.result.amount += '万元';
         this.result.interest_rate_suggested += '%';
         this.$store.commit('info', '评估成功，请查看右侧评估结果');
+      },
+      async submit () {
+        let messageSubmit = {
+          city: this.message.city,
+          project: this.message.project,
+          max_amount: this.message.max_amount,
+          reason: this.message.reason,
+          max_rate: this.message.max_rate,
+          loan_ddl: this.message.loan_ddl,
+          other_detail: this.message.other_detail,
+          mortgage_value: this.message.riskControl.mortgage_value,
+          guarentee_amount: this.message.riskControl.guarentee_amount,
+          supportSales: this.message.repaySupport.sales,
+          supportOther: this.message.repaySupport.other,
+          risk_factor: this.result.risk_factor,
+          total_risk_factor: this.result.total_risk_factor
+        };
+        console.log(messageSubmit);
+        let res;
+        try {
+          res = await this.$http.post('/api/loan/borrow', messageSubmit);
+          this.$store.commit('info', '发布成功');
+          console.log(res);
+        } catch (e) {
+
+        }
       }
     }
   };

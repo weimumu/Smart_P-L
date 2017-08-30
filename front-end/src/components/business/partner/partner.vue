@@ -96,7 +96,7 @@
         <img src="/static/business/partner/boy.png" :style="{marginTop: '4px'}">
         <span class="comName">华为科技公司</span>
         <span class="time">2017-08-19 21:00</span>
-        <mu-icon-menu :anchorOrigin="leftTop" :targetOrigin="leftTop" slot="right" icon="expand_more" tooltip="操作" class="menu" :size="30">
+        <mu-icon-menu slot="right" icon="expand_more" tooltip="操作" class="menu" :size="30">
           <mu-menu-item title="举报" />
           <mu-menu-item title="屏蔽" />
         </mu-icon-menu>

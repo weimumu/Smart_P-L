@@ -46,7 +46,7 @@
             <myinput v-bind:change.value="message.comRegistAddresss" hint='例:广东省广州市' isActive=true itype='text' itname="注册地址" v-on:tranvalue="fatherValue"></myinput>
             <myinput v-bind:change.value="message.comWorkAddresss" hint='例:广东省广州市' isActive=true itype='text' itname="办公地址" v-on:tranvalue="fatherValue"></myinput>
             <div class="special">
-              <span class="specialSpan">注册资本</span>
+              <span class="specialSpan">所属行业</span>
               <select v-model="message.comField" class="select">
                 <option v-for="items in getField">{{items}}</option>
               </select>

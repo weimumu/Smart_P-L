@@ -27,6 +27,12 @@ const Borrow = new Schema({
   city: String,
   reason: String,
   other_detail: String,
+  mortgage_value: Number,
+  guarentee_amount: Number,
+  supportSales: Boolean,
+  supportOther: Boolean,
+  risk_factor: Number,
+  total_risk_factor: Number,
   date: {
     type: Date,
     default: Date.now

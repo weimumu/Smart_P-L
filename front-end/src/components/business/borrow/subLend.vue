@@ -104,12 +104,18 @@
           this.$store.commit('info', '用户未登录');
         }
       },
-      lendPost () {
+      async lendPost () {
         let res = func.validateLend(this.message);
         if (res !== 'true') {
           this.wrongMes = res;
           this.dialog = true;
           return;
+        }
+        try {
+          await this.$http.post('/api/loan/lend', this.message);
+          this.$store.commit('info', '提交成功');
+        } catch (e) {
+
         }
       }
     }

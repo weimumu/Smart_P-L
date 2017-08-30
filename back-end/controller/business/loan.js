@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const {assert, mongo: {Borrow, Lend, Message, LoanTransaction, User, TimelineItem}} = require('../../lib');
 const {ObjectId} = require('mongoose').Types;
+const {fields} = require('../../config');
 
 exports.borrow = async (req, res) => {
   //  1. 生成借款实例、加到自己的业务消息
@@ -24,7 +25,37 @@ exports.borrow = async (req, res) => {
     res.locals.user.addTimeline(timelineItem)
   ]);
 
-  res.end('ok');
+  res.json(borrowInstance._id);
+};
+
+exports.getBorrow = async (req, res) => {
+  const {id} = req.query;
+  assert(id, 'borrow-id required');
+  assert(ObjectId.isValid(id), 'invalid id');
+  const borrowInstance = await Borrow
+    .findById(id)
+    .populate({
+      path: 'from',
+      select: fields.stranger
+    });
+  assert(borrowInstance, 'borrow-instance not exist');
+
+  res.json(borrowInstance);
+};
+
+exports.getLend = async (req, res) => {
+  const {id} = req.query;
+  assert(id, 'lend-id required');
+  assert(ObjectId.isValid(id), 'invalid id');
+  const lendInstance = await Lend
+    .findById(id)
+    .populate({
+      path: 'from',
+      select: fields.stranger
+    });
+  assert(lendInstance, 'lend-instance not exist');
+
+  res.json(lendInstance);
 };
 
 exports.lend = async (req, res) => {
@@ -37,19 +68,11 @@ exports.lend = async (req, res) => {
   data.from = res.locals.user._id;
   const lendInstance = new Lend(data);
   assert(!(lendInstance.validateSync() instanceof Error), 'invalid data');
-  const timelineItem = new TimelineItem({
-    from: res.locals.user._id,
-    type: 'Lend',
-    info: {
-      lendId: lendInstance._id
-    }
-  });
   await Promise.all([
-    lendInstance.save(),
-    res.locals.user.addTimeline(timelineItem)
+    lendInstance.save()
   ]);
 
-  res.end('ok');
+  res.json(lendInstance._id);
 };
 
 exports.getMyBorrow = async (req, res) => {

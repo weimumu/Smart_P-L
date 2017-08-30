@@ -112,9 +112,18 @@ exports.getRelatedMessages = async (req, res) => {
     path: 'messages',
     match: {
       type: /^Borrow/
+    },
+    populate: {
+      path: 'info.transactionId',
+      model: 'LoanTransaction'
     }
   });
-  res.json(result.toObject().messages);
+  const messages = result.toObject().messages;
+  messages.forEach(m => {
+    m.info.transaction = m.info.transactionId;
+    delete m.info.transactionId;
+  });
+  res.json(messages);
 };
 
 exports.request = async (req, res) => {

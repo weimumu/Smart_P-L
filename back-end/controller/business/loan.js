@@ -20,9 +20,17 @@ exports.borrow = async (req, res) => {
       borrowId: borrowInstance._id
     }
   });
+  const message = new Message({
+    type: 'Publish-Borrow',
+    info: {
+      borrowId: borrowInstance._id
+    }
+  });
   await Promise.all([
     borrowInstance.save(),
-    res.locals.user.addTimeline(timelineItem)
+    res.locals.user.addTimeline(timelineItem),
+    message.save(),
+    res.locals.user.addMessage(message)
   ]);
 
   res.json(borrowInstance._id);
@@ -68,8 +76,16 @@ exports.lend = async (req, res) => {
   data.from = res.locals.user._id;
   const lendInstance = new Lend(data);
   assert(!(lendInstance.validateSync() instanceof Error), 'invalid data');
+  const message = new Message({
+    type: 'Publish-Borrow',
+    info: {
+      lendId: lendInstance._id
+    }
+  });
   await Promise.all([
-    lendInstance.save()
+    lendInstance.save(),
+    message.save(),
+    res.locals.user.addMessage(message)
   ]);
 
   res.json(lendInstance._id);
@@ -111,7 +127,7 @@ exports.getRelatedMessages = async (req, res) => {
   const result = await User.findById(res.locals.user._id).populate({
     path: 'messages',
     match: {
-      type: /^Borrow/
+      type: /^Borrow|^Publish/
     },
     populate: {
       path: 'info.transactionId',
@@ -155,11 +171,19 @@ exports.request = async (req, res) => {
       transactionId: transaction._id
     }
   });
+  const messageToSender = new Message({
+    type: 'BorrowRequest-Sent',
+    info: {
+      transactionId: transaction._id
+    }
+  });
 
   await Promise.all([
     transaction.save(),
     message.save(),
-    User.addMessage(lendInstance.from, message)
+    messageToSender.save(),
+    User.addMessage(lendInstance.from, message),
+    res.locals.user.addMessage(messageToSender)
   ]);
   res.end('ok');
 };
@@ -216,10 +240,17 @@ exports.sendTransaction = async (req, res) => {
       transactionId: message.info.transactionId
     }
   });
+  const messageToBorrower = new Message({
+    type: 'BorrowContract-Sent',
+    info: {
+      transactionId: message.info.transactionId
+    }
+  });
 
   await Promise.all([
     messageToLender.save(),
-    User.addMessage(message.from, messageToLender)
+    User.addMessage(message.from, messageToLender),
+    res.locals.user.addMessage(messageToBorrower)
   ]);
 
   res.end('ok');

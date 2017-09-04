@@ -7,15 +7,17 @@
             <table>
                 <tr class="main_row" bgcolor="#bbcae7">
                     <td class="item1"><span>公司名称</span></td>
-                    <td class="item2"><span>金额</span></td>
+                    <td class="item5"><span>注册资本</span></td>
+                    <td class="item2"><span>提供金额</span></td>
                     <td class="item3"><span>还款时限</span></td>
                     <td class="item4"><span>发起申请</span></td>
                 </tr>
                 <tr class="data_row" v-for="item in results">
                     <td class="item1"><span>{{item.comName}}</span></td>
+                    <td class="item5"><span>{{item.comCapital}}</span></td>
                     <td class="item2"><span>{{item.amount}}</span></td>
                     <td class="item3"><span>{{item.ddl}}</span></td>
-                    <td class="item4"><img src="/static/business/result/icon_apply.png"/></td>
+                    <td class="item4"><img src="/static/business/result/icon_apply.png" @click="reqPost(Id, item.lendId)" v-if="item.comName !== ''"/></td>
                 </tr>
             </table>
         </div>
@@ -32,26 +34,64 @@
 
 <script>
   export default{
+    props: ['Id', 'type'],
     data () {
       return {
         results: [
           {
-            comName: '华为科技公司',
-            amount: '100,000',
-            ddl: '2018-10-20'
+            comName: '',
+            amount: '',
+            ddl: '',
+            comCapital: '',
+            lendId: ''
           },
           {
             comName: '',
             amount: '',
-            ddl: ''
+            ddl: '',
+            comCapital: '',
+            lendId: ''
           },
           {
             comName: '',
             amount: '',
-            ddl: ''
+            ddl: '',
+            comCapital: '',
+            lendId: ''
           }
         ]
       };
+    },
+    async created () {
+      this.initData();
+    },
+    methods: {
+      async initData () {
+        if (this.type === 'borrow') {
+          let res = await this.$http.get('/api/loan/recommend?id=' + this.Id);
+          console.log(res.data);
+          if (!res.data.length) {
+            this.$store.commit('info', '暂时没有符合你信息的匹配对象');
+          }
+          for (let i = 0; i < res.data.length; i++) {
+            let res1 = await this.$http.get('/api/loan/detail/lend?id=' + res.data[i]._id);
+            this.results[i].comName = res1.data.from.comName;
+            this.results[i].comCapital = res1.data.from.comCapital + '万元';
+            this.results[i].amount = res.data[i].max_amount + '万元';
+            this.results[i].ddl = res.data[i].loan_ddl + '月';
+            this.results[i].lendId = res.data[i]._id;
+          }
+        }
+      },
+      async reqPost (borrowId, lendId) {
+        console.log(borrowId, lendId);
+        let res;
+        res = await this.$http.post('/api/loan/request', {
+          borrowId: borrowId,
+          lendId: lendId
+        });
+        console.log(res);
+      }
     }
   };
 </script>
@@ -64,7 +104,7 @@
         width: 676px;
         margin-left: auto;
         margin-right: auto;
-        padding-top: 80px;
+        padding-top: 20px;
         .logo{
             img{
                 height: 48px;
@@ -90,6 +130,9 @@
                 }
                 .item4{
                     width: 100px;
+                }
+                .item5{
+                  width: 142px;
                 }
             }
             .main_row{

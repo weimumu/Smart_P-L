@@ -5,26 +5,43 @@
         <i class="point" :style="{marginLeft: '80px'}"></i>
         <mu-tab value="好友申请" title="好友申请" />
         <i class="point"></i>
-        <mu-tab value="业务进程" title="业务进程" />
+        <mu-tab value="业务进程" title="业务进程" @click="initBusiness"/>
         <i class="point" :style="{marginRight: '80px'}"></i>
       </mu-tabs>
       <div class="bottomLine"></div>
     </div>
     <img class="img1" src="/static/message/friend/bg_icon1.png">
-    <div class="content">
+    <div class="content" v-if="activeTab === '好友申请'">
         <li style="list-style-type:none;" v-for="items in friendsList">
           <mu-list-item :title=items.from.comName :titleClass="{listFont: true}" >
             <mu-avatar src="/static/business/partner/boy.png" slot="leftAvatar" />
             <span slot="describe" v-if="items.type === 'FriendRequest-Received'" :style="{fontSize: '13px', paddingTop: '10px'}">
               {{items.from.comField}}&nbsp;&nbsp;地址: {{items.from.comWorkAddresss}} &nbsp;&nbsp;电话: {{items.from.comPhone}}
             </span>
-            <button slot="right" class="contract" v-if="items.type === 'FriendRequest-Accepted' || items.type === 'FriendRequest-Received&Accepted'" @click="goToCon">与他联系</button>
+            <button slot="right" class="contract" v-if="items.type === 'FriendRequest-Accepted' || items.type === 'FriendRequest-Received&Accepted'" @click="goToCon('active1')">与他联系</button>
             <button slot="right" class="mesButton" @click="agree(items._id)" v-if="items.type === 'FriendRequest-Received'">同意</button>
             <button slot="right" class="mesButton" @click="refuse(items._id)" v-if="items.type === 'FriendRequest-Received'">拒绝</button>
             <span class="time" slot="right">{{tranDate(items.date)}}</span>
           </mu-list-item>
           <mu-divider class="line" />
         </li>
+    </div>
+    <div class="business" v-if="activeTab === '业务进程'">
+      <div :style="{marginTop: '20px'}" v-for="items in business">
+        <span class="Mainmes">借贷申请</span>
+        <div>
+          <span class="mes">你收到一封与您合作借贷业务的申请</span>
+        </div>
+        <div class="mesContent">
+          <div class="spa"><span>借款公司:&nbsp;&nbsp;{{items.comName}}</span></div>
+          <div class="spa"><span>借款额度:&nbsp;&nbsp;{{items.max_amount}}</span></div>
+          <div class="spa"><span>提供利息:&nbsp;&nbsp;{{items.max_rate}}</span></div>
+          <div class="spa"><span>借款期限:&nbsp;&nbsp;{{items.loan_ddl}}</span></div>
+          <button class="button1" @click="goToCon('active2')">查看详情</button>
+          <button class="button2" @click="goToCon('active1')">与他联系</button>
+        </div>
+        <div class="line"></div>
+      </div>
     </div>
     <img class="img2" src="/static/message/friend/bg_icon2.png">
   </div>
@@ -35,7 +52,8 @@ export default {
   data () {
     return {
       activeTab: '好友申请',
-      friendsList: []
+      friendsList: [],
+      business: []
     };
   },
   async created () {
@@ -45,9 +63,8 @@ export default {
     handleTabChange (val) {
       this.activeTab = val;
     },
-    goToCon () {
-      console.log('weimumu');
-      this.$emit('goToMes');
+    goToCon (mes) {
+      this.$emit('goToMes', mes);
     },
     async agree (mes) {
       try {
@@ -85,6 +102,22 @@ export default {
       }
       console.log(this.friendsList);
     },
+    async initBusiness () {
+      let res = await this.$http.get('/api/loan/messages');
+      for (let i = 0; i < res.data.length; i++) {
+        if (res.data[i].type === 'BorrowRequest-Received') {
+          let res1 = await this.$http.get('/api/loan/detail/borrow?id=' + res.data[i].info.transaction.borrow);
+          let message = {
+            comName: res1.data.from.comName,
+            max_amount: res1.data.max_amount + '万元',
+            max_rate: res1.data.max_rate + '%/年',
+            loan_ddl: res1.data.loan_ddl + '月'
+          };
+          this.business.push(message);
+        }
+      }
+      console.log(this.business);
+    },
     tranDate (mes) {
       let res = new Date(mes);
       return res.toLocaleDateString() + ' ' + res.getHours() + ':' + res.getMinutes();
@@ -113,7 +146,7 @@ export default {
       height: 1.2px;
     }
   }
-  .content {
+  .content{
     padding: 20px 40px;
     position: fixed;
     left: 18%;
@@ -156,6 +189,69 @@ export default {
       bottom: -15px;
       right: -25px;
       width: 110px;
+    }
+  }
+  .business{
+    padding: 20px 40px;
+    position: fixed;
+    left: 18%;
+    width: 64%;
+    height: 100%;
+    margin-top: 25px;
+    background: url("/static/message/friend/bg_rec.png");
+    background-size: 100% 100%;
+    .Mainmes{
+      margin-left: 25px;
+      color: #d6a12c;
+      font-size: 20px;
+    }
+    .mes{
+      font-size: 16px;
+      margin-left: 25px;
+      color: #4b4b4b;
+    }
+    .mesContent {
+      font-size: 14px;
+      padding-top: 9px;
+      padding-left: 20px;
+      position: relative;
+      margin: 0 auto;
+      background: #f2f2f2;
+      height: 110px;
+      width: 93%;
+      margin-left: 25px;
+      margin-top: 10px;
+      .spa{
+        color: #4b4b4b;
+        padding-bottom: 2px;
+      }
+      .button1, .button2{
+        font-size: 12px;
+        outline: none;
+        width: 68px;
+        height: 25px;
+        color: #4b4b4b;
+        background: #f2f2f2;
+        border-radius: 10px;
+        border: 1px solid #4b4b4b;
+      }
+      .button1{
+        top: 15px;
+        position: absolute;
+        right: 40px;
+      }
+      .button2 {
+        top: 47px;
+        position: absolute;
+        right: 40px;
+      }
+    }
+    .line{
+      height: 0.8px;
+      background: #d6a12c;
+      width: 98%;
+      margin-top: 16px;
+      margin-left: 5px;
     }
   }
   .img1 {

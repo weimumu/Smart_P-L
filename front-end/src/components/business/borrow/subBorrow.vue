@@ -1,6 +1,6 @@
 <template>
 <div class="sub_borrow">
-    <div class="leftpart">
+    <div class="leftpart" v-if="!submitActive">
         <div  class="info">
             <div class="info_part">
                 <img class="info_pic" src="/static/business/public/info.png"/>
@@ -106,7 +106,7 @@
         
     </div>
     
-    <div class="rightpart">
+    <div class="rightpart" v-if="!submitActive">
         <div class="line"></div>
         <div class="assess">
             <div class="result_title"><span>风险及额度评估</span></div>
@@ -122,6 +122,7 @@
         </div>
     </div>
 
+    <result :Id="borrowId" type="borrow" v-if="submitActive"></result>
     <div>
       <mu-dialog :open="dialog" title="错误提示">
         {{wrongMes}}
@@ -134,11 +135,14 @@
 
 <script>
   import func from '../function';
+  import result from '../result/matchResult.vue';
   export default{
     data () {
       return {
         wrongMes: '',
         dialog: false,
+        borrowId: '1212',
+        submitActive: false,
         basicInfo: {
           comName: '',
           comRegistAddresss: '',
@@ -219,6 +223,10 @@
         this.$store.commit('info', '评估成功，请查看右侧评估结果');
       },
       async submit () {
+        if (this.result.risk_factor === '') {
+          this.$store.commit('info', '请先进行评估再发布');
+          return;
+        }
         let messageSubmit = {
           city: this.message.city,
           project: this.message.project,
@@ -239,11 +247,16 @@
         try {
           res = await this.$http.post('/api/loan/borrow', messageSubmit);
           this.$store.commit('info', '发布成功');
+          this.borrowId = res.data;
+          this.submitActive = true;
           console.log(res);
         } catch (e) {
 
         }
       }
+    },
+    components: {
+      result
     }
   };
 </script>

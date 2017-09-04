@@ -23,7 +23,7 @@
         <partner></partner>
       </div>
       <div v-if="activeTab === '借贷业务'">
-        <borrow></borrow>
+        <borrow :active="show1"></borrow>
       </div>
       <div v-if="activeTab === '债券交易'">
         <bondtrade></bondtrade>
@@ -33,7 +33,7 @@
       </div>
     </div>
     <div v-if="messageActive">
-      <message @goToMes="goToMain"></message>
+      <message @goToMes="goToMain1"></message>
     </div>
   </div>
 </template>
@@ -54,7 +54,8 @@ export default {
         active2: false,
         active3: false,
         active4: false
-      }
+      },
+      show1: true
     };
   },
   methods: {
@@ -69,6 +70,23 @@ export default {
         } else {
           this.show[key] = false;
         }
+      }
+    },
+    goToMain1 (mes) {
+      this.messageActive = false;
+      for (var key in this.show) {
+        if (key.toString() === mes) {
+          this.show[key] = true;
+        } else {
+          this.show[key] = false;
+        }
+      }
+      if (mes === 'active1') {
+        this.activeTab = '合作伙伴';
+      }
+      if (mes === 'active2') {
+        this.activeTab = '借贷业务';
+        this.show1 = false;
       }
     },
     goToMes () {

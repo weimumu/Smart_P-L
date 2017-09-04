@@ -77,7 +77,7 @@ exports.lend = async (req, res) => {
   const lendInstance = new Lend(data);
   assert(!(lendInstance.validateSync() instanceof Error), 'invalid data');
   const message = new Message({
-    type: 'Publish-Borrow',
+    type: 'Publish-Lend',
     info: {
       lendId: lendInstance._id
     }

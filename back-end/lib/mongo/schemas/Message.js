@@ -30,7 +30,8 @@ const messageSchema = new Schema({
       'BorrowContract-Accepted', // transaction done
       'BorrowContract-Refused',
       'Publish-Lend',
-      'Publish-Borrow'
+      'Publish-Borrow',
+      'Borrow-Completed'
     ]
   },
   info: Schema.Types.Mixed,

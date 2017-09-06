@@ -31,7 +31,16 @@ const messageSchema = new Schema({
       'BorrowContract-Refused',
       'Publish-Lend',
       'Publish-Borrow',
-      'Borrow-Completed'
+      'Borrow-Completed',
+      'Publish-GuranteeOffer',
+      'Publish-GuranteeSeek',
+      'GuranteeRequest-Received',
+      'GuranteeRequest-Sent',
+      'GuranteeRequest-Accepted',
+      'GuranteeContract-Received',
+      'GuranteeContract-Sent',
+      'GuranteeContract-Accepted',
+      'Gurantee-Completed'
     ]
   },
   info: Schema.Types.Mixed,

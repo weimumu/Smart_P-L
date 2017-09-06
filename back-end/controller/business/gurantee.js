@@ -1,124 +1,148 @@
 const _ = require('lodash');
-const {assert, mongo: {Borrow, Lend, Message, LoanTransaction, User, TimelineItem}} = require('../../lib');
+const {assert, mongo: {GuranteeSeek, GuranteeOffer, GuranteeTransaction, Message, User, TimelineItem}} = require('../../lib');
 const {ObjectId} = require('mongoose').Types;
 const {fields} = require('../../config');
 
-exports.borrow = async (req, res) => {
+exports.seek = async (req, res) => {
   //  1. 生成借款实例、加到自己的业务消息
   //  2. 朋友圈推送
   const data = _.pick(
     req.body,
-    ['city', 'project', 'max_amount', 'reason', 'max_rate', 'loan_ddl', 'other_detail']
+    ['city', 'project', 'cost', 'amount_gurantee', 'rate_gurantee', 'loan_ddl', 'reason', 'other_detail']
   );
   data.from = res.locals.user._id;
-  const borrowInstance = new Borrow(data);
-  assert(!(borrowInstance.validateSync() instanceof Error), 'invalid data');
+  const seekInstance = new GuranteeSeek(data);
+  assert(!(seekInstance.validateSync() instanceof Error), 'invalid data');
   const timelineItem = new TimelineItem({
     from: res.locals.user._id,
-    type: 'Borrow',
+    type: 'GuranteeSeek',
     info: {
-      borrowId: borrowInstance._id
+      seekId: seekInstance._id
     }
   });
   const message = new Message({
-    type: 'Publish-Borrow',
+    type: 'Publish-GuranteeSeek',
     info: {
-      borrowId: borrowInstance._id
+      seekId: seekInstance._id
     }
   });
   await Promise.all([
-    borrowInstance.save(),
+    seekInstance.save(),
     res.locals.user.addTimeline(timelineItem),
     message.save(),
     res.locals.user.addMessage(message)
   ]);
 
-  res.json(borrowInstance._id);
+  res.json(seekInstance._id);
 };
 
-exports.getBorrow = async (req, res) => {
+exports.getSeek = async (req, res) => {
   const {id} = req.query;
-  assert(id, 'borrow-id required');
+  assert(id, 'seek-id required');
   assert(ObjectId.isValid(id), 'invalid id');
-  const borrowInstance = await Borrow
+  const seekInstance = await GuranteeSeek
     .findById(id)
     .populate({
       path: 'from',
       select: fields.stranger
     });
-  assert(borrowInstance, 'borrow-instance not exist');
+  assert(seekInstance, 'seek-instance not exist');
 
-  res.json(borrowInstance);
+  res.json(seekInstance);
 };
 
-exports.getLend = async (req, res) => {
+exports.getOffer = async (req, res) => {
   const {id} = req.query;
-  assert(id, 'lend-id required');
+  assert(id, 'offer-id required');
   assert(ObjectId.isValid(id), 'invalid id');
-  const lendInstance = await Lend
+  const offerInstance = await GuranteeOffer
     .findById(id)
     .populate({
       path: 'from',
       select: fields.stranger
     });
-  assert(lendInstance, 'lend-instance not exist');
+  assert(offerInstance, 'offer-instance not exist');
 
-  res.json(lendInstance);
+  res.json(offerInstance);
 };
 
-exports.lend = async (req, res) => {
+exports.offer = async (req, res) => {
   //  1. 生成放款实例、加到自己的业务消息
   //  2. 朋友圈推送
   const data = _.pick(
     req.body,
-    ['max_amount', 'loan_ddl']
+    ['amount_gurantee', 'loan_ddl', 'min_rate']
   );
   data.from = res.locals.user._id;
-  const lendInstance = new Lend(data);
-  assert(!(lendInstance.validateSync() instanceof Error), 'invalid data');
+  const offerInstance = new GuranteeOffer(data);
+  assert(!(offerInstance.validateSync() instanceof Error), 'invalid data');
   const message = new Message({
-    type: 'Publish-Lend',
+    type: 'Publish-GuranteeOffer',
     info: {
-      lendId: lendInstance._id
+      offerId: offerInstance._id
     }
   });
   await Promise.all([
-    lendInstance.save(),
+    offerInstance.save(),
     message.save(),
     res.locals.user.addMessage(message)
   ]);
 
-  res.json(lendInstance._id);
+  res.json(offerInstance._id);
 };
 
-exports.getMyBorrow = async (req, res) => {
-  const result = await Borrow.find({from: res.locals.user});
+exports.getMySeek = async (req, res) => {
+  const result = await GuranteeSeek.find({from: res.locals.user});
   res.json(result);
 };
 
-exports.getMyLend = async (req, res) => {
-  const result = await Lend.find({from: res.locals.user});
+exports.getMyOffer = async (req, res) => {
+  const result = await GuranteeOffer.find({from: res.locals.user});
   res.json(result);
 };
 
-exports.getRecommend = async (req, res) => {
+exports.getRecommendSingle = async (req, res) => {
   // 根据借款实例id返回推荐的借款活动
   const {id} = req.query;
   assert(id, 'borrow-id required');
   assert(ObjectId.isValid(id), 'invalid id');
-  const borrowInstance = await Borrow.findById(id);
-  assert(borrowInstance, 'borrow-instance not exist');
-
-  const result = await Lend
+  const seekInstance = await GuranteeSeek.findById(id);
+  assert(seekInstance, 'borrow-instance not exist');
+  const result = await GuranteeOffer
     .find({
       'loan_ddl': {
-        $gte: borrowInstance.loan_ddl
+        $gte: seekInstance.loan_ddl
+      },
+      'amount_gurantee': {
+        $gte: seekInstance.amount_gurantee
       },
       from: { // exclude those from yourself
         $ne: res.locals.user._id
       }
     })
-    .sort('-max_amount')
+    .sort('-amount_gurantee')
+    .limit(3); // only return top three
+  res.json(result);
+};
+
+exports.getRecommendMulti = async (req, res) => {
+  // 根据借款实例id返回推荐的借款活动
+  const {id} = req.query;
+  assert(id, 'borrow-id required');
+  assert(ObjectId.isValid(id), 'invalid id');
+  const seekInstance = await GuranteeSeek.findById(id);
+  assert(seekInstance, 'borrow-instance not exist');
+
+  const result = await GuranteeOffer
+    .find({
+      'loan_ddl': {
+        $gte: seekInstance.loan_ddl
+      },
+      from: { // exclude those from yourself
+        $ne: res.locals.user._id
+      }
+    })
+    .sort('-amount_gurantee')
     .limit(3); // only return top three
   res.json(result);
 };
@@ -127,11 +151,11 @@ exports.getRelatedMessages = async (req, res) => {
   const result = await User.findById(res.locals.user._id).populate({
     path: 'messages',
     match: {
-      type: /^Borrow|^Publish-Lend|^Publish-Borrow/
+      type: /^Gurantee|^Publish-Gurantee/
     },
     populate: {
       path: 'info.transactionId',
-      model: 'LoanTransaction'
+      model: 'GuranteeTransaction'
     }
   });
   const messages = result.toObject().messages;
@@ -146,33 +170,33 @@ exports.request = async (req, res) => {
   //   1. 向一个放款实例发出申请
   //     * 生成事务实例
   //     * 双方发消息
-  const {borrowId, lendId} = req.body;
-  assert(borrowId, 'borrow-id required');
-  assert(ObjectId.isValid(borrowId), 'invalid borrow-id');
-  const borrowInstance = await Borrow.findById(borrowId);
-  assert(borrowInstance, 'borrow-instance not exist');
+  const {seekId, offerId} = req.body;
+  assert(seekId, 'seek-id required');
+  assert(ObjectId.isValid(seekId), 'invalid seek-id');
+  const seekInstance = await GuranteeSeek.findById(seekId);
+  assert(seekInstance, 'seek-instance not exist');
 
-  assert(lendId, 'lend-id required');
-  assert(ObjectId.isValid(lendId), 'invalid lend-id');
-  const lendInstance = await Lend.findById(lendId);
-  assert(lendInstance, 'lend-instance not exist');
+  assert(offerId, 'offer-id required');
+  assert(ObjectId.isValid(offerId), 'invalid offer-id');
+  const offerInstance = await GuranteeOffer.findById(offerId);
+  assert(offerInstance, 'offer-instance not exist');
 
-  assert(borrowInstance.from.toString() !== lendInstance.from.toString(), `self request`);
+  assert(seekInstance.from.toString() !== offerInstance.from.toString(), `self request`);
 
-  const transaction = new LoanTransaction({
+  const transaction = new GuranteeTransaction({
     from: res.locals.user._id,
-    lend: lendInstance._id,
-    borrow: borrowInstance._id
+    offer: offerInstance._id,
+    seek: seekInstance._id
   });
   const message = new Message({
-    type: 'BorrowRequest-Received',
+    type: 'GuranteeRequest-Received',
     from: res.locals.user._id,
     info: {
       transactionId: transaction._id
     }
   });
   const messageToSender = new Message({
-    type: 'BorrowRequest-Sent',
+    type: 'GuranteeRequest-Sent',
     info: {
       transactionId: transaction._id
     }
@@ -182,7 +206,7 @@ exports.request = async (req, res) => {
     transaction.save(),
     message.save(),
     messageToSender.save(),
-    User.addMessage(lendInstance.from, message),
+    User.addMessage(offerInstance.from, message),
     res.locals.user.addMessage(messageToSender)
   ]);
   res.end('ok');
@@ -204,10 +228,10 @@ exports.acceptRequest = async (req, res) => {
   assert(ObjectId.isValid(messageId), 'invalid message-id');
   const message = await Message.findById(messageId);
   assert(message, 'message-instance not exist');
-  assert(message.type === 'BorrowRequest-Received', 'incorrect message type');
+  assert(message.type === 'GuranteeRequest-Received', 'incorrect message type');
 
-  const messageToBorrower = new Message({
-    type: 'BorrowRequest-Accepted',
+  const messageToSeeker = new Message({
+    type: 'GuranteeRequest-Accepted',
     from: res.locals.user._id,
     info: {
       transactionId: message.info.transactionId
@@ -215,10 +239,10 @@ exports.acceptRequest = async (req, res) => {
   });
 
   await Promise.all([
-    message.update({$set: {type: 'BorrowRequest-Received&Accepted'}}),
-    messageToBorrower.save(),
-    LoanTransaction.update({_id: message.info.transactionId}, {$set: {status: 'Progressing'}}),
-    User.addMessage(message.from, messageToBorrower)
+    message.update({$set: {type: 'GuranteeRequest-Received&Accepted'}}),
+    messageToSeeker.save(),
+    GuranteeTransaction.update({_id: message.info.transactionId}, {$set: {status: 'Progressing'}}),
+    User.addMessage(message.from, messageToSeeker)
   ]);
 
   res.end('ok');
@@ -231,26 +255,26 @@ exports.sendTransaction = async (req, res) => {
   assert(ObjectId.isValid(messageId), 'invalid message-id');
   const message = await Message.findById(messageId);
   assert(message, 'message-instance not exist');
-  assert(message.type === 'BorrowRequest-Accepted', 'incorrect message type');
+  assert(message.type === 'GuranteeRequest-Accepted', 'incorrect message type');
 
-  const messageToLender = new Message({
-    type: 'BorrowContract-Received',
+  const messageToOfferer = new Message({
+    type: 'GuranteeContract-Received',
     from: res.locals.user._id,
     info: {
       transactionId: message.info.transactionId
     }
   });
-  const messageToBorrower = new Message({
-    type: 'BorrowContract-Sent',
+  const messageToSeeker = new Message({
+    type: 'GuranteeContract-Sent',
     info: {
       transactionId: message.info.transactionId
     }
   });
 
   await Promise.all([
-    messageToLender.save(),
-    User.addMessage(message.from, messageToLender),
-    res.locals.user.addMessage(messageToBorrower)
+    messageToOfferer.save(),
+    User.addMessage(message.from, messageToOfferer),
+    res.locals.user.addMessage(messageToSeeker)
   ]);
 
   res.end('ok');
@@ -265,29 +289,29 @@ exports.acceptTransaction = async (req, res) => {
   assert(ObjectId.isValid(messageId), 'invalid message-id');
   const message = await Message.findById(messageId);
   assert(message, 'message-instance not exist');
-  assert(message.type === 'BorrowContract-Received', 'incorrect message type');
+  assert(message.type === 'GuranteeContract-Received', 'incorrect message type');
 
-  const messageToBorrower = new Message({
-    type: 'BorrowContract-Accepted',
+  const messageToSeeker = new Message({
+    type: 'GuranteeContract-Accepted',
     from: res.locals.user._id,
     info: {
       transactionId: message.info.transactionId
     }
   });
   const completeMessage = new Message({
-    type: 'Borrow-Completed',
+    type: 'Gurantee-Completed',
     info: {
       transactionId: message.info.transactionId
     }
   });
 
   await Promise.all([
-    messageToBorrower.save(),
+    messageToSeeker.save(),
     completeMessage.save(),
-    User.addMessage(message.from, completeMessage, messageToBorrower),
+    User.addMessage(message.from, completeMessage, messageToSeeker),
     res.locals.user.addMessage(completeMessage),
-    message.update({$set: {type: 'BorrowContract-Received&Accepted'}}),
-    LoanTransaction.update({_id: message.info.transactionId}, {
+    message.update({$set: {type: 'GuranteeContract-Received&Accepted'}}),
+    GuranteeTransaction.update({_id: message.info.transactionId}, {
       $set: {status: 'Completed'}
     })
   ]);

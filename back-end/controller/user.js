@@ -84,7 +84,6 @@ exports.edit = async (req, res) => {
 
 exports.getSelf = async (req, res) => {
   const user = res.locals.user;
-  console.log(user.comCreditScore);
   const filtered = _.omit(user, 'userPass');
   res.json(filtered);
 };

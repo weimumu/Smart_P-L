@@ -21,6 +21,9 @@ mongoose.model('Borrow', schemas.loan.Borrow);
 mongoose.model('Lend', schemas.loan.Lend);
 mongoose.model('LoanTransaction', schemas.loan.LoanTransaction);
 mongoose.model('TimelineItem', schemas.TimelineItem);
+mongoose.model('GuranteeOffer', schemas.gurantee.Offer);
+mongoose.model('GuranteeSeek', schemas.gurantee.Seek);
+mongoose.model('GuranteeTransaction', schemas.gurantee.GuranteeTransaction);
 
 module.exports = {
   User: mongoose.model('User'),
@@ -29,5 +32,8 @@ module.exports = {
   Borrow: mongoose.model('Borrow'),
   Lend: mongoose.model('Lend'),
   LoanTransaction: mongoose.model('LoanTransaction'),
-  TimelineItem: mongoose.model('TimelineItem')
+  TimelineItem: mongoose.model('TimelineItem'),
+  GuranteeOffer: mongoose.model('GuranteeOffer'),
+  GuranteeSeek: mongoose.model('GuranteeSeek'),
+  GuranteeTransaction: mongoose.model('GuranteeTransaction')
 };

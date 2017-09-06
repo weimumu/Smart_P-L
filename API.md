@@ -28,7 +28,7 @@
 
 ### logout
 
-* GET `/api/user/logout` 
+* GET `/api/user/logout`
 
 ### regist
 
@@ -58,7 +58,7 @@
     "contactMobile": "",
     "contactEmail": "",
     "contactQQ": "",
-    "contactPhone": "" 
+    "contactPhone": ""
   }
   ```
 
@@ -77,7 +77,7 @@
 
 * GET `/api/user/:id`
 
-* response: 
+* response:
 
 * if you are friends:
 
@@ -193,7 +193,7 @@
 
 * ​
 
-### get messages 
+### get messages
 
 * GET `/api/message?size=SIZE&page=PAGE`
 
@@ -448,7 +448,7 @@
   }
   ```
 
-* note: 
+* note:
 
   * `borrowId` and `lendId` are provided in **get recommend** api and **get my borrow** api
   * once this API is called:
@@ -465,7 +465,7 @@
   }
   ```
 
-* note: 
+* note:
 
   * `messageId` is provided in message of type `BorrowRequest-Received` (field `_id`)
   * once this API is called, the *borrower* get a `BorrowRequest-Accepted` message
@@ -536,3 +536,577 @@
 * GET `/api/timeline/me?page=PAGE&size=SIZE`
 * same as **get timeline**
 
+
+## Gurantee 担保部分
+
+###  publish Offer
+
+- POST `/api/gurantee/lend`
+
+- ```json
+  {
+    "amount_gurantee": 1,
+    "loan_ddl": 12,
+    "min_rate": 0.3
+  }
+  ```
+
+### publish Borrow
+
+- POST `/api/gurantee/borrow`
+
+- ```json
+  {
+    "city": "",
+    "project": "",
+    "amount_gurantee": 1,
+    "reason": "",
+    "max_rate": 3,
+    "loan_ddl": 12,
+    "other_detail": ""
+  }
+  ```
+
+### get my own seek list
+
+- GET `/api/gurantee/borrow`
+
+- ```json
+  [
+      {
+          "_id": "59b017762bc84c4c2cce798a",
+          "city": "广州",
+          "project": "smart",
+          "cost": 12,
+          "amount_gurantee": 30,
+          "rate_gurantee": 0.7,
+          "loan_ddl": 5,
+          "reason": "no reason",
+          "other_detail": "???",
+          "from": "59ae8735dd5a292fa821f2cd",
+          "__v": 0,
+          "date": "2017-09-06T15:42:46.279Z"
+      },
+      {
+          "_id": "59b01d7d971a3f2e60e882b4",
+          "city": "广州",
+          "project": "smart",
+          "cost": 12,
+          "amount_gurantee": 30,
+          "rate_gurantee": 0.7,
+          "loan_ddl": 5,
+          "reason": "no reason",
+          "other_detail": "???",
+          "from": "59ae8735dd5a292fa821f2cd",
+          "__v": 0,
+          "date": "2017-09-06T16:08:29.497Z"
+      }
+  ]
+  ```
+
+### get my own offer list
+
+- GET `/api/gurantee/lend`
+
+- ```json
+  [
+      {
+          "_id": "59b01551fd1b5147d87d4f12",
+          "amount_guarantee": 300,
+          "loan_ddl": 12,
+          "min_rate": 0.3,
+          "from": "59ae8735dd5a292fa821f2cd",
+          "__v": 0,
+          "date": "2017-09-06T15:33:37.977Z"
+      },
+      {
+          "_id": "59b015b740fb94502c910fc1",
+          "amount_guarantee": 300,
+          "loan_ddl": 12,
+          "min_rate": 0.3,
+          "from": "59ae8735dd5a292fa821f2cd",
+          "__v": 0,
+          "date": "2017-09-06T15:35:19.656Z"
+      },
+      {
+          "_id": "59b018e33c407d502ca7a8b9",
+          "amount_gurantee": 300,
+          "loan_ddl": 12,
+          "min_rate": 0.3,
+          "from": "59ae8735dd5a292fa821f2cd",
+          "__v": 0,
+          "date": "2017-09-06T15:48:51.301Z"
+      },
+      {
+          "_id": "59b018e43c407d502ca7a8bb",
+          "amount_gurantee": 300,
+          "loan_ddl": 12,
+          "min_rate": 0.3,
+          "from": "59ae8735dd5a292fa821f2cd",
+          "__v": 0,
+          "date": "2017-09-06T15:48:52.275Z"
+      }
+  ]
+  ```
+
+### get seek detail
+
+- GET `/api/gurantee/detail/seek?id=SEEKID`
+
+- ```json
+  {
+      "_id": "59b017762bc84c4c2cce798a",
+      "city": "广州",
+      "project": "smart",
+      "cost": 12,
+      "amount_gurantee": 30,
+      "rate_gurantee": 0.7,
+      "loan_ddl": 5,
+      "reason": "no reason",
+      "other_detail": "???",
+      "from": {
+          "_id": "59ae8735dd5a292fa821f2cd",
+          "comName": "华为短34",
+          "comCapital": 23232,
+          "comTime": "1",
+          "comPhone": "1",
+          "comRegistAddresss": "1",
+          "comWorkAddresss": "1",
+          "comField": "1",
+          "comProduct": "1",
+          "comIntro": "1",
+          "comCreditScore": 89,
+          "comHistoryScore": 70,
+          "comAttributeScore": 88,
+          "comIntegrityScore": 109
+      },
+      "__v": 0,
+      "date": "2017-09-06T15:42:46.279Z"
+  }
+  ```
+
+### get offer detail
+
+- GET `/api/gurantee/detail/offer?id=OFFERID`
+
+- ```json
+  {
+      "_id": "59b018e43c407d502ca7a8bb",
+      "amount_gurantee": 300,
+      "loan_ddl": 12,
+      "min_rate": 0.3,
+      "from": {
+          "_id": "59ae8735dd5a292fa821f2cd",
+          "comName": "华为短34",
+          "comCapital": 23232,
+          "comTime": "1",
+          "comPhone": "1",
+          "comRegistAddresss": "1",
+          "comWorkAddresss": "1",
+          "comField": "1",
+          "comProduct": "1",
+          "comIntro": "1",
+          "comCreditScore": 89,
+          "comHistoryScore": 70,
+          "comAttributeScore": 88,
+          "comIntegrityScore": 109
+      },
+      "__v": 0,
+      "date": "2017-09-06T15:48:52.275Z"
+  }
+  ```
+
+- ​
+
+### get recommend for my Seek (single)
+
+- GET `/api/gurantee/recommend/single?id=SEEKID`
+
+- ```json
+  [
+      {
+          "_id": "59b018e33c407d502ca7a8b9",
+          "amount_gurantee": 300,
+          "loan_ddl": 12,
+          "min_rate": 0.3,
+          "from": "59ae8735dd5a292fa821f2cd",
+          "__v": 0,
+          "date": "2017-09-06T15:48:51.301Z"
+      },
+      {
+          "_id": "59b018e43c407d502ca7a8bb",
+          "amount_gurantee": 300,
+          "loan_ddl": 12,
+          "min_rate": 0.3,
+          "from": "59ae8735dd5a292fa821f2cd",
+          "__v": 0,
+          "date": "2017-09-06T15:48:52.275Z"
+      }
+  ]
+  ```
+
+### get recommend for my Seek (multi)
+
+- GET `/api/gurantee/recommend/multi?id=SEEKID`
+
+- ```json
+  [
+      {
+          "_id": "59b018e33c407d502ca7a8b9",
+          "amount_gurantee": 300,
+          "loan_ddl": 12,
+          "min_rate": 0.3,
+          "from": "59ae8735dd5a292fa821f2cd",
+          "__v": 0,
+          "date": "2017-09-06T15:48:51.301Z"
+      },
+      {
+          "_id": "59b018e43c407d502ca7a8bb",
+          "amount_gurantee": 300,
+          "loan_ddl": 12,
+          "min_rate": 0.3,
+          "from": "59ae8735dd5a292fa821f2cd",
+          "__v": 0,
+          "date": "2017-09-06T15:48:52.275Z"
+      },
+      {
+          "_id": "59b01551fd1b5147d87d4f12",
+          "amount_guarantee": 300,
+          "loan_ddl": 12,
+          "min_rate": 0.3,
+          "from": "59ae8735dd5a292fa821f2cd",
+          "__v": 0,
+          "date": "2017-09-06T15:33:37.977Z"
+      }
+  ]
+  ```
+
+### get related messages
+
+- GET `/api/gurantee/messages`
+
+- ```json
+  [
+      {
+          "_id": "59b01d7d971a3f2e60e882b6",
+          "type": "Publish-GuranteeSeek",
+          "info": {
+              "seekId": "59b01d7d971a3f2e60e882b4"
+          },
+          "__v": 0,
+          "date": "2017-09-06T16:08:29.511Z",
+          "read": false
+      },
+      {
+          "_id": "59b01c031565a86490e64acb",
+          "type": "Gurantee-Completed",
+          "info": {
+              "transaction": {
+                  "_id": "59b01b1d12ba8e44d802d7c3",
+                  "from": "59ae8735dd5a292fa821f2cd",
+                  "offer": "59b018e43c407d502ca7a8bb",
+                  "seek": "59b017762bc84c4c2cce798a",
+                  "__v": 0,
+                  "status": "Progressing",
+                  "date": "2017-09-06T15:58:21.058Z"
+              }
+          },
+          "__v": 0,
+          "date": "2017-09-06T16:02:11.763Z",
+          "read": false
+      },
+      {
+          "_id": "59b01c031565a86490e64aca",
+          "type": "GuranteeContract-Accepted",
+          "from": "59ae8735dd5a292fa821f2cd",
+          "info": {
+              "transaction": {
+                  "_id": "59b01b1d12ba8e44d802d7c3",
+                  "from": "59ae8735dd5a292fa821f2cd",
+                  "offer": "59b018e43c407d502ca7a8bb",
+                  "seek": "59b017762bc84c4c2cce798a",
+                  "__v": 0,
+                  "status": "Progressing",
+                  "date": "2017-09-06T15:58:21.058Z"
+              }
+          },
+          "__v": 0,
+          "date": "2017-09-06T16:02:11.763Z",
+          "read": false
+      },
+      {
+          "_id": "59b01c031565a86490e64acb",
+          "type": "Gurantee-Completed",
+          "info": {
+              "transaction": {
+                  "_id": "59b01b1d12ba8e44d802d7c3",
+                  "from": "59ae8735dd5a292fa821f2cd",
+                  "offer": "59b018e43c407d502ca7a8bb",
+                  "seek": "59b017762bc84c4c2cce798a",
+                  "__v": 0,
+                  "status": "Progressing",
+                  "date": "2017-09-06T15:58:21.058Z"
+              }
+          },
+          "__v": 0,
+          "date": "2017-09-06T16:02:11.763Z",
+          "read": false
+      },
+      {
+          "_id": "59b01bd51565a86490e64ac8",
+          "type": "GuranteeContract-Received&Accepted",
+          "from": "59ae8735dd5a292fa821f2cd",
+          "info": {
+              "transaction": {
+                  "_id": "59b01b1d12ba8e44d802d7c3",
+                  "from": "59ae8735dd5a292fa821f2cd",
+                  "offer": "59b018e43c407d502ca7a8bb",
+                  "seek": "59b017762bc84c4c2cce798a",
+                  "__v": 0,
+                  "status": "Progressing",
+                  "date": "2017-09-06T15:58:21.058Z"
+              }
+          },
+          "__v": 0,
+          "date": "2017-09-06T16:01:25.569Z",
+          "read": false
+      },
+      {
+          "_id": "59b01b901565a86490e64ac7",
+          "type": "GuranteeRequest-Accepted",
+          "from": "59ae8735dd5a292fa821f2cd",
+          "info": {
+              "transaction": {
+                  "_id": "59b01b1d12ba8e44d802d7c3",
+                  "from": "59ae8735dd5a292fa821f2cd",
+                  "offer": "59b018e43c407d502ca7a8bb",
+                  "seek": "59b017762bc84c4c2cce798a",
+                  "__v": 0,
+                  "status": "Progressing",
+                  "date": "2017-09-06T15:58:21.058Z"
+              }
+          },
+          "__v": 0,
+          "date": "2017-09-06T16:00:16.398Z",
+          "read": false
+      },
+      {
+          "_id": "59b01b1d12ba8e44d802d7c4",
+          "type": "GuranteeRequest-Received&Accepted",
+          "from": "59ae8735dd5a292fa821f2cd",
+          "info": {
+              "transaction": {
+                  "_id": "59b01b1d12ba8e44d802d7c3",
+                  "from": "59ae8735dd5a292fa821f2cd",
+                  "offer": "59b018e43c407d502ca7a8bb",
+                  "seek": "59b017762bc84c4c2cce798a",
+                  "__v": 0,
+                  "status": "Progressing",
+                  "date": "2017-09-06T15:58:21.058Z"
+              }
+          },
+          "__v": 0,
+          "date": "2017-09-06T15:58:21.061Z",
+          "read": false
+      },
+      {
+          "_id": "59b01b1d12ba8e44d802d7c5",
+          "type": "GuranteeRequest-Sent",
+          "info": {
+              "transaction": {
+                  "_id": "59b01b1d12ba8e44d802d7c3",
+                  "from": "59ae8735dd5a292fa821f2cd",
+                  "offer": "59b018e43c407d502ca7a8bb",
+                  "seek": "59b017762bc84c4c2cce798a",
+                  "__v": 0,
+                  "status": "Progressing",
+                  "date": "2017-09-06T15:58:21.058Z"
+              }
+          },
+          "__v": 0,
+          "date": "2017-09-06T15:58:21.061Z",
+          "read": false
+      },
+      {
+          "_id": "59b018e43c407d502ca7a8bc",
+          "type": "Publish-GuranteeOffer",
+          "info": {
+              "offerId": "59b018e43c407d502ca7a8bb"
+          },
+          "__v": 0,
+          "date": "2017-09-06T15:48:52.275Z",
+          "read": false
+      },
+      {
+          "_id": "59b018e33c407d502ca7a8ba",
+          "type": "Publish-GuranteeOffer",
+          "info": {
+              "offerId": "59b018e33c407d502ca7a8b9"
+          },
+          "__v": 0,
+          "date": "2017-09-06T15:48:51.302Z",
+          "read": false
+      },
+      {
+          "_id": "59b017762bc84c4c2cce798c",
+          "type": "Publish-GuranteeSeek",
+          "info": {
+              "seekId": "59b017762bc84c4c2cce798a"
+          },
+          "__v": 0,
+          "date": "2017-09-06T15:42:46.284Z",
+          "read": false
+      },
+      {
+          "_id": "59b015b740fb94502c910fc2",
+          "type": "Publish-GuranteeOffer",
+          "info": {
+              "offerId": "59b015b740fb94502c910fc1"
+          },
+          "__v": 0,
+          "date": "2017-09-06T15:35:19.659Z",
+          "read": false
+      }
+  ]
+  ```
+
+- note: `info.transactionId` is quite important
+
+### request (Loan - step 1)
+
+- POST `/api/gurantee/request`
+
+- ```json
+  {
+    "seekId": "",
+    "offerId": ""
+  }
+  ```
+
+- note:
+
+  - `seekId` and `offerId` are provided in **get recommend** api and **get my seek** api
+  - once this API is called:
+    - a **transaction** is created
+    - the *offerer* get a `GuranteeRequest-Received` message
+
+### accept request (Loan - step 2)
+
+- POST `/api/gurantee/accept-request`
+
+- ```json
+  {
+      "messageId": ""
+  }
+  ```
+
+- note:
+
+  - `messageId` is provided in message of type `GuranteeRequest-Received` (field `_id`)
+  - once this API is called, the *seeker* get a `GuranteeRequest-Accepted` message
+
+### send contract (Loan - step 3)
+
+- POST `/api/gurantee/transaction`
+
+- ```json
+  {
+      "messageId": ""
+  }
+  ```
+
+- note:
+
+  - `messageId` is provided in message of type `GuranteeRequest-Accpted` (field `_id`)
+  - once this API is called, the *offerer* get a `GuranteeContract-Received` message
+
+### accept contract (Loan - step 4 - complete)
+
+- POST `/api/gurantee/accept-transaction`
+
+- ```json
+  {
+      "messageId": ""
+  }
+  ```
+
+- note:
+
+  - `messageId` is provided in message of type `GuranteeContract-Received` (field `_id`)
+  - once this API is called, both *lender* & *seeker* get a `Gurantee-Completed` message
+
+## BondTrade
+
+### add
+
+- POST `/api/bondtrade/sell`
+
+- ```json
+  {
+    "company_lend": "",
+    "company_borrow": "",
+    "amount": "",
+    "loan_owner": "",
+    "loan_amount": "",
+    "loan_ddl": "",
+    "loan_source": "",
+    "situation_borrower": "",
+    "loan_price: ""
+  }
+  ```
+
+- note:
+
+  - `bondId` is returned
+  - a timeline-item with type `BondSell` is created
+
+### get all
+
+* GET `/api/bondtrade/all?page=PAGE&size=SIZE`
+
+* ```json
+  [
+      {
+          "_id": "59b027b417a74147e8af46d1",
+          "company_lend": "ali",
+          "from": "59ae8735dd5a292fa821f2cd",
+          "__v": 0,
+          "date": "2017-09-06T16:52:04.284Z"
+      },
+      {
+          "_id": "59b027b717a74147e8af46d2",
+          "company_lend": "ali",
+          "from": "59ae8735dd5a292fa821f2cd",
+          "__v": 0,
+          "date": "2017-09-06T16:52:07.029Z"
+      },
+      {
+          "_id": "59b027b917a74147e8af46d3",
+          "company_lend": "ali",
+          "from": "59ae8735dd5a292fa821f2cd",
+          "__v": 0,
+          "date": "2017-09-06T16:52:09.237Z"
+      },
+      {
+          "_id": "59b02836ecb0914a28647a09",
+          "company_lend": "ali",
+          "from": "59ae8735dd5a292fa821f2cd",
+          "__v": 0,
+          "date": "2017-09-06T16:54:14.758Z"
+      },
+      {
+          "_id": "59b028c1336c5242dce428b0",
+          "company_lend": "ali",
+          "from": "59ae8735dd5a292fa821f2cd",
+          "__v": 0,
+          "date": "2017-09-06T16:56:33.254Z"
+      },
+      {
+          "_id": "59b028c2336c5242dce428b2",
+          "company_lend": "ali",
+          "from": "59ae8735dd5a292fa821f2cd",
+          "__v": 0,
+          "date": "2017-09-06T16:56:34.735Z"
+      }
+  ]
+  ```

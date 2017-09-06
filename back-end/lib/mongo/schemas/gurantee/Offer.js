@@ -2,28 +2,25 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
-const TimelineItem = new Schema({
+const Offer = new Schema({
   from: {
     type: ObjectId,
     ref: 'User',
     required: true
   },
-  type: {
-    type: String,
-    enum: [
-      'Borrow',
-      'Lend',
-      'GuranteeSeek',
-      'GuranteeOffer',
-      'BondSell'
-    ],
+  amount_gurantee: {
+    type: Number,
     required: true
   },
-  info: Schema.Types.Mixed,
+  loan_ddl: {
+    type: Number,
+    required: true
+  },
+  min_rate: Number,
   date: {
     type: Date,
     default: Date.now
   }
 });
 
-module.exports = TimelineItem;
+module.exports = Offer;

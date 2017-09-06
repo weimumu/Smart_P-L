@@ -127,7 +127,7 @@ exports.getRelatedMessages = async (req, res) => {
   const result = await User.findById(res.locals.user._id).populate({
     path: 'messages',
     match: {
-      type: /^Borrow|^Publish/
+      type: /^Borrow|^Publish-Lend|^Publish-Borrow/
     },
     populate: {
       path: 'info.transactionId',
@@ -265,7 +265,6 @@ exports.acceptTransaction = async (req, res) => {
   assert(ObjectId.isValid(messageId), 'invalid message-id');
   const message = await Message.findById(messageId);
   assert(message, 'message-instance not exist');
-  console.log(message);
   assert(message.type === 'BorrowContract-Received', 'incorrect message type');
 
   const messageToBorrower = new Message({

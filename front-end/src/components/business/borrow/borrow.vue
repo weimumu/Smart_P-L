@@ -22,15 +22,7 @@
       <sub-lend></sub-lend>
     </div>
     <div class="morePart" v-if="show.more">
-      <div class="content">
-        <button class="button1" :class="{active: more.active1}" @click="button1">已发起的申请</button>
-        <button class="button2" :class="{active: more.active2}" @click="button2">已收到的申请</button>
-        <div class="moreContent">
-          <span class="mes">深圳市立即项目借款20万</span>
-          <span class="flag">已发布</span>
-          <div class="line"></div>
-        </div>
-      </div>
+      <sub-More :detail="detailActive" v-on:tranvalue="fatherValue"></sub-More>
     </div>
   </div>
 </template>
@@ -39,6 +31,7 @@
 import subBorrow from './subBorrow.vue';
 import subLend from './subLend.vue';
 import matchResult from '../result/matchResult.vue';
+import subMore from './subMore';
 export default {
   props: ['active'],
   data () {
@@ -48,10 +41,7 @@ export default {
         lend: false,
         more: !this.active
       },
-      more: {
-        active1: true,
-        active2: false
-      }
+      detailActive: true
     };
   },
   methods: {
@@ -62,24 +52,20 @@ export default {
         } else {
           this.show[key] = false;
         }
+        if (key.toString() === 'more') {
+          this.detailActive = true;
+        }
       }
     },
-    button1 () {
-      this.more.active1 = true;
-      this.more.active2 = false;
-    },
-    button2 () {
-      this.more.active2 = true;
-      this.more.active1 = false;
+    fatherValue (val) {
+      this.detailActive = val;
     }
   },
   components: {
     subBorrow,
     subLend,
-    matchResult
-  },
-  created () {
-    console.log(this.show);
+    matchResult,
+    subMore
   }
 };
 </script>
@@ -131,61 +117,6 @@ export default {
     width: 100%;
     min-width: 1300px;
     height: auto;
-    .content{
-      margin: 30px auto;
-      width: 800px;
-      height: 550px;
-      position: relative;
-      .button1, .button2{
-        width: 150px;
-        height: 40px;
-        position: absolute;
-        color: #4b4b4b;
-        cursor: pointer;
-        font-size: 18px;
-        top: -45px;
-        background: white;
-        outline: none;
-        border-radius: 20px;
-        border: 1px solid #4b4b4b;
-      }
-      .button1{
-        left: 50px;   
-      }
-      .button2{
-        right: 50px;
-      }
-      .active{
-        color: #FFFFFF;
-        border: 0;
-        background: #d6a12c;
-      }
-      .moreContent{
-        position: relative;
-        padding-top: 30px;
-        padding-left: 40px;
-        margin-left: 100px;
-        width: 750px;
-        height: 475px;
-        margin: 75px auto;
-        background: url("/static/business/borrow/bg_list.png");
-        background-size: 100% 100%;
-        .mes{
-          font-size: 17px;
-        }
-        .flag{
-          font-size: 14px;
-          position: absolute;
-          right: 55px;
-        }
-        .line{
-          height: 1.5px;
-          width: 690px;
-          margin-top: 12px;
-          background: #d2dbec;
-        }
-      }
-    }
   }
 }
 </style>

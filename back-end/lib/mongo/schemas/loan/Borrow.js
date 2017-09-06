@@ -33,6 +33,10 @@ const Borrow = new Schema({
   supportOther: Boolean,
   risk_factor: Number,
   total_risk_factor: Number,
+  mortgage: Boolean,
+  guarentee: Boolean,
+  mortgage_fixed: Boolean,
+  mortgage_other: Boolean,
   date: {
     type: Date,
     default: Date.now

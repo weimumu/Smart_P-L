@@ -240,7 +240,11 @@
           supportSales: this.message.repaySupport.sales,
           supportOther: this.message.repaySupport.other,
           risk_factor: this.result.risk_factor,
-          total_risk_factor: this.result.total_risk_factor
+          total_risk_factor: this.result.total_risk_factor,
+          mortgage: this.message.riskControl.mortgage,
+          guarentee: this.message.riskControl.guarentee,
+          mortgage_fixed: this.message.riskControl.mortgage_fixed,
+          mortgage_other: this.message.riskControl.mortgage_other
         };
         console.log(messageSubmit);
         let res;

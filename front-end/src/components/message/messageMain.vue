@@ -27,12 +27,12 @@
         </li>
     </div>
     <div class="business" v-if="activeTab === '业务进程'">
-      <div :style="{marginTop: '20px'}" v-for="items in business">
+      <div :style="{marginTop: '20px', position: 'relative'}" v-for="items in business">
         <span class="Mainmes">借贷申请</span>
         <div>
-          <span class="mes">你收到一封与您合作借贷业务的申请</span>
+          <span class="mes">{{items.mes}}</span>
         </div>
-        <div class="mesContent">
+        <div class="mesContent" v-if="items.type !== 'BorrowContract-Received' && items.type !== 'BorrowContract-Received&Accepted' && items.type !== 'BorrowContract-Accepted'">
           <div class="spa"><span>借款公司:&nbsp;&nbsp;{{items.comName}}</span></div>
           <div class="spa"><span>借款额度:&nbsp;&nbsp;{{items.max_amount}}</span></div>
           <div class="spa"><span>提供利息:&nbsp;&nbsp;{{items.max_rate}}</span></div>
@@ -40,6 +40,9 @@
           <button class="button1" @click="goToCon('active2')">查看详情</button>
           <button class="button2" @click="goToCon('active1')">与他联系</button>
         </div>
+        <button class="button1 special1" @click="goToCon('active2')" v-if="items.type === 'BorrowContract-Received' || items.type === 'BorrowContract-Received&Accepted' || items.type === 'BorrowContract-Accepted'">查看详情</button>
+        <button class="button2 special2" @click="goToCon('active1')" v-if="items.type === 'BorrowContract-Received' || items.type === 'BorrowContract-Received&Accepted' || items.type === 'BorrowContract-Accepted'">与他联系</button>
+        <span class="time">{{items.time}}</span>
         <div class="line"></div>
       </div>
     </div>
@@ -100,23 +103,66 @@ export default {
           this.friendsList[i].from.comName = '您已拒绝' + this.friendsList[i].from.comName + '的好友申请';
         }
       }
-      console.log(this.friendsList);
     },
     async initBusiness () {
+      this.business = [];
       let res = await this.$http.get('/api/loan/messages');
       for (let i = 0; i < res.data.length; i++) {
-        if (res.data[i].type === 'BorrowRequest-Received') {
+        if (res.data[i].type === 'BorrowRequest-Received' || res.data[i].type === 'BorrowRequest-Received&Accepted') {
           let res1 = await this.$http.get('/api/loan/detail/borrow?id=' + res.data[i].info.transaction.borrow);
           let message = {
             comName: res1.data.from.comName,
             max_amount: res1.data.max_amount + '万元',
             max_rate: res1.data.max_rate + '%/年',
-            loan_ddl: res1.data.loan_ddl + '月'
+            loan_ddl: res1.data.loan_ddl + '月',
+            type: res.data[i].type,
+            time: this.tranDate(res.data[i].date)
           };
+          if (res.data[i].type === 'BorrowRequest-Received') {
+            message.mes = '您收到一封与您合作借贷业务的申请';
+          } else {
+            message.mes = '您已同意对方借贷业务的申请';
+          }
+          this.business.push(message);
+        } else if (res.data[i].type === 'BorrowRequest-Accepted') {
+          let res1 = await this.$http.get('/api/loan/detail/borrow?id=' + res.data[i].info.transaction.borrow);
+          let message = {
+            comName: res1.data.from.comName,
+            max_amount: res1.data.max_amount + '万元',
+            max_rate: res1.data.max_rate + '%/年',
+            loan_ddl: res1.data.loan_ddl + '月',
+            type: res.data[i].type,
+            time: this.tranDate(res.data[i].date)
+          };
+          let res2 = await this.$http.get('/api/loan/detail/lend?id=' + res.data[i].info.transaction.lend);
+          message.mes = res2.data.from.comName + '已同意您的借款申请，查看详情后可发起合同确认';
+          this.business.push(message);
+        } else if (res.data[i].type === 'BorrowContract-Received' || res.data[i].type === 'BorrowContract-Received&Accepted') {
+          let res1 = await this.$http.get('/api/loan/detail/borrow?id=' + res.data[i].info.transaction.borrow);
+          let message = {
+            comName: res1.data.from.comName,
+            max_amount: res1.data.max_amount + '万元',
+            max_rate: res1.data.max_rate + '%/年',
+            loan_ddl: res1.data.loan_ddl + '月',
+            type: res.data[i].type,
+            time: this.tranDate(res.data[i].date)
+          };
+          if (res.data[i].type === 'BorrowContract-Received') {
+            message.mes = res1.data.from.comName + '向你发起合同确认，查看后可确认合同';
+          } else {
+            message.mes = '您已确认' + res1.data.from.comName + '发起的合同，交易正式开始';
+          }
+          this.business.push(message);
+        } else if (res.data[i].type === 'BorrowContract-Accepted') {
+          let res1 = await this.$http.get('/api/loan/detail/lend?id=' + res.data[i].info.transaction.lend);
+          let message = {
+            type: res.data[i].type,
+            time: this.tranDate(res.data[i].date)
+          };
+          message.mes = res1.data.from.comName + '已经确认您的合同，交易正式开始';
           this.business.push(message);
         }
       }
-      console.log(this.business);
     },
     tranDate (mes) {
       let res = new Date(mes);
@@ -225,16 +271,6 @@ export default {
         color: #4b4b4b;
         padding-bottom: 2px;
       }
-      .button1, .button2{
-        font-size: 12px;
-        outline: none;
-        width: 68px;
-        height: 25px;
-        color: #4b4b4b;
-        background: #f2f2f2;
-        border-radius: 10px;
-        border: 1px solid #4b4b4b;
-      }
       .button1{
         top: 15px;
         position: absolute;
@@ -246,12 +282,40 @@ export default {
         right: 40px;
       }
     }
+    .button1, .button2{
+      font-size: 12px;
+      outline: none;
+      width: 68px;
+      height: 25px;
+      color: #4b4b4b;
+      background: #f2f2f2;
+      border-radius: 10px;
+      border: 1px solid #4b4b4b;
+    }
+    .special1{
+      top: 20px;
+      background: white;
+      position: absolute;
+      right: 25px;
+    }
+    .special2 {
+      top: 20px;
+      background: white;
+      position: absolute;
+      right: 105px;
+    }
     .line{
       height: 0.8px;
       background: #d6a12c;
-      width: 98%;
-      margin-top: 16px;
-      margin-left: 5px;
+      width: 95%;
+      margin-top: 18px;
+      margin-left: 15px;
+    }
+    .time{
+      position: absolute;
+      bottom: 2px;
+      font-size: 10px;
+      right: 25px;
     }
   }
   .img1 {

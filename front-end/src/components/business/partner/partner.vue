@@ -92,23 +92,23 @@
     </div>
     <div class="moments" v-if="show.moments">
       <span class="title">伙伴动态</span>
-      <div class="moments_list">
+      <div class="moments_list" v-for="item in getMomentsList">
         <img src="/static/business/partner/boy.png" :style="{marginTop: '4px'}">
-        <span class="comName">华为科技公司</span>
-        <span class="time">2017-08-19 21:00</span>
+        <span class="comName">{{item.comName}}</span>
+        <span class="time">{{item.time}}</span>
         <mu-icon-menu slot="right" icon="expand_more" tooltip="操作" class="menu" :size="30">
           <mu-menu-item title="举报" />
           <mu-menu-item title="屏蔽" />
         </mu-icon-menu>
-        <span class="mes">中山市无人便利店项目计划借款300万</span>
-        <img class="contact" src="/static/homepageImage/tabs/notification.png">
-        <span class="contactMes">与他联系</span>
+        <span class="mes">{{item.mes}}</span>
+        <img class="contact" src="/static/homepageImage/tabs/notification.png" @click="goToFriend">
+        <span class="contactMes" @click="goToFriend">与他联系</span>
         <img class="good" src="/static/business/partner/favour.png">
         <span class="goodMes">123</span>
         <div class="content">
-          <div><span>融资金额:&emsp;2000万元</span><span :style="{position: 'absolute', left: '300px'}">融资用途:&emsp;共享单车前期开发</span></div>
-          <div><span>提供利率:&emsp;3.45%</span><span :style="{position: 'absolute', left: '300px'}">风险评级:&emsp;0.6842</span></div>
-          <span>融资期限:&emsp;12个月</span>
+          <div><span>融资金额:&emsp;{{item.max_amount}}万元</span><span :style="{position: 'absolute', left: '300px'}">融资用途:&emsp;{{item.reason}}</span></div>
+          <div><span>提供利率:&emsp;{{item.max_rate}}%/年</span><span :style="{position: 'absolute', left: '300px'}">风险评级:&emsp;{{item.total_risk_factor}}</span></div>
+          <span>融资期限:&emsp;{{item.loan_ddl}}个月</span>
         </div>
         <div class="line"></div>
       </div>
@@ -180,6 +180,8 @@ export default {
           report: '中国经营报',
           date: '08月19日'
         }
+      ],
+      momentsList: [
       ]
     };
   },
@@ -187,12 +189,41 @@ export default {
     this.initData();
   },
   methods: {
-    goTo (mes) {
+    tranDate (mes) {
+      let res = new Date(mes);
+      return res.toLocaleDateString() + ' ' + res.getHours() + ':' + res.getMinutes();
+    },
+    goToFriend () {
+      for (var key in this.show) {
+        this.show[key] = false;
+      }
+      this.show.friend = true;
+    },
+    async goTo (mes) {
       for (var key in this.show) {
         if (key.toString() === mes) {
           this.show[key] = true;
         } else {
           this.show[key] = false;
+        }
+      }
+      if (mes === 'moments') {
+        let res = await this.$http.get('/api/timeline?page=0&size=10');
+        for (let i = 0; i < res.data.length; i++) {
+          let element = res.data[i];
+          let result = {};
+          if (element.type === 'Borrow') {
+            let res1 = await this.$http.get('/api/loan/detail/borrow?id=' + element.info.borrowId);
+            result.comName = res1.data.from.comName;
+            result.time = this.tranDate(res1.data.date);
+            result.mes = res1.data.city + res1.data.project + '项目计划借款' + res1.data.max_amount + '万元';
+            result.max_amount = res1.data.max_amount;
+            result.reason = res1.data.reason;
+            result.max_rate = res1.data.max_rate;
+            result.total_risk_factor = res1.data.total_risk_factor;
+            result.loan_ddl = res1.data.loan_ddl;
+            this.momentsList.push(result);
+          }
         }
       }
     },
@@ -273,6 +304,9 @@ export default {
     },
     getNewsList () {
       return this.newsList;
+    },
+    getMomentsList () {
+      return this.momentsList;
     }
   }
 };
@@ -388,12 +422,14 @@ export default {
         font-size: 13px;
       }
       .contact{
+        cursor: pointer;
         position: absolute;
         bottom: 104px;
         right: 145px;
         width: 16px;
       }
       .contactMes{
+        cursor: pointer;
         color: #4b4b4b;
         font-size: 13px;
         position: absolute;

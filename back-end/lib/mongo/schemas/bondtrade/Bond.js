@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const ObjectId = Schema.Types.ObjectId;
 
-const Borrow = new Schema({
+const Bond = new Schema({
   from: {
     type: ObjectId,
     ref: 'User',
@@ -23,4 +23,4 @@ const Borrow = new Schema({
   }
 });
 
-module.exports = Borrow;
+module.exports = Bond;

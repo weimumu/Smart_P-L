@@ -43,5 +43,9 @@ exports.getAll = async (req, res) => {
   assert(!isNaN(page) && Number(page) >= 0, 'non-negative query parameter page required');
   assert(!isNaN(size) && Number(size) > 0, 'positive query parameter size required');
 
-  res.json(await Bond.find({}).limit(Number(size)).skip(Number(page) * Number(page)));
+  res.json(await Bond
+    .find({})
+    .limit(Number(size))
+    .skip(Number(page) * Number(page))
+  );
 };

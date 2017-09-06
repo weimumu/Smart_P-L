@@ -1034,3 +1034,79 @@
 
   - `messageId` is provided in message of type `GuranteeContract-Received` (field `_id`)
   - once this API is called, both *lender* & *seeker* get a `Gurantee-Completed` message
+
+## BondTrade
+
+### add
+
+- POST `/api/bondtrade/sell`
+
+- ```json
+  {
+    "company_lend": "",
+    "company_borrow": "",
+    "amount": "",
+    "loan_owner": "",
+    "loan_amount": "",
+    "loan_ddl": "",
+    "loan_source": "",
+    "situation_borrower": "",
+    "loan_price: ""
+  }
+  ```
+
+- note:
+
+  - `bondId` is returned
+  - a timeline-item with type `BondSell` is created
+
+### get all
+
+* GET `/api/bondtrade/all?page=PAGE&size=SIZE`
+
+* ```json
+  [
+      {
+          "_id": "59b027b417a74147e8af46d1",
+          "company_lend": "ali",
+          "from": "59ae8735dd5a292fa821f2cd",
+          "__v": 0,
+          "date": "2017-09-06T16:52:04.284Z"
+      },
+      {
+          "_id": "59b027b717a74147e8af46d2",
+          "company_lend": "ali",
+          "from": "59ae8735dd5a292fa821f2cd",
+          "__v": 0,
+          "date": "2017-09-06T16:52:07.029Z"
+      },
+      {
+          "_id": "59b027b917a74147e8af46d3",
+          "company_lend": "ali",
+          "from": "59ae8735dd5a292fa821f2cd",
+          "__v": 0,
+          "date": "2017-09-06T16:52:09.237Z"
+      },
+      {
+          "_id": "59b02836ecb0914a28647a09",
+          "company_lend": "ali",
+          "from": "59ae8735dd5a292fa821f2cd",
+          "__v": 0,
+          "date": "2017-09-06T16:54:14.758Z"
+      },
+      {
+          "_id": "59b028c1336c5242dce428b0",
+          "company_lend": "ali",
+          "from": "59ae8735dd5a292fa821f2cd",
+          "__v": 0,
+          "date": "2017-09-06T16:56:33.254Z"
+      },
+      {
+          "_id": "59b028c2336c5242dce428b2",
+          "company_lend": "ali",
+          "from": "59ae8735dd5a292fa821f2cd",
+          "__v": 0,
+          "date": "2017-09-06T16:56:34.735Z"
+      }
+  ]
+  ```

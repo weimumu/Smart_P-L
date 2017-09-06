@@ -4,7 +4,7 @@ const {ObjectId} = require('mongoose').Types;
 const {fields} = require('../../config');
 
 exports.seek = async (req, res) => {
-  //  1. 生成借款实例、加到自己的业务消息
+  //  1. 生成请求担保实例、加到自己的业务消息
   //  2. 朋友圈推送
   const data = _.pick(
     req.body,
@@ -67,7 +67,7 @@ exports.getOffer = async (req, res) => {
 };
 
 exports.offer = async (req, res) => {
-  //  1. 生成放款实例、加到自己的业务消息
+  //  1. 生成担保实例、加到自己的业务消息
   //  2. 朋友圈推送
   const data = _.pick(
     req.body,
@@ -102,7 +102,7 @@ exports.getMyOffer = async (req, res) => {
 };
 
 exports.getRecommendSingle = async (req, res) => {
-  // 根据借款实例id返回推荐的借款活动
+  // 根据请求担保实例id返回推荐的借款活动
   const {id} = req.query;
   assert(id, 'borrow-id required');
   assert(ObjectId.isValid(id), 'invalid id');
@@ -126,7 +126,7 @@ exports.getRecommendSingle = async (req, res) => {
 };
 
 exports.getRecommendMulti = async (req, res) => {
-  // 根据借款实例id返回推荐的借款活动
+  // 根据请求担保实例id返回推荐的借款活动
   const {id} = req.query;
   assert(id, 'borrow-id required');
   assert(ObjectId.isValid(id), 'invalid id');
@@ -167,7 +167,7 @@ exports.getRelatedMessages = async (req, res) => {
 };
 
 exports.request = async (req, res) => {
-  //   1. 向一个放款实例发出申请
+  //   1. 向一个担保实例发出申请
   //     * 生成事务实例
   //     * 双方发消息
   const {seekId, offerId} = req.body;

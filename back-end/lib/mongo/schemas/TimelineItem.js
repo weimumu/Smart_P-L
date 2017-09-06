@@ -14,7 +14,8 @@ const TimelineItem = new Schema({
       'Borrow',
       'Lend',
       'GuranteeSeek',
-      'GuranteeOffer'
+      'GuranteeOffer',
+      'Bondtrade'
     ],
     required: true
   },

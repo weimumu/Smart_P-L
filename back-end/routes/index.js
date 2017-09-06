@@ -17,6 +17,7 @@ router
   .use('/loan', require('./loan'))
   .use('/gurantee', require('./gurantee'))
   .use('/business', require('./business'))
+  .use('/bondtrade', require('./bondtrade'))
   .use('/timeline', require('./timeline'));
 
 module.exports = router;

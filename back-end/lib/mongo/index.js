@@ -24,6 +24,7 @@ mongoose.model('TimelineItem', schemas.TimelineItem);
 mongoose.model('GuranteeOffer', schemas.gurantee.Offer);
 mongoose.model('GuranteeSeek', schemas.gurantee.Seek);
 mongoose.model('GuranteeTransaction', schemas.gurantee.GuranteeTransaction);
+mongoose.model('Bond', schemas.bondtrade.Bond);
 
 module.exports = {
   User: mongoose.model('User'),
@@ -35,5 +36,6 @@ module.exports = {
   TimelineItem: mongoose.model('TimelineItem'),
   GuranteeOffer: mongoose.model('GuranteeOffer'),
   GuranteeSeek: mongoose.model('GuranteeSeek'),
-  GuranteeTransaction: mongoose.model('GuranteeTransaction')
+  GuranteeTransaction: mongoose.model('GuranteeTransaction'),
+  Bond: mongoose.model('Bond')
 };

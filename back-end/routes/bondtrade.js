@@ -3,7 +3,7 @@ const router = express.Router();
 const {business: {bondtrade}} = require('../controller');
 
 router
-  .post('/add', bondtrade.add)
+  .post('/sell', bondtrade.sell)
   .get('/all', bondtrade.getAll);
 
 module.exports = router;

@@ -1,7 +1,7 @@
-const {mongo: {User, Bond, TimelineItem}, assert} = require('../../lib');
+const {mongo: {Bond, TimelineItem}, assert} = require('../../lib');
 const _ = require('lodash');
 
-exports.add = async (req, res) => {
+exports.sell = async (req, res) => {
   const data = _.pick(
     req.body,
     [

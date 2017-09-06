@@ -1,4 +1,4 @@
-const {mongo: {User, Bond, Message, TimelineItem}, assert} = require('../../lib');
+const {mongo: {User, Bond, TimelineItem}, assert} = require('../../lib');
 const _ = require('lodash');
 
 exports.add = async (req, res) => {
@@ -20,7 +20,20 @@ exports.add = async (req, res) => {
   const bondInstance = new Bond(data);
   assert(!(bondInstance.validateSync() instanceof Error), 'invalid data');
 
-  await bondInstance.save();
+  const timelineItem = new TimelineItem({
+    from: res.locals.user._id,
+    type: 'BondSell',
+    info: {
+      bondId: bondInstance._id
+    }
+  });
+
+  await Promise.all(
+    [
+      bondInstance.save(),
+      res.locals.user.addTimeline(timelineItem)
+    ]
+  );
 
   res.json(bondInstance._id);
 };

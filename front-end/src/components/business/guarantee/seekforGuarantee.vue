@@ -1,6 +1,6 @@
 <template>
 <div class="sub_borrow">
-    <div class="leftpart">
+    <div class="leftpart" v-if="!submitActive">
         <div  class="info">
             <div class="info_part">
                 <img class="info_pic" src="/static/business/public/info.png"/>
@@ -41,14 +41,24 @@
                 <input class="msg_item" type="number" :style="{width: '94px'}" v-model.number="message.loan_ddl"></input>
                 <span>&emsp;月内</span>
             </div>
+            <div class="info_item" :style="{margin: '15px auto 0px auto'}">
+                <span>抵押物类型&emsp;&emsp;&emsp;</span>
+                <input id="fixed_wealth" type="checkbox" :style="{width: '18px', height: '18px'}" v-model="message.mortgage_fixed"/>
+                <label for="fixed_wealth">固定资产&emsp;&emsp;&emsp;&emsp;</label>
+                <input id="other_wealth" type="checkbox" :style="{width: '18px', height: '18px'}" v-model="message.mortgage_other"/>
+                <label for="other_wealth">其他资产</label>
+            </div>
+            <div class="info_item" :style="{margin: '15px auto 0px auto'}">
+                <span>抵押物市值&emsp;&emsp;&emsp;</span>
+                <input class="msg_item" type="number" :style="{width: '94px'}" v-model.number="message.mortgage"></input>
+                <span>&emsp;万元</span>
+            </div>
             <div class="check" :style="{margin: '15px auto 0px auto'}">
                 <span>寻求担保方式&emsp;&emsp;</span>
                 <input id="single" type="radio" value="single" :style="{width: '18px', height: '18px', border: '2px solid #666'}" v-model="message.guarantee_way"/>
                 <label for="single">单企业担保&emsp;&emsp;&emsp;</label>
-                <input id="multi"type="radio" value="multi" :style="{width: '18px', height: '18px'}" v-model="message.guarantee_way"/>
+                <input id="multi" type="radio" value="multi" :style="{width: '18px', height: '18px'}" v-model="message.guarantee_way"/>
                 <label for="multi" >多企业担保&emsp;&emsp;&emsp;</label>
-                <input id="both"type="radio" value="both" :style="{width: '18px', height: '18px'}" v-model="message.guarantee_way"/>
-                <label for="both" >均可</label>
             </div>
             <div :style="{margin: '15px auto 0px auto'}"><span>企业目前贷款情况</span></div>
             <div class="long_input"><textarea type="text" v-model="message.situation.about_borrow" ></textarea></div>
@@ -99,7 +109,7 @@
         
     </div>
     
-    <div class="rightpart">
+    <div class="rightpart" v-if="!submitActive">
         <div class="line"></div>
         <div class="assess">
             <div class="result_title"><span>贷款额度评估</span></div>
@@ -108,18 +118,20 @@
             <div class="ps" :style="{margin: '25px auto 0px auto'}">
                 <span>注：</span><br/>
                 <ul :style="{padding: '0px 0px 0px 20px'}">
-                    <li><p>当单笔贷款风险系数>1.5时该笔贷款担保会被注明为高风险担保</p></li>
-                    <li><p>当单笔贷款风险系数≤1.0>0.8时该笔贷款担保会被注明为中风险担保</p></li>
-                    <li><p>当单笔贷款风险系数<0.5时该笔贷款担保会被注明为低风险担保</p></li>
+                    <li><p>当单笔贷款风险系数>1.5时该笔贷款担保为高风险担保</p></li>
+                    <li><p>当单笔贷款风险系数≤1.0>0.8时该笔贷款担保为中风险担保</p></li>
+                    <li><p>当单笔贷款风险系数<0.5时该笔贷款担保为低风险担保</p></li>
                 </ul>
             </div>
             <div class="modify">
                 <img class="modify_pic" src="/static/business/public/icon_evaluate_back.png"/>
                 <span class="modify_text">&emsp;在左侧修改信息，重新评估</span>
             </div>
-            <button class="submit_button">直接提交</button>
+            <button class="submit_button" @click="submit">直接提交</button>
         </div>
     </div>
+
+    <result :Id="seekId" :type="seekType" v-if="submitActive"></result>
 
     <div>
       <mu-dialog :open="dialog" title="错误提示">
@@ -132,12 +144,16 @@
 
 
 <script>
+  import result from '../result/matchResult.vue';
   import func from '../function';
   export default{
     data () {
       return {
         wrongMes: '',
         dialog: false,
+        seekId: '',
+        seekType: '',
+        submitActive: false,
         basicInfo: {
           comName: '',
           comRegistAddresss: '',
@@ -155,6 +171,9 @@
           rate_guarantee: 0,
           loan_ddl: 0,
           guarantee_way: '',
+          mortgage: 0,
+          mortgage_fixed: false,
+          mortgage_other: false,
           situation: {
             about_borrow: '',
             about_repaySource: '',
@@ -193,7 +212,44 @@
           this.dialog = true;
           return;
         }
+        this.result.amount = this.basicInfo.comCreditScore * this.basicInfo.comCapital * 1.5 / 100;
+        this.result.risk_factor = ((this.message.amount_guarantee - 0.5 * this.message.mortgage) / this.result.amount).toFixed(4);
+        this.result.amount += '万元';
+      },
+      async submit () {
+        if (this.result.risk_factor === '') {
+          this.$store.commit('info', '请先进行评估再发布');
+          return;
+        }
+        let messageSubmit = {
+          city: this.message.city,
+          project: this.message.project,
+          cost: this.message.cost,
+          amount_gurantee: this.message.amount_guarantee,
+          rate_gurantee: this.message.rate_guarantee,
+          loan_ddl: this.message.loan_ddl,
+          other_detail: this.message.project_brief,
+          guarantee_way: this.message.guarantee_way,
+          mortgage: this.message.mortgage,
+          mortgage_fixed: this.message.mortgage_fixed,
+          mortgage_other: this.message.mortgage_other
+        };
+        console.log(messageSubmit);
+        let res;
+        try {
+          res = await this.$http.post('/api/gurantee/seek', messageSubmit);
+          this.$store.commit('info', '发布成功');
+          this.seekId = res.data;
+          this.seekType = this.message.guarantee_way;
+          this.submitActive = true;
+          console.log(res);
+        } catch (e) {
+
+        }
       }
+    },
+    components: {
+      result
     }
   };
 </script>
@@ -202,10 +258,10 @@
 input{
   outline: none;
 }
-input[type="radio"]{
+input[type="radio"], input[type="checkbox"]{
   display: none;
 }
-input[type="radio"]+label{
+input[type="radio"]+label, input[type="checkbox"]+label{
   display: inline-block;
 }
 label::before{
@@ -219,7 +275,7 @@ label::before{
   margin-right: 5px;
   -webkit-box-sizing:border-box;
 }
-input[type="radio"]:checked+label::before{
+input[type="radio"]:checked+label::before, input[type="checkbox"]:checked+label::before{
   background: url("/static/business/public/rec_selected.png");
   background-size: 100% 100%;
 }

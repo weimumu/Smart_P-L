@@ -29,8 +29,11 @@ const Seek = new Schema({
     type: Number,
     required: true
   },
-  reason: String,
   other_detail: String,
+  guarantee_way: String,
+  mortgage: Number,
+  mortgage_fixed: Boolean,
+  mortgage_other: Boolean,
   date: {
     type: Date,
     default: Date.now

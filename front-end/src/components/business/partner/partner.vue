@@ -209,6 +209,7 @@ export default {
       }
       if (mes === 'moments') {
         let res = await this.$http.get('/api/timeline?page=0&size=10');
+        this.momentsList = [];
         for (let i = 0; i < res.data.length; i++) {
           let element = res.data[i];
           let result = {};

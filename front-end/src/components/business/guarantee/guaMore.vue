@@ -105,16 +105,16 @@
       async initData () {
         this.simpleMes = [];
         this.otherMes = [];
-        let res = await this.$http.get('/api/loan/messages');
+        let res = await this.$http.get('/api/gurantee/messages');
         let that = this;
         for (let i = 0; i < res.data.length; i++) {
           let element = res.data[i];
           let result = {};
-          if (element.type === 'Publish-Lend') {
-            let res1 = await that.$http.get('/api/loan/detail/lend?id=' + element.info.lendId);
-            result.mes = '愿意提供贷款' + res1.data.max_amount + '万元 贷款期限' + res1.data.loan_ddl + '个月';
+          if (element.type === 'Publish-GuranteeOffer') {
+            let res1 = await that.$http.get('/api/gurantee/detail/offer?id=' + element.info.offerId);
+            result.mes = '愿意提供担保的贷款额度' + res1.data.amount_gurantee + '万元 担保期限' + res1.data.loan_ddl + '个月';
             result.flag = '已发布';
-            result.lendId = element.info.lendId;
+            result.lendId = element.info.offerId;
             result.time = that.tranDate(element.date);
             result.type = element.type;
             that.simpleMes.push(result);

@@ -11,17 +11,15 @@
             <div class="info_basic"><span>注册地址：&emsp;&emsp;&emsp;&emsp;{{basicInfo.comRegistAddresss}}</span></div>
             <div class="info_basic"><span>所属行业：&emsp;&emsp;&emsp;&emsp;{{basicInfo.comField}}</span></div>
             <div class="info_basic"><span>注册资本：&emsp;&emsp;&emsp;&emsp;{{basicInfo.comCapital}}万元</span></div>
-            <div class="info_basic"><span>担保贷款项目简述</span></div>
-            <div class="long_input"><textarea type="text" placeholder="（请填写项目简述，不超过100字）"  maxlength="100" v-model="message.project_brief"></textarea></div>
             <div class="check" :style="{margin: '15px auto 0px auto'}">
                 <span>愿意担保的贷款期限&emsp;&emsp;</span>
-                <input id="halfyear" type="radio" value="halfyear" :style="{width: '18px', height: '18px', border: '2px solid #666'}" v-model="message.loan_ddl"/>
+                <input id="halfyear" type="radio" value=6 :style="{width: '18px', height: '18px', border: '2px solid #666'}" v-model="message.loan_ddl"/>
                 <label for="halfyear">半年内&emsp;&emsp;</label>
-                <input id="oneyear"type="radio" value="oneyear" :style="{width: '18px', height: '18px'}" v-model="message.loan_ddl"/>
+                <input id="oneyear"type="radio" value=12 :style="{width: '18px', height: '18px'}" v-model="message.loan_ddl"/>
                 <label for="oneyear" >一年内&emsp;&emsp;</label>
-                <input id="threeyear"type="radio" value="threeyear" :style="{width: '18px', height: '18px'}" v-model="message.loan_ddl"/>
+                <input id="threeyear"type="radio" value=36 :style="{width: '18px', height: '18px'}" v-model="message.loan_ddl"/>
                 <label for="threeyear" >三年内&emsp;&emsp;</label>
-                <input id="fiveyear"type="radio" value="fiveyear" :style="{width: '18px', height: '18px'}" v-model="message.loan_ddl" />
+                <input id="fiveyear"type="radio" value=60 :style="{width: '18px', height: '18px'}" v-model="message.loan_ddl" />
                 <label for="fiveyear" >五年内</label>
             </div>
             <div class="info_item" :style="{margin: '15px auto 0px auto'}">
@@ -118,10 +116,6 @@
           comCapital: ''
         },
         message: {
-          city: '',
-          project: '',
-          amount: 0,
-          project_brief: '',
           amount_guarantee: 0,
           min_rate: 0,
           loan_ddl: '',
@@ -157,12 +151,28 @@
           this.$store.commit('info', '用户未登录');
         }
       },
-      offer () {
+      async offer () {
         let res = func.validateOffer(this.message);
         if (res !== 'true') {
           this.wrongMes = res;
           this.dialog = true;
           return;
+        }
+        this.message.loan_ddl = parseInt(this.message.loan_ddl);
+        let submitMes = {
+          amount_gurantee: this.message.amount_guarantee,
+          loan_ddl: this.message.loan_ddl,
+          min_rate: this.message.min_rate,
+          neither: this.message.guarantee_type.neither,
+          mortgage: this.message.guarantee_type.mortgage,
+          pledge: this.message.guarantee_type.pledge,
+          both: this.message.guarantee_type.both
+        };
+        try {
+          await this.$http.post('/api/gurantee/offer', submitMes);
+          this.$store.commit('info', '提交成功，可前往朋友圈寻求合作');
+        } catch (e) {
+          this.$store.commit('info', '网络错误');
         }
       }
     }

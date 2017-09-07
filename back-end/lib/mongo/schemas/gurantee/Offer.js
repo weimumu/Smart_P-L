@@ -17,6 +17,10 @@ const Offer = new Schema({
     required: true
   },
   min_rate: Number,
+  neither: Boolean,
+  mortgage: Boolean,
+  pledge: Boolean,
+  both: Boolean,
   date: {
     type: Date,
     default: Date.now

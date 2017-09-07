@@ -55,7 +55,7 @@ export default {
           }
         }
       } else if (mes[key] === '') {
-        if (key.toString === 'guarantee_way') {
+        if (key.toString() === 'guarantee_way') {
           return '至少选择一种担保方式';
         }
         return '信息填写不完整';

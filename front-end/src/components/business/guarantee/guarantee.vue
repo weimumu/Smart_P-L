@@ -22,7 +22,7 @@
       <offer-guarantee></offer-guarantee>
     </div>
     <div class="morePart" v-if="show.more">
-      <span :style="{marginLeft: '80px'}">更多</span>
+      <gua-More :detail="detailActive" v-on:tranvalue="fatherValue"></gua-More>
     </div>
   </div>
 </template>
@@ -30,6 +30,7 @@
 <script>
 import seekforGuarantee from './seekforGuarantee.vue';
 import offerGuarantee from './offerGuarantee.vue';
+import guaMore from './guaMore';
 export default {
   data () {
     return {
@@ -37,7 +38,8 @@ export default {
         borrow: true,
         lend: false,
         more: false
-      }
+      },
+      detailActive: true
     };
   },
   methods: {
@@ -48,12 +50,19 @@ export default {
         } else {
           this.show[key] = false;
         }
+        if (key.toString() === 'more') {
+          this.detailActive = true;
+        }
       }
+    },
+    fatherValue (val) {
+      this.detailActive = val;
     }
   },
   components: {
     seekforGuarantee,
-    offerGuarantee
+    offerGuarantee,
+    guaMore
   }
 };
 </script>

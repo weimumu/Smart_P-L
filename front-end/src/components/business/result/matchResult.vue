@@ -8,8 +8,10 @@
                 <tr class="main_row" bgcolor="#bbcae7">
                     <td class="item1"><span>公司名称</span></td>
                     <td class="item5"><span>注册资本</span></td>
-                    <td class="item2"><span>提供金额</span></td>
-                    <td class="item3"><span>还款时限</span></td>
+                    <td class="item2" v-if="type === 'borrow'"><span>提供金额</span></td>
+                    <td class="item3" v-if="type === 'borrow'"><span>还款时限</span></td>
+                    <td class="item2" v-if="type !== 'borrow'"><span>担保金额</span></td>
+                    <td class="item3" v-if="type !== 'borrow'"><span>担保时限</span></td>
                     <td class="item4"><span>发起申请</span></td>
                 </tr>
                 <tr class="data_row" v-for="item in results">
@@ -69,7 +71,6 @@
       async initData () {
         if (this.type === 'borrow') {
           let res = await this.$http.get('/api/loan/recommend?id=' + this.Id);
-          console.log(res.data);
           if (!res.data.length) {
             this.$store.commit('info', '暂时没有符合你信息的匹配对象');
           }
@@ -78,6 +79,19 @@
             this.results[i].comName = res1.data.from.comName;
             this.results[i].comCapital = res1.data.from.comCapital + '万元';
             this.results[i].amount = res.data[i].max_amount + '万元';
+            this.results[i].ddl = res.data[i].loan_ddl + '月';
+            this.results[i].lendId = res.data[i]._id;
+          }
+        } else {
+          let res = await this.$http.get('/api/gurantee/recommend/' + this.type + '?id=' + this.Id);
+          if (!res.data.length) {
+            this.$store.commit('info', '暂时没有符合你信息的匹配对象');
+          }
+          for (let i = 0; i < res.data.length; i++) {
+            let res1 = await this.$http.get('/api/gurantee/detail/offer?id=' + res.data[i]._id);
+            this.results[i].comName = res1.data.from.comName;
+            this.results[i].comCapital = res1.data.from.comCapital + '万元';
+            this.results[i].amount = res.data[i].amount_gurantee + '万元';
             this.results[i].ddl = res.data[i].loan_ddl + '月';
             this.results[i].lendId = res.data[i]._id;
           }

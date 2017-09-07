@@ -106,10 +106,10 @@ export default {
     },
     async initBusiness () {
       this.business = [];
-      let res = await this.$http.get('/api/loan/messages');
+      let res = await this.$http.get('/api/business/message');
       for (let i = 0; i < res.data.length; i++) {
         if (res.data[i].type === 'BorrowRequest-Received' || res.data[i].type === 'BorrowRequest-Received&Accepted') {
-          let res1 = await this.$http.get('/api/loan/detail/borrow?id=' + res.data[i].info.transaction.borrow);
+          let res1 = await this.$http.get('/api/loan/detail/borrow?id=' + res.data[i].info.transactionId.borrow);
           let message = {
             comName: res1.data.from.comName,
             max_amount: res1.data.max_amount + '万元',
@@ -125,7 +125,7 @@ export default {
           }
           this.business.push(message);
         } else if (res.data[i].type === 'BorrowRequest-Accepted') {
-          let res1 = await this.$http.get('/api/loan/detail/borrow?id=' + res.data[i].info.transaction.borrow);
+          let res1 = await this.$http.get('/api/loan/detail/borrow?id=' + res.data[i].info.transactionId.borrow);
           let message = {
             comName: res1.data.from.comName,
             max_amount: res1.data.max_amount + '万元',
@@ -134,11 +134,11 @@ export default {
             type: res.data[i].type,
             time: this.tranDate(res.data[i].date)
           };
-          let res2 = await this.$http.get('/api/loan/detail/lend?id=' + res.data[i].info.transaction.lend);
+          let res2 = await this.$http.get('/api/loan/detail/lend?id=' + res.data[i].info.transactionId.lend);
           message.mes = res2.data.from.comName + '已同意您的借款申请，查看详情后可发起合同确认';
           this.business.push(message);
         } else if (res.data[i].type === 'BorrowContract-Received' || res.data[i].type === 'BorrowContract-Received&Accepted') {
-          let res1 = await this.$http.get('/api/loan/detail/borrow?id=' + res.data[i].info.transaction.borrow);
+          let res1 = await this.$http.get('/api/loan/detail/borrow?id=' + res.data[i].info.transactionId.borrow);
           let message = {
             comName: res1.data.from.comName,
             max_amount: res1.data.max_amount + '万元',
@@ -154,7 +154,7 @@ export default {
           }
           this.business.push(message);
         } else if (res.data[i].type === 'BorrowContract-Accepted') {
-          let res1 = await this.$http.get('/api/loan/detail/lend?id=' + res.data[i].info.transaction.lend);
+          let res1 = await this.$http.get('/api/loan/detail/lend?id=' + res.data[i].info.transactionId.lend);
           let message = {
             type: res.data[i].type,
             time: this.tranDate(res.data[i].date)

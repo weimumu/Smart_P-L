@@ -257,6 +257,13 @@ exports.sendTransaction = async (req, res) => {
   assert(message, 'message-instance not exist');
   assert(message.type === 'GuranteeRequest-Accepted', 'incorrect message type');
 
+  assert(!await Message.findOne({
+    type: 'GuranteeContract-Sent',
+    info: {
+      transactionId: message.info.transactionId
+    }
+  }), 'no duplicate transaction allowed');
+
   const messageToOfferer = new Message({
     type: 'GuranteeContract-Received',
     from: res.locals.user._id,
@@ -273,6 +280,7 @@ exports.sendTransaction = async (req, res) => {
 
   await Promise.all([
     messageToOfferer.save(),
+    messageToSeeker.save(),
     User.addMessage(message.from, messageToOfferer),
     res.locals.user.addMessage(messageToSeeker)
   ]);

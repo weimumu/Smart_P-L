@@ -3,6 +3,6 @@ const router = express.Router();
 const {business: {business}} = require('../controller');
 
 router
-  .get('/message', business.getAllRelatedMessages);
+  .get('/messages', business.getAllRelatedMessages);
 
 module.exports = router;

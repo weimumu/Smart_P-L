@@ -233,6 +233,13 @@ exports.sendTransaction = async (req, res) => {
   assert(message, 'message-instance not exist');
   assert(message.type === 'BorrowRequest-Accepted', 'incorrect message type');
 
+  assert(!await Message.findOne({
+    type: 'BorrowContract-Sent',
+    info: {
+      transactionId: message.info.transactionId
+    }
+  }), 'no duplicate transaction allowed');
+
   const messageToLender = new Message({
     type: 'BorrowContract-Received',
     from: res.locals.user._id,
@@ -249,6 +256,7 @@ exports.sendTransaction = async (req, res) => {
 
   await Promise.all([
     messageToLender.save(),
+    messageToBorrower.save(),
     User.addMessage(message.from, messageToLender),
     res.locals.user.addMessage(messageToBorrower)
   ]);

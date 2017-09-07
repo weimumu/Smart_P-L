@@ -24,6 +24,9 @@ exports.getAllRelatedMessages = async (req, res) => {
   })).messages;
 
   res.json(
-    _.chain([...loanMsg, ...gurMsg]).sortBy(o => o.date).reverse().value()
+    _.chain([...loanMsg, ...gurMsg]).each(o => {
+      o.info.transaction = o.info.transactionId;
+      delete o.info.transactionId;
+    }).sortBy(o => o.date).reverse().value()
   );
 };

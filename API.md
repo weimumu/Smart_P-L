@@ -1067,46 +1067,56 @@
 * ```json
   [
       {
-          "_id": "59b027b417a74147e8af46d1",
-          "company_lend": "ali",
-          "from": "59ae8735dd5a292fa821f2cd",
+          "_id": "59b383ee2e75253284554711",
+          "company_lend": "华为科技",
+          "company_borrow": "淘宝商城",
+          "amount": "20",
+          "loan_owner": "辣鸡华为",
+          "loan_amount": "20",
+          "loan_ddl": "12",
+          "loan_source": "1",
+          "situation_borrower": "1",
+          "loan_price": "12",
+          "from": "59b1667ffc29b9026c0b406e",
           "__v": 0,
-          "date": "2017-09-06T16:52:04.284Z"
+          "date": "2017-09-09T06:02:22.097Z"
       },
       {
-          "_id": "59b027b717a74147e8af46d2",
-          "company_lend": "ali",
-          "from": "59ae8735dd5a292fa821f2cd",
+          "_id": "59b38fe82e75253284554713",
+          "company_lend": "华为科技",
+          "company_borrow": "淘宝商城",
+          "amount": "18",
+          "loan_owner": "辣鸡项目",
+          "loan_amount": "18",
+          "loan_ddl": "12",
+          "loan_source": "1",
+          "situation_borrower": "1",
+          "loan_price": "10",
+          "from": "59b1667ffc29b9026c0b406e",
           "__v": 0,
-          "date": "2017-09-06T16:52:07.029Z"
-      },
-      {
-          "_id": "59b027b917a74147e8af46d3",
-          "company_lend": "ali",
-          "from": "59ae8735dd5a292fa821f2cd",
-          "__v": 0,
-          "date": "2017-09-06T16:52:09.237Z"
-      },
-      {
-          "_id": "59b02836ecb0914a28647a09",
-          "company_lend": "ali",
-          "from": "59ae8735dd5a292fa821f2cd",
-          "__v": 0,
-          "date": "2017-09-06T16:54:14.758Z"
-      },
-      {
-          "_id": "59b028c1336c5242dce428b0",
-          "company_lend": "ali",
-          "from": "59ae8735dd5a292fa821f2cd",
-          "__v": 0,
-          "date": "2017-09-06T16:56:33.254Z"
-      },
-      {
-          "_id": "59b028c2336c5242dce428b2",
-          "company_lend": "ali",
-          "from": "59ae8735dd5a292fa821f2cd",
-          "__v": 0,
-          "date": "2017-09-06T16:56:34.735Z"
+          "date": "2017-09-09T06:53:28.383Z"
       }
   ]
+  ```
+
+### get detail
+
+* GET `/api/bondtrade/detail/BONDTRADEID`
+
+* ```json
+  {
+      "_id": "59b383ee2e75253284554711",
+      "company_lend": "华为科技",
+      "company_borrow": "淘宝商城",
+      "amount": "20",
+      "loan_owner": "辣鸡华为",
+      "loan_amount": "20",
+      "loan_ddl": "12",
+      "loan_source": "1",
+      "situation_borrower": "1",
+      "loan_price": "12",
+      "from": "59b1667ffc29b9026c0b406e",
+      "__v": 0,
+      "date": "2017-09-09T06:02:22.097Z"
+  }
   ```

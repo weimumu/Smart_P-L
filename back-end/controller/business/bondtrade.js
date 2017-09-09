@@ -1,4 +1,5 @@
 const {mongo: {Bond, TimelineItem}, assert} = require('../../lib');
+const {ObjectId} = require('mongoose').Types;
 const _ = require('lodash');
 
 exports.sell = async (req, res) => {
@@ -48,4 +49,11 @@ exports.getAll = async (req, res) => {
     .limit(Number(size))
     .skip(Number(page) * Number(page))
   );
+};
+
+exports.getDetail = async (req, res) => {
+  const {id} = req.params;
+  assert(ObjectId.isValid(id), 'invalid bondtrade-id');
+
+  res.json(await Bond.findById(id));
 };

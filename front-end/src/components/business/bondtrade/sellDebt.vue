@@ -76,6 +76,7 @@
 
 
 <script>
+  import func from '../function';
   export default{
     data () {
       return {
@@ -100,6 +101,41 @@
           loan_price: 0
         }
       };
+    },
+    async created () {
+      this.initData();
+    },
+    methods: {
+      close () {
+        this.dialog = false;
+      },
+      async evaluate () {
+        console.log(this.message);
+        let res = func.validateDebt(this.message);
+        if (res !== 'true') {
+          this.wrongMes = res;
+          this.dialog = true;
+          return;
+        }
+        try {
+          let res = await this.$http.post('/api/bondtrade/sell', this.message);
+          console.log(res);
+          this.$store.commit('info', '已成功发布至企业好友圈');
+        } catch (e) {
+          this.$store.commit('info', '网络错误');
+        }
+      },
+      async initData () {
+        let res;
+        try {
+          res = await this.$http.get('/api/user/self');
+          for (var key in this.basicInfo) {
+            this.basicInfo[key] = res.data[key];
+          }
+        } catch (e) {
+          this.$store.commit('info', '用户未登录');
+        }
+      }
     }
   };
 </script>

@@ -28,22 +28,42 @@
     </div>
     <div class="business" v-if="activeTab === '业务进程'">
       <div :style="{marginTop: '20px', position: 'relative'}" v-for="items in business">
-        <span class="Mainmes">借贷申请</span>
-        <div>
-          <span class="mes">{{items.mes}}</span>
+        <div v-if="items.type.indexOf('Borrow') === 0">
+          <span class="Mainmes">借贷申请</span>
+          <div>
+            <span class="mes">{{items.mes}}</span>
+          </div>
+          <div class="mesContent" v-if="items.type !== 'BorrowContract-Received' && items.type !== 'BorrowContract-Received&Accepted' && items.type !== 'BorrowContract-Accepted'">
+            <div class="spa"><span>借款公司:&nbsp;&nbsp;{{items.comName}}</span></div>
+            <div class="spa"><span>借款额度:&nbsp;&nbsp;{{items.max_amount}}</span></div>
+            <div class="spa"><span>提供利息:&nbsp;&nbsp;{{items.max_rate}}</span></div>
+            <div class="spa"><span>借款期限:&nbsp;&nbsp;{{items.loan_ddl}}</span></div>
+            <button class="button1" @click="goToCon('active2')">查看详情</button>
+            <button class="button2" @click="goToCon('active1')">与他联系</button>
+          </div>
+          <button class="button1 special1" @click="goToCon('active2')" v-if="items.type === 'BorrowContract-Received' || items.type === 'BorrowContract-Received&Accepted' || items.type === 'BorrowContract-Accepted'">查看详情</button>
+          <button class="button2 special2" @click="goToCon('active1')" v-if="items.type === 'BorrowContract-Received' || items.type === 'BorrowContract-Received&Accepted' || items.type === 'BorrowContract-Accepted'">与他联系</button>
+          <span class="time">{{items.time}}</span>
+          <div class="line"></div>
         </div>
-        <div class="mesContent" v-if="items.type !== 'BorrowContract-Received' && items.type !== 'BorrowContract-Received&Accepted' && items.type !== 'BorrowContract-Accepted'">
-          <div class="spa"><span>借款公司:&nbsp;&nbsp;{{items.comName}}</span></div>
-          <div class="spa"><span>借款额度:&nbsp;&nbsp;{{items.max_amount}}</span></div>
-          <div class="spa"><span>提供利息:&nbsp;&nbsp;{{items.max_rate}}</span></div>
-          <div class="spa"><span>借款期限:&nbsp;&nbsp;{{items.loan_ddl}}</span></div>
-          <button class="button1" @click="goToCon('active2')">查看详情</button>
-          <button class="button2" @click="goToCon('active1')">与他联系</button>
+        <div v-if="items.type.indexOf('Borrow') !== 0">
+          <span class="Mainmes">担保申请</span>
+          <div>
+            <span class="mes">{{items.mes}}</span>
+          </div>
+          <div class="mesContent" v-if="items.type !== 'GuranteeContract-Received' && items.type !== 'GuranteeContract-Received&Accepted' && items.type !== 'GuranteeContract-Accepted'">
+            <div class="spa"><span>寻求担保的公司:&nbsp;&nbsp;{{items.comName}}</span></div>
+            <div class="spa"><span>担保的贷款额度:&nbsp;&nbsp;{{items.max_amount}}</span></div>
+            <div class="spa"><span>担保的贷款利息:&nbsp;&nbsp;{{items.max_rate}}</span></div>
+            <div class="spa"><span>担保期限:&nbsp;&nbsp;{{items.loan_ddl}}</span></div>
+            <button class="button1" @click="goToCon('active2')">查看详情</button>
+            <button class="button2" @click="goToCon('active1')">与他联系</button>
+          </div>
+          <button class="button1 special1" @click="goToCon('active2')" v-if="items.type === 'GuranteeContract-Received' || items.type === 'GuranteeContract-Received&Accepted' || items.type === 'GuranteeContract-Accepted'">查看详情</button>
+          <button class="button2 special2" @click="goToCon('active1')" v-if="items.type === 'GuranteeContract-Received' || items.type === 'GuranteeContract-Received&Accepted' || items.type === 'GuranteeContract-Accepted'">与他联系</button>
+          <span class="time">{{items.time}}</span>
+          <div class="line"></div>
         </div>
-        <button class="button1 special1" @click="goToCon('active2')" v-if="items.type === 'BorrowContract-Received' || items.type === 'BorrowContract-Received&Accepted' || items.type === 'BorrowContract-Accepted'">查看详情</button>
-        <button class="button2 special2" @click="goToCon('active1')" v-if="items.type === 'BorrowContract-Received' || items.type === 'BorrowContract-Received&Accepted' || items.type === 'BorrowContract-Accepted'">与他联系</button>
-        <span class="time">{{items.time}}</span>
-        <div class="line"></div>
       </div>
     </div>
     <img class="img2" src="/static/message/friend/bg_icon2.png">
@@ -106,10 +126,11 @@ export default {
     },
     async initBusiness () {
       this.business = [];
-      let res = await this.$http.get('/api/business/message');
+      let res = await this.$http.get('/api/business/messages');
+      console.log(res.data);
       for (let i = 0; i < res.data.length; i++) {
         if (res.data[i].type === 'BorrowRequest-Received' || res.data[i].type === 'BorrowRequest-Received&Accepted') {
-          let res1 = await this.$http.get('/api/loan/detail/borrow?id=' + res.data[i].info.transactionId.borrow);
+          let res1 = await this.$http.get('/api/loan/detail/borrow?id=' + res.data[i].info.transaction.borrow);
           let message = {
             comName: res1.data.from.comName,
             max_amount: res1.data.max_amount + '万元',
@@ -125,7 +146,7 @@ export default {
           }
           this.business.push(message);
         } else if (res.data[i].type === 'BorrowRequest-Accepted') {
-          let res1 = await this.$http.get('/api/loan/detail/borrow?id=' + res.data[i].info.transactionId.borrow);
+          let res1 = await this.$http.get('/api/loan/detail/borrow?id=' + res.data[i].info.transaction.borrow);
           let message = {
             comName: res1.data.from.comName,
             max_amount: res1.data.max_amount + '万元',
@@ -134,11 +155,11 @@ export default {
             type: res.data[i].type,
             time: this.tranDate(res.data[i].date)
           };
-          let res2 = await this.$http.get('/api/loan/detail/lend?id=' + res.data[i].info.transactionId.lend);
+          let res2 = await this.$http.get('/api/loan/detail/lend?id=' + res.data[i].info.transaction.lend);
           message.mes = res2.data.from.comName + '已同意您的借款申请，查看详情后可发起合同确认';
           this.business.push(message);
         } else if (res.data[i].type === 'BorrowContract-Received' || res.data[i].type === 'BorrowContract-Received&Accepted') {
-          let res1 = await this.$http.get('/api/loan/detail/borrow?id=' + res.data[i].info.transactionId.borrow);
+          let res1 = await this.$http.get('/api/loan/detail/borrow?id=' + res.data[i].info.transaction.borrow);
           let message = {
             comName: res1.data.from.comName,
             max_amount: res1.data.max_amount + '万元',
@@ -154,7 +175,7 @@ export default {
           }
           this.business.push(message);
         } else if (res.data[i].type === 'BorrowContract-Accepted') {
-          let res1 = await this.$http.get('/api/loan/detail/lend?id=' + res.data[i].info.transactionId.lend);
+          let res1 = await this.$http.get('/api/loan/detail/lend?id=' + res.data[i].info.transaction.lend);
           let message = {
             type: res.data[i].type,
             time: this.tranDate(res.data[i].date)
@@ -162,7 +183,64 @@ export default {
           message.mes = res1.data.from.comName + '已经确认您的合同，交易正式开始';
           this.business.push(message);
         }
+
+        if (res.data[i].type === 'GuranteeRequest-Received' || res.data[i].type === 'GuranteeRequest-Received&Accepted') {
+          let res1 = await this.$http.get('/api/gurantee/detail/seek?id=' + res.data[i].info.transaction.seek);
+          let message = {
+            comName: res1.data.from.comName,
+            max_amount: res1.data.amount_gurantee + '万元',
+            max_rate: res1.data.rate_gurantee + '%/年',
+            loan_ddl: res1.data.loan_ddl + '个月',
+            type: res.data[i].type,
+            time: this.tranDate(res.data[i].date)
+          };
+          if (res.data[i].type === 'GuranteeRequest-Received') {
+            message.mes = '您收到一封与您合作担保业务的申请';
+          } else {
+            message.mes = '您已同意对方担保业务的申请';
+          }
+          this.business.push(message);
+        } else if (res.data[i].type === 'GuranteeRequest-Accepted') {
+          let res1 = await this.$http.get('/api/gurantee/detail/seek?id=' + res.data[i].info.transaction.seek);
+          let message = {
+            comName: res1.data.from.comName,
+            max_amount: res1.data.amount_gurantee + '万元',
+            max_rate: res1.data.rate_gurantee + '%/年',
+            loan_ddl: res1.data.loan_ddl + '月',
+            type: res.data[i].type,
+            time: this.tranDate(res.data[i].date)
+          };
+          let res2 = await this.$http.get('/api/gurantee/detail/offer?id=' + res.data[i].info.transaction.offer);
+          message.mes = res2.data.from.comName + '已同意您的担保申请，查看详情后可发起合同确认';
+          this.business.push(message);
+        } else if (res.data[i].type === 'GuranteeContract-Received' || res.data[i].type === 'GuranteeContract-Received&Accepted') {
+          let res1 = await this.$http.get('/api/gurantee/detail/seek?id=' + res.data[i].info.transaction.seek);
+          let message = {
+            comName: res1.data.from.comName,
+            max_amount: res1.data.amount_gurantee + '万元',
+            max_rate: res1.data.rate_gurantee + '%/年',
+            loan_ddl: res1.data.loan_ddl + '月',
+            type: res.data[i].type,
+            time: this.tranDate(res.data[i].date)
+          };
+          if (res.data[i].type === 'GuranteeContract-Received') {
+            message.mes = res1.data.from.comName + '向你发起担保合同确认，查看后可确认合同';
+          } else {
+            message.mes = '您已确认' + res1.data.from.comName + '发起的担保合同，交易正式开始';
+          }
+          this.business.push(message);
+        } else if (res.data[i].type === 'GuranteeContract-Accepted') {
+          console.log('wei');
+          let res1 = await this.$http.get('/api/gurantee/detail/offer?id=' + res.data[i].info.transaction.offer);
+          let message = {
+            type: res.data[i].type,
+            time: this.tranDate(res.data[i].date)
+          };
+          message.mes = res1.data.from.comName + '已经确认您的担保合同，交易正式开始';
+          this.business.push(message);
+        }
       }
+      console.log(this.business);
     },
     tranDate (mes) {
       let res = new Date(mes);
@@ -175,6 +253,7 @@ export default {
 
 <style lang="scss" scoped>
 .messageMain {
+  height: auto;
   .header {
     width: 100%;
     height: 53px;
@@ -194,10 +273,11 @@ export default {
   }
   .content{
     padding: 20px 40px;
-    position: fixed;
+    position: absolute;
     left: 18%;
     width: 64%;
-    height: 100%;
+    min-height: 500px;
+    height: auto;
     margin-top: 25px;
     background: url("/static/message/friend/bg_rec.png");
     background-size: 100% 100%;
@@ -239,10 +319,11 @@ export default {
   }
   .business{
     padding: 20px 40px;
-    position: fixed;
+    position: absolute;
     left: 18%;
     width: 64%;
-    height: 100%;
+    min-height: 500px;
+    height: auto;
     margin-top: 25px;
     background: url("/static/message/friend/bg_rec.png");
     background-size: 100% 100%;
@@ -264,8 +345,8 @@ export default {
       margin: 0 auto;
       background: #f2f2f2;
       height: 110px;
-      width: 93%;
-      margin-left: 25px;
+      width: 95%;
+      margin-left: 18px;
       margin-top: 10px;
       .spa{
         color: #4b4b4b;
@@ -274,12 +355,12 @@ export default {
       .button1{
         top: 15px;
         position: absolute;
-        right: 40px;
+        right: 5px;
       }
       .button2 {
         top: 47px;
         position: absolute;
-        right: 40px;
+        right: 5px;
       }
     }
     .button1, .button2{

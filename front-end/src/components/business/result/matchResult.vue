@@ -19,7 +19,7 @@
                     <td class="item5"><span>{{item.comCapital}}</span></td>
                     <td class="item2"><span>{{item.amount}}</span></td>
                     <td class="item3"><span>{{item.ddl}}</span></td>
-                    <td class="item4"><img src="/static/business/result/icon_apply.png" @click="reqPost(Id, item.lendId)" v-if="item.comName !== ''"/></td>
+                    <td class="item4"><img src="/static/business/result/icon_apply.png" :style="{cursor: 'pointer'}" @click="reqPost(Id, item.lendId)" v-if="item.comName !== ''"/></td>
                 </tr>
             </table>
         </div>
@@ -99,12 +99,23 @@
       },
       async reqPost (borrowId, lendId) {
         console.log(borrowId, lendId);
-        let res;
-        res = await this.$http.post('/api/loan/request', {
-          borrowId: borrowId,
-          lendId: lendId
-        });
-        console.log(res);
+        try {
+          if (this.type === 'borrow') {
+            await this.$http.post('/api/loan/request', {
+              borrowId: borrowId,
+              lendId: lendId
+            });
+            this.$store.commit('info', '成功发送申请，请耐心等待回复');
+          } else {
+            await this.$http.post('/api/gurantee/request', {
+              seekId: borrowId,
+              offerId: lendId
+            });
+            this.$store.commit('info', '成功发送申请，请耐心等待回复');
+          }
+        } catch (e) {
+          this.$store.commit('info', '你已发起过申请');
+        }
       }
     }
   };
@@ -134,19 +145,19 @@
             margin-top: 20px;
             tr{
                 .item1{
-                    width: 242px;
+                    width: 200px;
                 }
                 .item2{
-                    width: 142px;
+                    width: 120px;
                 }
                 .item3{
-                    width: 180px;
+                    width: 120px;
                 }
                 .item4{
                     width: 100px;
                 }
                 .item5{
-                  width: 142px;
+                  width: 120px;
                 }
             }
             .main_row{

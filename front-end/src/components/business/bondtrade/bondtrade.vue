@@ -19,7 +19,7 @@
       <sell-debt></sell-debt>
     </div>
     <div class="buyPart" v-if="show.lend">
-      <span :style="{marginLeft: '80px'}">债券购买</span>
+      <buy-debt></buy-debt>
     </div>
     <div class="morePart" v-if="show.more">
       <span :style="{marginLeft: '80px'}">更多</span>
@@ -29,6 +29,7 @@
 
 <script>
 import sellDebt from './sellDebt.vue';
+import buyDebt from './buyDebt';
 export default {
   data () {
     return {
@@ -51,7 +52,8 @@ export default {
     }
   },
   components: {
-    sellDebt
+    sellDebt,
+    buyDebt
   }
 };
 </script>

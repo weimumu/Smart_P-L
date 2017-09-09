@@ -104,5 +104,23 @@ export default {
       return '可接受的最低担保费率必须大于0';
     }
     return 'true';
+  },
+  validateDebt (mes) {
+    if (mes.company_borrow === '' || mes.company_lend === '' || mes.loan_source.mes === '' || mes.situation_borrower === '') {
+      return '信息填写不完整';
+    }
+    if (mes.amount <= 0) {
+      return '标题债权金额必须大于0';
+    }
+    if (mes.amount !== mes.loan_amount) {
+      return '标题中债权额度与债权金额不一致';
+    }
+    if (mes.loan_ddl <= 0) {
+      return '债权期限必须大于0';
+    }
+    if (mes.loan_price <= 0) {
+      return '债权定价必须大于0';
+    }
+    return 'true';
   }
 };

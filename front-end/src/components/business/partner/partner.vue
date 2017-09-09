@@ -105,10 +105,15 @@
         <span class="contactMes" @click="goToFriend">与他联系</span>
         <img class="good" src="/static/business/partner/favour.png">
         <span class="goodMes">123</span>
-        <div class="content">
+        <div class="content" v-if="item.type === 'Borrow'">
           <div><span>融资金额:&emsp;{{item.max_amount}}万元</span><span :style="{position: 'absolute', left: '300px'}">融资用途:&emsp;{{item.reason}}</span></div>
           <div><span>提供利率:&emsp;{{item.max_rate}}%/年</span><span :style="{position: 'absolute', left: '300px'}">风险评级:&emsp;{{item.total_risk_factor}}</span></div>
-          <span>融资期限:&emsp;{{item.loan_ddl}}个月</span>
+          <div><span>融资期限:&emsp;{{item.loan_ddl}}个月</span><span :style="{position: 'absolute', left: '300px'}">企业信用分数:&emsp;{{item.comCreditScore}}</span></div>
+        </div>
+        <div class="content" v-if="item.type === 'GuranteeSeek'">
+          <div><span>担保的贷款额度:&emsp;{{item.max_amount}}万元</span><span :style="{position: 'absolute', left: '300px'}">贷款项目的简述:&emsp;{{item.reason}}</span></div>
+          <div><span>担保的贷款利率:&emsp;{{item.max_rate}}%/年</span><span :style="{position: 'absolute', left: '300px'}">提供的担保费用:&emsp;{{item.cost}}万元</span></div>
+          <div><span>担保期限:&emsp;{{item.loan_ddl}}个月</span><span :style="{position: 'absolute', left: '300px'}">企业信用分数:&emsp;{{item.comCreditScore}}</span></div>
         </div>
         <div class="line"></div>
       </div>
@@ -220,9 +225,24 @@ export default {
             result.mes = res1.data.city + res1.data.project + '项目计划借款' + res1.data.max_amount + '万元';
             result.max_amount = res1.data.max_amount;
             result.reason = res1.data.reason;
+            result.comCreditScore = res1.data.from.comCreditScore;
             result.max_rate = res1.data.max_rate;
             result.total_risk_factor = res1.data.total_risk_factor;
             result.loan_ddl = res1.data.loan_ddl;
+            result.type = element.type;
+            this.momentsList.push(result);
+          } else if (element.type === 'GuranteeSeek') {
+            let res1 = await this.$http.get('/api/gurantee/detail/seek?id=' + element.info.seekId);
+            result.comName = res1.data.from.comName;
+            result.time = this.tranDate(res1.data.date);
+            result.mes = res1.data.city + res1.data.project + '项目借款' + res1.data.amount_gurantee + '万元寻求担保';
+            result.max_amount = res1.data.amount_gurantee;
+            result.reason = res1.data.other_detail;
+            result.comCreditScore = res1.data.from.comCreditScore;
+            result.max_rate = res1.data.rate_gurantee;
+            result.loan_ddl = res1.data.loan_ddl;
+            result.cost = res1.data.cost;
+            result.type = element.type;
             this.momentsList.push(result);
           }
         }
@@ -371,7 +391,7 @@ export default {
   }
   .moments {
     width: 788px;
-    height: 702px;
+    height: auto;
     margin-left: auto;
     margin-right: auto;
     padding-top: 1px;

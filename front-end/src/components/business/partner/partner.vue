@@ -115,6 +115,11 @@
           <div><span>担保的贷款利率:&emsp;{{item.max_rate}}%/年</span><span :style="{position: 'absolute', left: '300px'}">提供的担保费用:&emsp;{{item.cost}}万元</span></div>
           <div><span>担保期限:&emsp;{{item.loan_ddl}}个月</span><span :style="{position: 'absolute', left: '300px'}">企业信用分数:&emsp;{{item.comCreditScore}}</span></div>
         </div>
+        <div class="content" v-if="item.type === 'BondSell'">
+          <div><span>债权额度:&emsp;{{item.max_amount}}万元</span><span :style="{position: 'absolute', left: '300px'}">债券名称:&emsp;{{item.reason}}</span></div>
+          <div><span>出售价格:&emsp;{{item.max_rate}}万元</span><span :style="{position: 'absolute', left: '300px'}">对应公司:&emsp;{{item.cost}}</span></div>
+          <div><span>债权期限:&emsp;{{item.loan_ddl}}个月</span></div>
+        </div>
         <div class="line"></div>
       </div>
     </div>
@@ -242,6 +247,18 @@ export default {
             result.max_rate = res1.data.rate_gurantee;
             result.loan_ddl = res1.data.loan_ddl;
             result.cost = res1.data.cost;
+            result.type = element.type;
+            this.momentsList.push(result);
+          } else if (element.type === 'BondSell') {
+            let res1 = await this.$http.get('/api/bondtrade/detail/' + element.info.bondId);
+            result.comName = res1.data.from.comName;
+            result.time = this.tranDate(res1.data.date);
+            result.mes = res1.data.company_lend + '关于对于' + res1.data.company_borrow + '应收账款' + res1.data.amount + '万元债权出售';
+            result.max_amount = res1.data.amount;
+            result.reason = res1.data.loan_owner;
+            result.max_rate = res1.data.loan_price;
+            result.loan_ddl = res1.data.loan_ddl;
+            result.cost = res1.data.company_borrow;
             result.type = element.type;
             this.momentsList.push(result);
           }

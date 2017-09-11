@@ -1,11 +1,15 @@
 const assert = require('assert');
 const ax = require('../../lib').axios;
-const {assertResError} = require('../../lib');
+const {assertResError, genUser, login} = require('../../lib');
 const {mongo: {User}} = require('../../../lib');
+const {users} = require('../../dataset');
 const ObjectId = require('mongoose').Types.ObjectId;
 
 describe('Users', () => {
   before(async () => {
+    await User.remove({});
+  });
+  after(async () => {
     await User.remove({});
   });
 
@@ -21,11 +25,7 @@ describe('Users', () => {
 
     it('should work', async () => {
       await Promise.all(
-        [
-          ax.post('/user', genUser({userEmail: '1', userPass: 'pw', comName: '1'})),
-          ax.post('/user', genUser({userEmail: '2', userPass: 'pw', comName: '2'})),
-          ax.post('/user', genUser({userEmail: '3', userPass: 'pw', comName: '3'}))
-        ]
+        users.map(u => ax.post('/user', genUser(u)))
       );
     });
   });
@@ -33,7 +33,7 @@ describe('Users', () => {
   describe('#login', () => {
     it('incorrect pw', async () => {
       await assertResError(
-        ax.post('/user/login', {
+        login({
           email: '3333',
           password: 'incorrect'
         }),
@@ -42,14 +42,14 @@ describe('Users', () => {
     });
 
     it('ok', async () => {
-      await ax.post('/user/login', {
+      await login({
         email: '1',
         password: 'pw'
       });
     });
 
     it('got cookies', async () => {
-      await ax.post('/user/login', {
+      await login({
         email: '1',
         password: 'pw'
       });
@@ -71,33 +71,3 @@ describe('Users', () => {
     });
   });
 });
-
-function genUser (obj) {
-  return {
-    ...{
-      'userEmail': '44',
-      'userPass': '3',
-      'userPassComfim': '1',
-      'comName': 'huawei',
-      'comCode': '1',
-      'comCapital': 23232,
-      'comTime': '1',
-      'comPerson': '1',
-      'comEmail': '1',
-      'comPhone': '1',
-      'comManager': '1',
-      'comRegistAddresss': '1',
-      'comWorkAddresss': '1',
-      'comField': '1',
-      'comProduct': '1',
-      'comIntro': '1',
-      'contactName': '1',
-      'contactJob': '1',
-      'contactMobile': '1',
-      'contactEmail': '1',
-      'contactQQ': '1',
-      'contactPhone': '1'
-    },
-    ...obj
-  };
-}

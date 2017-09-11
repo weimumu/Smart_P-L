@@ -22,18 +22,18 @@ describe('Friends', () => {
     ]);
   });
 
-  describe('#newFriend', () => {
-    const userA = {
-      email: users[0].userEmail,
-      password: users[0].userPass,
-      comName: users[0].comName
-    };
-    const userB = {
-      email: users[1].userEmail,
-      password: users[1].userPass,
-      comName: users[1].comName
-    };
+  const userA = {
+    email: users[0].userEmail,
+    password: users[0].userPass,
+    comName: users[0].comName
+  };
+  const userB = {
+    email: users[1].userEmail,
+    password: users[1].userPass,
+    comName: users[1].comName
+  };
 
+  describe('#newFriend', () => {
     before(async () => {
       await Promise.all(
         users.map(u => ax.post('/user', genUser(u)))
@@ -191,28 +191,28 @@ describe('Friends', () => {
         });
       });
     });
+  });
 
-    describe('#remove friend', () => {
-      before(async () => {
+  describe('#remove friend', () => {
+    before(async () => {
+      await login(userA);
+    });
+
+    it('A remove B', async () => {
+      await ax.delete(`/friend/${userB.id}`);
+    });
+
+    describe('#result', () => {
+      it(`A not in B's list`, async () => {
         await login(userA);
+        const list = (await ax.get('/friend/list')).data;
+        assert(list.length === 0, 'error');
       });
 
-      it('A remove B', async () => {
-        await ax.delete(`/friend/${userB.id}`);
-      });
-
-      describe('#result', () => {
-        it(`A not in B's list`, async () => {
-          await login(userA);
-          const list = (await ax.get('/friend/list')).data;
-          assert(list.length === 0, 'error');
-        });
-
-        it(`B not in A's list`, async () => {
-          await login(userB);
-          const list = (await ax.get('/friend/list')).data;
-          assert(list.length === 0, 'error');
-        });
+      it(`B not in A's list`, async () => {
+        await login(userB);
+        const list = (await ax.get('/friend/list')).data;
+        assert(list.length === 0, 'error');
       });
     });
   });

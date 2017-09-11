@@ -5,6 +5,7 @@ const path = require('path');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const isDev = process.env.NODE_ENV !== 'production';
+const isMocha = !!process.env.MOCHA_TEST;
 const session = require('express-session');
 const MongoStore = require('connect-mongo')(session);
 
@@ -15,7 +16,9 @@ const app = express();
 
 // uncomment after placing your favicon in /public
 // app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+if (!isMocha) {
+  app.use(logger('dev'));
+}
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(session({

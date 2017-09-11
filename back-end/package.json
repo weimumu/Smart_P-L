@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./bin/www.js",
-    "dev": "nodemon ./bin/www.js"
+    "dev": "nodemon ./bin/www.js",
+    "test": "cross-env PORT=7007 NODE_ENV=production MOCHA_TEST=1 mocha --require bin/www.js tests/cases/*/*.js"
   },
   "dependencies": {
     "bluebird": "^3.5.0",
@@ -21,12 +22,12 @@
     "lodash": "^4.17.4",
     "mongoose": "^4.11.7",
     "morgan": "~1.8.1",
-    "require-indexify": "^1.0.0",
     "serve-favicon": "~2.4.2",
     "winston": "^2.3.1",
     "winston-daily-rotate-file": "^1.4.6"
   },
   "devDependencies": {
+    "axios": "^0.16.2",
     "babel-core": "^6.22.1",
     "babel-eslint": "^7.1.1",
     "babel-loader": "^7.1.1",
@@ -42,6 +43,10 @@
     "eslint-plugin-html": "^3.0.0",
     "eslint-plugin-promise": "^3.4.0",
     "eslint-plugin-standard": "^2.0.1",
-    "nodemon": "^1.11.0"
+    "mocha": "^3.5.2",
+    "node-axios-cookiejar": "0.0.3",
+    "nodemon": "^1.11.0",
+    "require-indexify": "^1.0.0",
+    "tough-cookie": "^2.3.2"
   }
 }

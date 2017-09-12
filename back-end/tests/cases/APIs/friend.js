@@ -198,6 +198,11 @@ describe('Friends', () => {
       await login(userA);
     });
 
+    it('friend info before remove', async () => {
+      const {data} = await ax.get(`/user/${userB.id}`);
+      assert(typeof data.comEmail === 'string', 'incomplete info of friend');
+    });
+
     it('A remove B', async () => {
       await ax.delete(`/friend/${userB.id}`);
     });
@@ -213,6 +218,12 @@ describe('Friends', () => {
         await login(userB);
         const list = (await ax.get('/friend/list')).data;
         assert(list.length === 0, 'error');
+      });
+
+      it('friend info after remove', async () => {
+        await login(userA);
+        const {data} = await ax.get(`/user/${userB.id}`);
+        assert(data.comEmail === undefined, 'too much info for stranger');
       });
     });
   });

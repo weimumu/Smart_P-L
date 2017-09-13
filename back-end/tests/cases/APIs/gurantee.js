@@ -16,7 +16,7 @@ const userB = {
   comName: users[1].comName
 };
 
-describe('#Loan', () => {
+describe('#Gurantee', () => {
   let seekId;
   let offerId;
   before(async () => {

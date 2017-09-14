@@ -27,7 +27,7 @@
             <span>请在申请通过后进行合同确认，逾期一个月未进行确认将被扣除2分信用分</span>
         </div>
         <div class="show_request">
-            <button>查看申请</button>
+            <button @click="returnMain">查看申请</button>
         </div>
     </div>
 </div>
@@ -116,6 +116,9 @@
         } catch (e) {
           this.$store.commit('info', '你已发起过申请');
         }
+      },
+      returnMain () {
+        this.$emit('changeValue');
       }
     }
   };

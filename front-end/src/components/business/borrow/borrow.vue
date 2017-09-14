@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="borrowPart" v-if="show.borrow">
-      <sub-borrow></sub-borrow>
+      <sub-borrow  @goToDetail="goToDetail"></sub-borrow>
     </div>
     <div class="lendPart" v-if="show.lend">
       <sub-lend></sub-lend>
@@ -59,6 +59,9 @@ export default {
     },
     fatherValue (val) {
       this.detailActive = val;
+    },
+    goToDetail () {
+      this.goTo('more');
     }
   },
   components: {

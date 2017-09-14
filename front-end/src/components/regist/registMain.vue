@@ -135,6 +135,7 @@
 <script>
   import myinput from './myInput.vue';
   import func from './functions';
+  import crypto from 'crypto';
   export default {
     data () {
       return {
@@ -203,6 +204,7 @@
           return;
         }
         delete this.message.userPassComfim;
+        this.message.userPass = crypto.createHash('md5').update(this.message.userPass).digest('hex');
         let result;
         try {
           result = await this.$http.post('/api/user', this.message);

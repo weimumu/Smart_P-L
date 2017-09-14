@@ -86,7 +86,7 @@
             </div>
           </div>
           <button class="delFriend special" @click="delFriend(comMes._id)">删除好友</button>
-          <button class="delFriend" @click="delFriend">交易记录</button>
+          <button class="delFriend" @click="readRecode">交易记录</button>
         </div>
       </div>
     </div>
@@ -251,7 +251,7 @@ export default {
             this.momentsList.push(result);
           } else if (element.type === 'BondSell') {
             let res1 = await this.$http.get('/api/bondtrade/detail/' + element.info.bondId);
-            result.comName = res1.data.from.comName;
+            result.comName = res1.data.company_lend;
             result.time = this.tranDate(res1.data.date);
             result.mes = res1.data.company_lend + '关于对于' + res1.data.company_borrow + '应收账款' + res1.data.amount + '万元债权出售';
             result.max_amount = res1.data.amount;
@@ -326,6 +326,9 @@ export default {
       } catch (e) {
         this.$store.commit('info', '用户未登录');
       }
+    },
+    readRecode () {
+      this.$store.commit('info', '此功能还待开发');
     }
   },
   computed: {
@@ -408,7 +411,7 @@ export default {
   }
   .moments {
     width: 788px;
-    height: auto;
+    min-height: 100px;
     margin-left: auto;
     margin-right: auto;
     padding-top: 1px;

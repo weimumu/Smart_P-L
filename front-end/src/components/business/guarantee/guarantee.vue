@@ -16,7 +16,7 @@
       </div>
     </div>
     <div class="seekPart" v-if="show.borrow">
-      <seekfor-guarantee></seekfor-guarantee>
+      <seekfor-guarantee @goToDetail="goToDetail"></seekfor-guarantee>
     </div>
     <div class="offerPart" v-if="show.lend">
       <offer-guarantee></offer-guarantee>
@@ -57,6 +57,9 @@ export default {
     },
     fatherValue (val) {
       this.detailActive = val;
+    },
+    goToDetail () {
+      this.goTo('more');
     }
   },
   components: {

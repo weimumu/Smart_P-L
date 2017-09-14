@@ -20,6 +20,7 @@
   </div>
 </template>
 <script>
+  import crypto from 'crypto';
   export default{
     data () {
       return {
@@ -40,7 +41,7 @@
         try {
           res = await this.$http.post('/api/user/login', {
             email: this.email,
-            password: this.password
+            password: crypto.createHash('md5').update(this.password).digest('hex')
           });
         } catch (e) {
           if (e.response.status === 400) {

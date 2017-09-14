@@ -131,7 +131,7 @@
         </div>
     </div>
 
-    <result :Id="seekId" :type="seekType" v-if="submitActive"></result>
+    <result :Id="seekId" :type="seekType" v-if="submitActive" @changeValue="goToDetail"></result>
 
     <div>
       <mu-dialog :open="dialog" title="错误提示">
@@ -215,6 +215,7 @@
         this.result.amount = this.basicInfo.comCreditScore * this.basicInfo.comCapital * 1.5 / 100;
         this.result.risk_factor = ((this.message.amount_guarantee - 0.5 * this.message.mortgage) / this.result.amount).toFixed(4);
         this.result.amount += '万元';
+        this.$store.commit('info', '评估成功，请查看右侧评估结果');
       },
       async submit () {
         if (this.result.risk_factor === '') {
@@ -246,6 +247,9 @@
         } catch (e) {
 
         }
+      },
+      goToDetail () {
+        this.$emit('goToDetail');
       }
     },
     components: {

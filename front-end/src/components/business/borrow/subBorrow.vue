@@ -100,7 +100,7 @@
             </div>
             <div class="submit_part" :style="{margin: '40px auto 0px auto'}">
                 <button class="eval_button" @click="evaluate">风险及额度评估</button>
-                <a class="submit_directly"><span class="submit_text">直接提交</span></a>
+                <a class="submit_directly"><span class="submit_text" @click="submit">直接提交</span></a>
             </div>
         </div>
         
@@ -122,7 +122,7 @@
         </div>
     </div>
 
-    <result :Id="borrowId" type="borrow" v-if="submitActive"></result>
+    <result :Id="borrowId" type="borrow" v-if="submitActive" @changeValue="goToDetail"></result>
     <div>
       <mu-dialog :open="dialog" title="错误提示">
         {{wrongMes}}
@@ -257,6 +257,9 @@
         } catch (e) {
 
         }
+      },
+      goToDetail () {
+        this.$emit('goToDetail');
       }
     },
     components: {
@@ -420,6 +423,7 @@ input[type="checkbox"]:checked+label::before{
               }
               .submit_text{
                 display: block;
+                cursor: pointer;
               }
             }
             .submit_part{
@@ -437,6 +441,7 @@ input[type="checkbox"]:checked+label::before{
                 background: #D6A12C;
               }
               .submit_directly{
+                cursor: pointer;
                 display: inline-block;
                 float: left;
                 position: relative;

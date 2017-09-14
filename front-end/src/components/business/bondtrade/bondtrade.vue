@@ -22,7 +22,6 @@
       <buy-debt></buy-debt>
     </div>
     <div class="morePart" v-if="show.more">
-      <span :style="{marginLeft: '80px'}">更多</span>
     </div>
   </div>
 </template>
@@ -48,6 +47,9 @@ export default {
         } else {
           this.show[key] = false;
         }
+      }
+      if (mes === 'more') {
+        this.$store.commit('info', '此功能类似借贷详情界面，待开发');
       }
     }
   },

@@ -3,9 +3,9 @@
     <div class="header">
       <mu-tabs :value="activeTab" @change="handleTabChange">
         <i class="point" :style="{marginLeft: '80px'}"></i>
-        <mu-tab value="好友申请" title="好友申请" />
+        <mu-tab value="好友申请" title="好友申请" :class="{colorActive: activeTab === '好友申请'}"/>
         <i class="point"></i>
-        <mu-tab value="业务进程" title="业务进程" @click="initBusiness"/>
+        <mu-tab value="业务进程" title="业务进程" @click="initBusiness" :class="{colorActive: activeTab === '业务进程'}"/>
         <i class="point" :style="{marginRight: '80px'}"></i>
       </mu-tabs>
       <div class="bottomLine"></div>
@@ -269,6 +269,9 @@ export default {
       width: 100%;
       background: #d6a12c;
       height: 1.2px;
+    }
+    .colorActive{
+      color:#d6a12c;
     }
   }
   .content{

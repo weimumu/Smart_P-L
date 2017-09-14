@@ -115,7 +115,8 @@ exports.getRecommend = async (req, res) => {
         $gte: borrowInstance.loan_ddl
       },
       from: { // exclude those from yourself
-        $ne: res.locals.user._id
+        $ne: res.locals.user._id,
+        $in: res.locals.user.friends
       }
     })
     .sort('-max_amount')

@@ -117,7 +117,8 @@ exports.getRecommendSingle = async (req, res) => {
         $gte: seekInstance.amount_gurantee
       },
       from: { // exclude those from yourself
-        $ne: res.locals.user._id
+        $ne: res.locals.user._id,
+        $in: res.locals.user.friends
       }
     })
     .sort('-amount_gurantee')
@@ -139,7 +140,8 @@ exports.getRecommendMulti = async (req, res) => {
         $gte: seekInstance.loan_ddl
       },
       from: { // exclude those from yourself
-        $ne: res.locals.user._id
+        $ne: res.locals.user._id,
+        $in: res.locals.user.friends
       }
     })
     .sort('-amount_gurantee')

@@ -154,9 +154,21 @@ describe('#Gurantee', () => {
         await login(userB);
       });
 
-      it('ok', async () => {
+      it('no recommend while not friend', async () => {
         const {data} = await ax.get(`/gurantee/recommend/single?id=${seekId}`);
-        assert(data, 'no recommend');
+        assert(data.length === 0, 'unexpected recommend');
+      });
+
+      it('ok', async () => {
+        const aId = (await User.findOne({userEmail: userA.email}))._id;
+        const bId = (await User.findOne({userEmail: userB.email}))._id;
+        await User.update({_id: bId}, {
+          $push: {
+            friends: aId
+          }
+        });
+        const {data} = await ax.get(`/gurantee/recommend/single?id=${seekId}`);
+        assert(data.length, 'no recommend');
       });
     });
 

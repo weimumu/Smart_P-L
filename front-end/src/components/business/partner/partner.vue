@@ -65,10 +65,10 @@
             <span>{{comMes.comName}}</span>
             <div class="contentMes">
               <div class="left" :style="{marginTop : '20px'}">
-                <p>成立时间：{{comMes.comTime}}</p>
+                <p>信用评级：{{comMes.comCreditScore}}分</p>
                 <p>注册资本：{{comMes.comCapital}}万元</p>
                 <p>注册地址：{{comMes.comRegistAddresss}}</p>
-                <p>办公地址：{{comMes.comWorkAddresss}}</p>
+                <p>成立时间：{{comMes.comTime}}</p>
                 <p>公司电话：{{comMes.comPhone}}</p>
                 <p>所属行业：{{comMes.comField}}</p>
                 <p>主营产品：{{comMes.comProduct}}</p>

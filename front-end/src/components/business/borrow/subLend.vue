@@ -114,9 +114,13 @@
         try {
           await this.$http.post('/api/loan/lend', this.message);
           this.$store.commit('info', '提交成功，可前往朋友圈寻求合作');
+          this.goToDetail();
         } catch (e) {
-
+          this.$store.commit('info', '提交成功，可前往朋友圈寻求合作');
         }
+      },
+      goToDetail () {
+        this.$emit('goToDetail');
       }
     }
   };

@@ -19,13 +19,14 @@
     </div>
   </div>
   <div class="detail" v-if="detailActive === false">
+    <div v-if="!resultActive">
     <span class="title" v-if="getMainMes.type !== 'BorrowContract-Received&Accepted' && getMainMes.type !== 'BorrowContract-Accepted'">借贷申请</span>
     <div class="buttonDiv">
       <button class="agree" @click="agree()" v-if="getMainMes.type === 'BorrowRequest-Received'">同意</button>
       <button class="disagree" v-if="getMainMes.type === 'BorrowRequest-Received'">拒绝</button>
       <button class="contact" v-if="getMainMes.type == 'BorrowRequest-Accepted'" @click="contactPost">发起合同确认</button>
       <button class="contact contact1" v-if="getMainMes.type == 'BorrowContract-Received'" @click="comPost">确认合同</button>
-      <button class="contact" v-if="getMainMes.type === 'Publish-Borrow'">查看匹配结果</button>
+      <button class="contact" @click="readResult" v-if="getMainMes.type === 'Publish-Borrow'">查看匹配结果</button>
       <div class="bargain" v-if="getMainMes.type === 'BorrowContract-Received&Accepted' || getMainMes.type === 'BorrowContract-Accepted'">交易正在进行</div>
     </div>
     <div class="line"></div>
@@ -47,11 +48,16 @@
       <div v-if="getMainMes.type === 'BorrowRequest-Accepted' || getMainMes.type === 'BorrowContract-Received' || getMainMes.type === 'BorrowContract-Received&Accepted'|| getMainMes.type === 'BorrowContract-Accepted'"><span>贷款主体&nbsp;&nbsp;&nbsp;{{getMainMes.company}}</span></div>
       <div v-if="getMainMes.type === 'BorrowRequest-Accepted' || getMainMes.type === 'BorrowContract-Received' || getMainMes.type === 'BorrowContract-Received&Accepted'|| getMainMes.type === 'BorrowContract-Accepted'"><span>所属行业&nbsp;&nbsp;&nbsp;{{getMainMes.companyAddresss}}</span></div>
     </div>
+    </div>
+    <div v-if="resultActive">
+      <result :Id="getMainMes.borrowId" type="borrow"></result>
+    </div>
   </div>
 </div>
 </template>
 
 <script>
+  import result from '../result/matchResult.vue';
   export default{
     props: ['detail'],
     data () {
@@ -61,6 +67,7 @@
           active2: false
         },
         detailActive: this.detail,
+        resultActive: false,
         simpleMes: [],
         otherMes: [],
         mainMes: {
@@ -86,6 +93,7 @@
       },
       detailActive (val) {
         this.$emit('tranvalue', val);
+        this.resultActive = false;
         this.initData();
       }
     },
@@ -198,6 +206,7 @@
           this.mainMes.reason = res.data.reason;
           this.mainMes.max_rate = res.data.max_rate + '%/年';
           this.mainMes.loan_ddl = res.data.loan_ddl + '月内';
+          this.mainMes.borrowId = borrowId;
           this.mainMes.messageId = messageId;
           this.mainMes.type = type;
           this.mainMes.source = '';
@@ -222,6 +231,9 @@
           if (res.data.guarentee) {
             this.mainMes.risk += '+担保';
             this.mainMes.riskType1 += res.data.guarentee_amount + '万元';
+          }
+          if (!this.mainMes.risk) {
+            this.mainMes.risk += '无';
           }
         }
         if (type === 'Publish-Borrow') {
@@ -269,6 +281,7 @@
           this.mainMes.reason = res.data.reason;
           this.mainMes.max_rate = res.data.max_rate + '%/年';
           this.mainMes.loan_ddl = res.data.loan_ddl + '月内';
+          this.mainMes.borrowId = borrowId;
           this.mainMes.messageId = messageId;
           this.mainMes.type = type;
           this.mainMes.source = '';
@@ -293,6 +306,9 @@
           if (res.data.guarentee) {
             this.mainMes.risk += '+担保';
             this.mainMes.riskType1 += res.data.guarentee_amount + '万元';
+          }
+          if (!this.mainMes.risk) {
+            this.mainMes.risk += '无';
           }
           if (type === 'BorrowRequest-Sent') {
             this.mainMes.othermount = res1.data.max_amount + '万元';
@@ -326,6 +342,9 @@
         } catch (e) {
           this.$store.commit('info', '您已经处理改请求，无需重复操作');
         }
+      },
+      readResult () {
+        this.resultActive = true;
       }
     },
     computed: {
@@ -338,6 +357,9 @@
       getMainMes () {
         return this.mainMes;
       }
+    },
+    components: {
+      result
     }
   };
 </script>

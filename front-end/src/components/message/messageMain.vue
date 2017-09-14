@@ -3,7 +3,7 @@
     <div class="header">
       <mu-tabs :value="activeTab" @change="handleTabChange">
         <i class="point" :style="{marginLeft: '80px'}"></i>
-        <mu-tab value="好友申请" title="好友申请" :class="{colorActive: activeTab === '好友申请'}"/>
+        <mu-tab value="好友申请" title="好友申请" :class="{colorActive: activeTab === '好友申请'}" @click="initData"/>
         <i class="point"></i>
         <mu-tab value="业务进程" title="业务进程" @click="initBusiness" :class="{colorActive: activeTab === '业务进程'}"/>
         <i class="point" :style="{marginRight: '80px'}"></i>
@@ -56,10 +56,10 @@
             <div class="spa"><span>担保的贷款额度:&nbsp;&nbsp;{{items.max_amount}}</span></div>
             <div class="spa"><span>担保的贷款利息:&nbsp;&nbsp;{{items.max_rate}}</span></div>
             <div class="spa"><span>担保期限:&nbsp;&nbsp;{{items.loan_ddl}}</span></div>
-            <button class="button1" @click="goToCon('active2')">查看详情</button>
+            <button class="button1" @click="goToCon('active4')">查看详情</button>
             <button class="button2" @click="goToCon('active1')">与他联系</button>
           </div>
-          <button class="button1 special1" @click="goToCon('active2')" v-if="items.type === 'GuranteeContract-Received' || items.type === 'GuranteeContract-Received&Accepted' || items.type === 'GuranteeContract-Accepted'">查看详情</button>
+          <button class="button1 special1" @click="goToCon('active4')" v-if="items.type === 'GuranteeContract-Received' || items.type === 'GuranteeContract-Received&Accepted' || items.type === 'GuranteeContract-Accepted'">查看详情</button>
           <button class="button2 special2" @click="goToCon('active1')" v-if="items.type === 'GuranteeContract-Received' || items.type === 'GuranteeContract-Received&Accepted' || items.type === 'GuranteeContract-Accepted'">与他联系</button>
           <span class="time">{{items.time}}</span>
           <div class="line"></div>

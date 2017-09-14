@@ -4,7 +4,7 @@
       <button class="button2" :style="{marginLeft: '40px'}">债券名称</button>
       <button class="button2 comName">融资企业</button>
       <button class="button2 comName">对应公司</button>
-      <button class="button1 comName" ref="button2" @click="toggle2">债券期限</button>
+      <button class="button1 comName" ref="button2" @click="toggle2" :style="{cursor: 'pointer'}">债券期限</button>
       <mu-popover :trigger="trigger2" :open="open2" @close="handleClose2">
         <mu-menu>
         <mu-menu-item title="半年内" @click="handleClose2num(6)"/>
@@ -14,7 +14,7 @@
         <mu-menu-item title="全部" @click="handleClose2num('')"/>
       </mu-menu>
       </mu-popover>
-      <button class="button1 other" ref="button1" @click="toggle1">债券金额</button>
+      <button class="button1 other" ref="button1" @click="toggle1" :style="{cursor: 'pointer'}">债券金额</button>
       <mu-popover :trigger="trigger1" :open="open1" @close="handleClose1">
         <mu-menu>
         <mu-menu-item title="50000" @click="handleClose1num(5)"/>
@@ -26,7 +26,7 @@
         <mu-menu-item title="全部" @click="handleClose1num('')"/>
       </mu-menu>
       </mu-popover>
-      <button class="button1 other" ref="button" @click="toggle">出售价格</button>
+      <button class="button1 other" ref="button" @click="toggle" :style="{cursor: 'pointer'}">出售价格</button>
       <mu-popover :trigger="trigger" :open="open" @close="handleClose">
         <mu-menu>
         <mu-menu-item title="50000" @click="handleClosenum(5)"/>
@@ -39,14 +39,14 @@
       </mu-menu>
       </mu-popover>
       <div class="content" v-for="item in getList">
-        <img src="/static/business/bondtrade/contact.png" class="mes">
+        <img src="/static/business/bondtrade/contact.png" class="mes" :style="{cursor: 'pointer'}" @click="moreClick">
         <div class="comNameMes mes">{{item.loan_owner}}</div>
         <div class="comNameMes mes" :style="{width: '145px'}">{{item.company_lend}}</div>
         <div class="comNameMes mes" :style="{width: '145px'}">{{item.company_borrow}}</div>
         <div class="comNameMes mes" :style="{width: '115px'}">{{item.loan_ddl}}个月</div>
         <div class="comNameMes mes" :style="{width: '115px'}">{{item.amount}}0000元</div>
         <div class="comNameMes mes" :style="{width: '115px'}">{{item.loan_price}}0000元</div>
-        <button class="buy">购买</button>
+        <button class="buy" @click="moreClick">购买</button>
         <div class="line"></div>
       </div>
     </div>
@@ -113,6 +113,9 @@ export default {
       for (let i = 0; i < res.data.length; i++) {
         this.list.push(res.data[i]);
       }
+    },
+    moreClick () {
+      this.$store.commit('info', '此功能待开发');
     }
   },
   computed: {
@@ -187,6 +190,7 @@ export default {
         bottom: 3px;
       }
       .buy{
+        cursor: pointer;
         border: 0;
         outline: none;
         width: 54px;

@@ -171,9 +171,13 @@
         try {
           await this.$http.post('/api/gurantee/offer', submitMes);
           this.$store.commit('info', '提交成功，可前往朋友圈寻求合作');
+          this.goToDetail();
         } catch (e) {
           this.$store.commit('info', '网络错误');
         }
+      },
+      goToDetail () {
+        this.$emit('goToDetail');
       }
     }
   };

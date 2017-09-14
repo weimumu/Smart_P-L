@@ -19,7 +19,7 @@
       <sub-borrow  @goToDetail="goToDetail"></sub-borrow>
     </div>
     <div class="lendPart" v-if="show.lend">
-      <sub-lend></sub-lend>
+      <sub-lend @goToDetail="goToDetail"></sub-lend>
     </div>
     <div class="morePart" v-if="show.more">
       <sub-More :detail="detailActive" v-on:tranvalue="fatherValue"></sub-More>

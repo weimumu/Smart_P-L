@@ -19,7 +19,7 @@
       <seekfor-guarantee @goToDetail="goToDetail"></seekfor-guarantee>
     </div>
     <div class="offerPart" v-if="show.lend">
-      <offer-guarantee></offer-guarantee>
+      <offer-guarantee @goToDetail="goToDetail"></offer-guarantee>
     </div>
     <div class="morePart" v-if="show.more">
       <gua-More :detail="detailActive" v-on:tranvalue="fatherValue"></gua-More>
@@ -32,12 +32,13 @@ import seekforGuarantee from './seekforGuarantee.vue';
 import offerGuarantee from './offerGuarantee.vue';
 import guaMore from './guaMore';
 export default {
+  props: ['active'],
   data () {
     return {
       show: {
-        borrow: true,
+        borrow: this.active,
         lend: false,
-        more: false
+        more: !this.active
       },
       detailActive: true
     };

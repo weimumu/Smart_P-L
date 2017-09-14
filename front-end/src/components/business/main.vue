@@ -29,7 +29,7 @@
         <bondtrade></bondtrade>
       </div>
       <div v-if="activeTab === '担保业务'">
-        <guarantee></guarantee>
+        <guarantee :active="show2"></guarantee>
       </div>
     </div>
     <div v-if="messageActive">
@@ -55,7 +55,8 @@ export default {
         active3: false,
         active4: false
       },
-      show1: true
+      show1: true,
+      show2: true
     };
   },
   methods: {
@@ -87,6 +88,10 @@ export default {
       if (mes === 'active2') {
         this.activeTab = '借贷业务';
         this.show1 = false;
+      }
+      if (mes === 'active4') {
+        this.activeTab = '担保业务';
+        this.show2 = false;
       }
     },
     goToMes () {

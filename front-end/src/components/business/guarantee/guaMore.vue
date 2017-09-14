@@ -19,13 +19,14 @@
     </div>
   </div>
   <div class="detail" v-if="detailActive === false">
+    <div v-if="!resultActive">
     <span class="title" v-if="getMainMes.type !== 'GuranteeContract-Received&Accepted' && getMainMes.type !== 'GuranteeContract-Accepted'">担保申请</span>
     <div class="buttonDiv">
       <button class="agree" @click="agree()" v-if="getMainMes.type === 'GuranteeRequest-Received'">同意</button>
       <button class="disagree" v-if="getMainMes.type === 'GuranteeRequest-Received'">拒绝</button>
       <button class="contact" v-if="getMainMes.type == 'GuranteeRequest-Accepted'" @click="contactPost">发起合同确认</button>
       <button class="contact contact1" v-if="getMainMes.type == 'GuranteeContract-Received'" @click="comPost">确认合同</button>
-      <button class="contact" v-if="getMainMes.type === 'Publish-GuranteeSeek'">查看匹配结果</button>
+      <button class="contact" @click="readResult" v-if="getMainMes.type === 'Publish-GuranteeSeek'">查看匹配结果</button>
       <div class="bargain" v-if="getMainMes.type === 'GuranteeContract-Received&Accepted' || getMainMes.type === 'GuranteeContract-Accepted'">交易正在进行</div>
     </div>
     <div class="line"></div>
@@ -46,11 +47,16 @@
       <div v-if="getMainMes.type === 'GuranteeRequest-Accepted' || getMainMes.type === 'GuranteeContract-Received' || getMainMes.type === 'GuranteeContract-Received&Accepted'|| getMainMes.type === 'GuranteeContract-Accepted'"><span>贷款主体&nbsp;&nbsp;&nbsp;{{getMainMes.company}}</span></div>
       <div v-if="getMainMes.type === 'GuranteeRequest-Accepted' || getMainMes.type === 'GuranteeContract-Received' || getMainMes.type === 'GuranteeContract-Received&Accepted'|| getMainMes.type === 'GuranteeContract-Accepted'"><span>所属行业&nbsp;&nbsp;&nbsp;{{getMainMes.companyAddresss}}</span></div>
     </div>
+    </div>
+    <div v-if="resultActive">
+      <result :Id="getMainMes.borrowId" :type="getMainMes.seekType"></result>
+    </div>
   </div>
 </div>
 </template>
 
 <script>
+  import result from '../result/matchResult.vue';
   export default{
     props: ['detail'],
     data () {
@@ -60,6 +66,7 @@
           active2: false
         },
         detailActive: this.detail,
+        resultActive: false,
         simpleMes: [],
         otherMes: [],
         mainMes: {
@@ -85,6 +92,7 @@
       },
       detailActive (val) {
         this.$emit('tranvalue', val);
+        this.resultActive = false;
         this.initData();
       }
     },
@@ -197,6 +205,8 @@
           this.mainMes.reason = res.data.other_detail;
           this.mainMes.max_rate = res.data.rate_gurantee + '%/年';
           this.mainMes.loan_ddl = res.data.loan_ddl + '个月内';
+          this.mainMes.borrowId = borrowId;
+          this.mainMes.seekType = res.data.guarantee_way;
           this.mainMes.messageId = messageId;
           this.mainMes.type = type;
           this.mainMes.cost = res.data.cost + '万元';
@@ -261,6 +271,8 @@
           this.mainMes.max_rate = res.data.rate_gurantee + '%/年';
           this.mainMes.loan_ddl = res.data.loan_ddl + '个月内';
           this.mainMes.messageId = messageId;
+          this.mainMes.borrowId = borrowId;
+          this.mainMes.seekType = res.data.guarantee_way;
           this.mainMes.type = type;
           this.mainMes.cost = res.data.cost + '万元';
           this.mainMes.riskType = '';
@@ -309,6 +321,9 @@
         } catch (e) {
           this.$store.commit('info', '您已经处理改请求，无需重复操作');
         }
+      },
+      readResult () {
+        this.resultActive = true;
       }
     },
     computed: {
@@ -321,6 +336,9 @@
       getMainMes () {
         return this.mainMes;
       }
+    },
+    components: {
+      result
     }
   };
 </script>

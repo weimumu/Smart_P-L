@@ -69,14 +69,12 @@ exports.getOffer = async (req, res) => {
 exports.offer = async (req, res) => {
   //  1. 生成担保实例、加到自己的业务消息
   //  2. 朋友圈推送
-  console.log(req.body);
   const data = _.pick(
     req.body,
     ['amount_gurantee', 'loan_ddl', 'min_rate', 'neither', 'mortgage', 'pledge', 'both']
   );
   data.from = res.locals.user._id;
   const offerInstance = new GuranteeOffer(data);
-  console.log(offerInstance);
   assert(!(offerInstance.validateSync() instanceof Error), 'invalid data');
   const message = new Message({
     type: 'Publish-GuranteeOffer',

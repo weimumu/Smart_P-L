@@ -1,3 +1,4 @@
 node_modules/
 config/mongo.js
+public/
 *.log

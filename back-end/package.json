@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "cross-env NODE_ENV=production node ./bin/www.js",
+    "start": "cross-env NODE_ENV=production PORT=8080 node ./bin/www.js",
     "dev": "nodemon ./bin/www.js",
     "test": "cross-env PORT=7007 NODE_ENV=production MOCHA_TEST=1 mocha --require bin/www.js tests/cases/*/*.js"
   },

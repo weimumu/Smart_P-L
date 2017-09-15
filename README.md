@@ -2,7 +2,7 @@
 City Fiancial Innovation Application Competition
 
 ## notice
-create a config file `back-end/config/mongo.js` with the content below (and replace the placeholders with proper values) to configure server infomations:
+Before deployment , pls create a configuration file `back-end/config/mongo.js` with the content below (and replace the placeholders with proper values) to configure server information:
 
 ```javascript
 const config = {
@@ -18,5 +18,19 @@ if (process.env.MOCHA_TEST) {
 }
 
 module.exports = config;
-
 ```
+
+### deployment
+
+there are a few `.sh` files to help simplify the deployment procedure. Just follow the instructions below:
+
+1. `./install.sh`
+2. `./build.sh`
+3. `./start.sh`
+
+and the website will be perfectly deployed listening port 8080! Now you can access the website using browser by URL `http://YOUR_SERVER_HOST:8080`.
+
+
+
+​    
+

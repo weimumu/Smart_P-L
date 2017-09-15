@@ -1,5 +1,7 @@
 # Smart_P-L
-City Fiancial Innovation Application Competition
+City Financial Innovation Application Competition
+
+And the complete version is currently running on `http://119.29.238.230:8080`
 
 ## notice
 Before deployment , pls create a configuration file `back-end/config/mongo.js` with the content below (and replace the placeholders with proper values) to configure server information:
